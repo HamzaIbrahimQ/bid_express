@@ -1,4 +1,4 @@
-import 'package:bid_express/ui/pages/home/ui/home_page.dart';
+import 'package:bid_express/ui/pages/splash/ui/splash_page.dart';
 import 'package:flutter/material.dart';
 
 class BidExpressApp extends StatelessWidget {
@@ -12,7 +12,8 @@ class BidExpressApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: const SplashPage(),
     );
   }
 }
