@@ -14,9 +14,17 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  flutter_screenutil:
   http:
   image_picker:
   flutter_svg:
+  auto_size_text:
+  bloc:
+  flutter_bloc:
+  another_flushbar:
+  shared_preferences:
+  page_transition:
+  intl:
 
 
 dev_dependencies:
