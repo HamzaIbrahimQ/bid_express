@@ -82,10 +82,10 @@ class AppTextField extends StatelessWidget {
     this.prefixText,
     this.isMobileNumber,
     this.textDirection,
-    this.isRequired,
+    this.isRequired = true,
     this.regex,
     this.borderRadius,
-    this.closeOnTapOutside = true,
+    this.closeOnTapOutside,
     this.onPasswordIconPressed,
     this.inputFormatters,
   });
@@ -130,7 +130,17 @@ class AppTextField extends StatelessWidget {
                     ? TextCapitalization.words
                     : TextCapitalization.none,
                 onTap: onTap,
-                onChanged: onChange,
+                onChanged: (val) {
+                  if (val.startsWith(' ')) {
+                    controller.text = '';
+                  }
+                  if (val.contains(' ') && (isPassword ?? false)) {
+                    controller.text = controller.text.trim();
+                  }
+                  if (onChange != null) {
+                    onChange!(val);
+                  }
+                },
                 onFieldSubmitted: onSubmit,
                 onEditingComplete: onEditingComplete,
                 onSaved: onSaved,
@@ -169,7 +179,7 @@ class AppTextField extends StatelessWidget {
                           ),
                         )
                       : null,
-                  errorMaxLines: 2,
+                  errorMaxLines: 3,
                   contentPadding: customContentPadding ??
                       EdgeInsets.symmetric(
                         horizontal: 16.w,
@@ -280,8 +290,12 @@ class AppTextField extends StatelessWidget {
                         return (isPassword ?? false)
                             ? 'one uppercase letter, one lowercase letter, '
                                 'one digit,'
-                                ' one special character, 8 characters long'
-                            : 'Invalid value';
+                                ' one special character, '
+                                '8 characters, no spaces'
+                            : (isMobileNumber ?? false)
+                                ? 'contains 10 numbers starting '
+                                    'with (07)'
+                                : 'Invalid input';
                       } else {
                         return null;
                       }

@@ -1,4 +1,5 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/ui/pages/profile/ui/profile_page.dart';
 import 'package:bid_express/ui/pages/splash/bloc/splash_bloc.dart';
 import 'package:bid_express/ui/pages/splash/ui/splash_page.dart';
 import 'package:bid_express/utils/app_theme.dart';
@@ -20,10 +21,7 @@ class BidExpressApp extends StatelessWidget {
           title: 'BidExpress app',
           theme:  AppTheme().appTheme(),
           debugShowCheckedModeBanner: false,
-          home: BlocProvider(
-            create: (context) => SplashBloc()..add(GetInitValues()),
-            child: const SplashPage(),
-          ),
+          home: ProfilePage(),
         );
       },
     );

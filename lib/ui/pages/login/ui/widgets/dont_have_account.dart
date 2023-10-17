@@ -1,8 +1,13 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/ui/pages/login/ui/login_page.dart';
+import 'package:bid_express/ui/pages/signup/bloc/signup_bloc.dart';
+import 'package:bid_express/ui/pages/signup/ui/signup_page.dart';
+import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DontHaveAccount extends StatelessWidget {
+class DontHaveAccount extends StatelessWidget with UiUtility {
   const DontHaveAccount({Key? key}) : super(key: key);
 
   @override
@@ -40,11 +45,20 @@ class DontHaveAccount extends StatelessWidget {
               ),
             ),
           ),
-          onPressed: () => _goToSignUpPage(),
+          onPressed: () => _goToSignupPage(context),
         ),
       ),
     );
   }
 
-  void _goToSignUpPage() {}
+  void _goToSignupPage(BuildContext context) {
+    navigate(
+      context: context,
+      isFromBottom: true,
+      page: BlocProvider(
+        create: (context) => SignupBloc(),
+        child: const SignupPage(),
+      ),
+    );
+  }
 }

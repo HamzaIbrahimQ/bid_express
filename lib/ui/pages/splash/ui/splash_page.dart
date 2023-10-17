@@ -2,7 +2,6 @@ import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/splash/bloc/splash_bloc.dart';
-import 'package:bid_express/ui/pages/splash/ui/widgets/bg.dart';
 import 'package:bid_express/ui/pages/splash/ui/widgets/logo.dart';
 import 'package:bid_express/ui/pages/splash/ui/widgets/splash_progress_indicator.dart';
 import 'package:bid_express/utils/ui_utility.dart';
@@ -28,7 +27,6 @@ class SplashPage extends StatelessWidget with UiUtility {
         child: const Stack(
           fit: StackFit.expand,
           children: [
-
             SplashLogo(),
             SplashProgressIndicator(),
           ],

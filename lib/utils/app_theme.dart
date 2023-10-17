@@ -132,7 +132,7 @@ class AppTheme {
         bodySmall: TextStyle(
           fontFamily: 'Montserrat',
           color: Colors.white,
-          fontSize: 12.sp,
+          fontSize: 10.sp,
           fontWeight: FontWeight.w400,
         ),
       ),
