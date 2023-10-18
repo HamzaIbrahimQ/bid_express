@@ -21,7 +21,10 @@ class BidExpressApp extends StatelessWidget {
           title: 'BidExpress app',
           theme:  AppTheme().appTheme(),
           debugShowCheckedModeBanner: false,
-          home: ProfilePage(),
+          home: BlocProvider(
+            create: (context) => SplashBloc()..add(GetInitValues()),
+            child: const SplashPage(),
+          ),
         );
       },
     );

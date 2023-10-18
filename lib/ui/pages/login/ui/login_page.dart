@@ -3,6 +3,7 @@ import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/dont_have_account.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/forgot_password.dart';
+import 'package:bid_express/ui/pages/profile/ui/profile_page.dart';
 import 'package:bid_express/ui/pages/signup/bloc/signup_bloc.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,7 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
                       controller: _mobileCont,
                       focusNode: _mobileFoc,
                       title: 'Mobile number',
+                      hint: 'Enter Mobile Number',
                       isMobileNumber: true,
                       inputType: TextInputType.number,
                       regex: mobileRegex,
@@ -76,11 +78,13 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
                       controller: _passCont,
                       focusNode: _passFoc,
                       title: 'Password',
+                      hint: 'Enter Password',
                       isPassword: true,
                       isObscure: true,
                       regex: passwordRegex,
                       maxLength: 16,
                       textInputAction: TextInputAction.done,
+                      onSubmit: (val) => _validate(isKeyboardOpen: true),
                       onSaved: (val) => {},
                     ),
                   ],
@@ -111,7 +115,6 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
     );
   }
 
-
   void _validate({bool? isKeyboardOpen}) {
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
@@ -128,5 +131,10 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
     }
   }
 
-  void _callLoginApi() {}
+  void _callLoginApi() {
+    navigate(
+      context: context,
+      page: const ProfilePage(),
+    );
+  }
 }

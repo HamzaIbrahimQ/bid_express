@@ -42,8 +42,6 @@ const unSelectedNabBarITemClr = Color(0xFFa9d8ea);
 /// #FF003B
 const redColor = Color(0xFFFF003B);
 
-/// #BEC4D3
-const hintColor = Color(0XFFBEC4D3);
 
 /// #08EDC6
 const greenColor = Color(0XFF08EDC6);

@@ -24,7 +24,7 @@ class ProfileItems extends StatelessWidget {
 
               /// Address
               ProfileItem(
-                title: 'My Address',
+                title: 'My Addresses',
                 onTap: () {},
               ),
 

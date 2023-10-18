@@ -19,6 +19,8 @@ mixin UiUtility {
       forceMaterialTransparency: appBarColor == null,
       backgroundColor: appBarColor ?? Colors.white,
       toolbarHeight: appBarColor ==  null? 64.h : null,
+      surfaceTintColor: Colors.transparent,
+      scrolledUnderElevation: 0,
       shadowColor: appBarColor ?? Colors.white,
       elevation: 0.0,
       title: Text(

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 final NumberFormat amountFormat = NumberFormat('###,###', 'en_US');
 
 /// mobile regex
-final RegExp mobileRegex = RegExp(r'^07[0-9]*$');
+final RegExp mobileRegex = RegExp(r'^07[0-9]{8}$');
 
 /// password regex
 final RegExp passwordRegex =

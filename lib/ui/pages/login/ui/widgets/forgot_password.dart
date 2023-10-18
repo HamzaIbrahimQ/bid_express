@@ -1,8 +1,10 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/ui/pages/change_password/ui/chnage_password.dart';
+import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatelessWidget with UiUtility {
   const ForgotPassword({Key? key}) : super(key: key);
 
   @override
@@ -26,10 +28,15 @@ class ForgotPassword extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: () => _goToForgetPasswordPage(),
+        onPressed: () => _goToForgetPasswordPage(context),
       ),
     );
   }
 
-  void _goToForgetPasswordPage() {}
+  void _goToForgetPasswordPage(BuildContext context) {
+    navigate(
+      context: context,
+      page: const ChangePasswordPage(),
+    );
+  }
 }

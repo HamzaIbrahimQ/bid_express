@@ -38,32 +38,32 @@ class ProfilePage extends StatelessWidget with UiUtility {
 
           /// Profile image and user name
           Align(
-            alignment: Alignment.bottomCenter,
-            child: Column(
-              children: [
-                /// Profile image
-                Padding(
-                  padding: EdgeInsetsDirectional.only(start: 84.w, top: 8.h),
-                  child: Image.asset(
-                    'assets/imgs/profile_img.png',
-                    alignment: Alignment.center,
-                    height: .25.sh,
-                    // width: ,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(start: 84.w, top: 8.h),
+              child: Image.asset(
+                'assets/imgs/profile_img.png',
+                alignment: Alignment.center,
+                height: .25.sh,
+                // width: ,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
 
-
-                /// User name
-                Text(
-                  'Julia Ustinovich',
-                  style: TextStyle(
-                    color: secondaryColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+          /// User name
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(top: .21.sh),
+              child: Text(
+                'Julia Ustinovich',
+                style: TextStyle(
+                  color: secondaryColor,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
+              ),
             ),
           ),
         ],

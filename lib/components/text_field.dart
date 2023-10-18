@@ -237,7 +237,7 @@ class AppTextField extends StatelessWidget {
                     height: 0,
                   ),
                   hintStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: hintTextColor ?? hintColor,
+                      color: hintTextColor ?? secondaryColor,
                       fontSize: hintTextColor != null ? 14.sp : 11.sp),
                   errorStyle: Theme.of(context)
                       .textTheme
