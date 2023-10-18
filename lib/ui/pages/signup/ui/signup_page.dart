@@ -1,4 +1,3 @@
-import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
@@ -7,7 +6,6 @@ import 'package:bid_express/ui/pages/signup/ui/widgets/set_location_on_map.dart'
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -31,6 +29,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   final TextEditingController _confirmPassCont = TextEditingController();
   final FocusNode _confirmPassFoc = FocusNode();
 
+  final TextEditingController _addressNameCont = TextEditingController();
+  final FocusNode _addressNameFoc = FocusNode();
+
   final TextEditingController _cityCont = TextEditingController();
   final FocusNode _cityFoc = FocusNode();
 
@@ -53,6 +54,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     _passFoc.dispose();
     _confirmPassCont.dispose();
     _confirmPassFoc.dispose();
+    _addressNameCont.dispose();
+    _addressNameFoc.dispose();
     _cityCont.dispose();
     _cityFoc.dispose();
     _areaCont.dispose();
@@ -156,6 +159,19 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
 
                     /// Address title
                     const AddressTitle(),
+
+                    /// Address name field
+                    AppTextField(
+                      controller: _addressNameCont,
+                      focusNode: _addressNameFoc,
+                      title: 'Address Name',
+                      hint: 'Amman branch, Zarqa branch',
+                      inputType: TextInputType.name,
+                      regex: businessNameRegex,
+                      onSaved: (val) => {},
+                    ),
+
+                    12.verticalSpace,
 
                     /// City field
                     AppTextField(
