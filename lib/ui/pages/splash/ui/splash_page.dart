@@ -1,4 +1,5 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/ui/pages/addresses/ui/add_address.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/splash/bloc/splash_bloc.dart';
@@ -53,7 +54,7 @@ class SplashPage extends StatelessWidget with UiUtility {
           //     :
           BlocProvider(
         create: (context) => LoginBloc(),
-        child: const LoginPage(),
+        child: const AddAddressPage(),
       ),
     );
   }

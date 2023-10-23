@@ -1,19 +1,22 @@
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
+import 'package:bid_express/models/data_models/address.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/address_title.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddAddressPage extends StatefulWidget {
-  const AddAddressPage({Key? key}) : super(key: key);
+class EditAddressPage extends StatefulWidget {
+  final Address address;
+
+  const EditAddressPage({required this.address});
 
   @override
-  State<AddAddressPage> createState() => _AddAddressPageState();
+  State<EditAddressPage> createState() => _EditAddressPageState();
 }
 
-class _AddAddressPageState extends State<AddAddressPage> with UiUtility {
+class _EditAddressPageState extends State<EditAddressPage> with UiUtility {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _addressNameCont = TextEditingController();
