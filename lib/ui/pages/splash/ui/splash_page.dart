@@ -54,7 +54,7 @@ class SplashPage extends StatelessWidget with UiUtility {
           //     :
           BlocProvider(
         create: (context) => LoginBloc(),
-        child: const AddAddressPage(),
+        child: const LoginPage(),
       ),
     );
   }

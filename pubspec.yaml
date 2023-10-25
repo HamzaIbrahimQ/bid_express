@@ -11,30 +11,35 @@ environment:
 
 
 dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.2
-  flutter_screenutil:
-  http:
-  image_picker:
-  flutter_svg:
+  another_flushbar:
   auto_size_text:
   bloc:
+  cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
   flutter_bloc:
-  another_flushbar:
+  flutter_screenutil:
+  flutter_svg:
+  http:
+  image_picker:
   shared_preferences:
   page_transition:
   intl:
+  google_maps_flutter: ^2.5.0
+  geolocator:
+  permission_handler:
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  json_serializable:
-  json_annotation:
   build_runner:
   flutter_lints: ^2.0.0
+  json_annotation:
+  json_serializable:
+
+
+
 
 
 flutter:

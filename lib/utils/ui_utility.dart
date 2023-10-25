@@ -1,3 +1,5 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:bid_express/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +20,7 @@ mixin UiUtility {
     return AppBar(
       forceMaterialTransparency: appBarColor == null,
       backgroundColor: appBarColor ?? Colors.white,
-      toolbarHeight: appBarColor ==  null? 64.h : null,
+      toolbarHeight: appBarColor == null ? 64.h : null,
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
       shadowColor: appBarColor ?? Colors.white,
@@ -107,5 +109,78 @@ mixin UiUtility {
         ),
       );
     }
+  }
+
+  void showErrorToast({
+    required BuildContext context,
+    String? title,
+    String? msg,
+    int? duration,
+    VoidCallback? onPressed,
+    Widget? button,
+  }) async {
+    await Flushbar(
+      titleText: Text(title ?? 'Oops',
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.copyWith(color: Colors.white)),
+      messageText: Text(
+          msg ?? 'Something went wrong, please check your internet connection',
+          style: Theme.of(context).textTheme.bodySmall),
+      mainButton: Padding(
+        padding: EdgeInsetsDirectional.only(start: 2.w, end: 4.w),
+        child: button,
+      ),
+      onTap: (f) => Navigator.of(context).pop(),
+      animationDuration: const Duration(seconds: 1),
+      borderRadius: BorderRadius.circular(15),
+      margin: EdgeInsets.symmetric(horizontal: 12.w),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: Colors.red,
+      icon: const Icon(Icons.error_outline, color: Colors.white),
+      duration: Duration(seconds: duration ?? 3),
+    ).show(context);
+  }
+
+  void showInfoToast(
+      {required BuildContext context,
+      String? title,
+      required String msg}) async {
+    await Flushbar(
+      titleText: Text(title ?? 'Info',
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.copyWith(color: Colors.white)),
+      messageText: Text(msg, style: Theme.of(context).textTheme.bodySmall),
+      animationDuration: const Duration(seconds: 1),
+      borderRadius: BorderRadius.circular(15),
+      margin: EdgeInsets.symmetric(horizontal: 12.w),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: primaryColor,
+      icon: const Icon(Icons.error_outline, color: Colors.white),
+      duration: const Duration(seconds: 3),
+    ).show(context);
+  }
+
+  void showSuccessToast(
+      {required BuildContext context, String? title, String? msg}) async {
+    await Flushbar(
+      titleText: Text(title ?? 'Success',
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.copyWith(color: Colors.white)),
+      messageText: Text(msg ?? 'Process completed successfully',
+          style: Theme.of(context).textTheme.bodySmall),
+      animationDuration: const Duration(seconds: 1),
+      borderRadius: BorderRadius.circular(15),
+      margin: EdgeInsets.symmetric(horizontal: 12.w),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: primaryColor,
+      icon: const Icon(Icons.error_outline, color: Colors.white),
+      duration: const Duration(seconds: 3),
+    ).show(context);
   }
 }

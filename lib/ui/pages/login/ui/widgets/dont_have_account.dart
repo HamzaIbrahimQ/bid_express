@@ -28,8 +28,8 @@ class DontHaveAccount extends StatelessWidget with UiUtility {
             child: RichText(
               text: TextSpan(
                 style: TextStyle(fontSize: 12.sp),
-                children: [
-                  const TextSpan(
+                children: const [
+                  TextSpan(
                     text: "Don't Have An Account? ",
                     style: TextStyle(
                       color: secondaryColor,
@@ -37,8 +37,11 @@ class DontHaveAccount extends StatelessWidget with UiUtility {
                   ),
                   TextSpan(
                     text: 'Sign Up',
+
                     style: TextStyle(
-                      color: secondaryColor.withOpacity(.6),
+                      color: secondaryColor,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
                 ],

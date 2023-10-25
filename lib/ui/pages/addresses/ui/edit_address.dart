@@ -1,7 +1,7 @@
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
-import 'package:bid_express/models/data_models/address.dart';
+import 'package:bid_express/models/data_models/address/address.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/address_title.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
