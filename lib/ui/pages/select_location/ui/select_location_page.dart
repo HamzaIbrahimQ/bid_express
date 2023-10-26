@@ -108,13 +108,6 @@ class SelectLocationPageState extends State<SelectLocationPage>
           if (state is GetSelectedLocationDataSuccessState) {
             LoadingView.shared.stopLoading();
             _addMarker();
-            // showSuccessToast(
-            //     context: context,
-            //     duration: 7,
-            //     msg: 'name: ${_selectLocationCubit.locationData.displayName},\n'
-            //         'city: ${_selectLocationCubit.locationData.addressData?.city ?? _selectLocationCubit.locationData.addressData?.state},\n'
-            //         ' area: ${_selectLocationCubit.locationData.addressData?.suburb ?? _selectLocationCubit.locationData.addressData?.neighbourhood ?? _selectLocationCubit.locationData.addressData?.stateDistrict},\n'
-            //         ' street: ${_selectLocationCubit.locationData.addressData?.road ?? _selectLocationCubit.locationData.name}');
           }
 
           if (state is GetSelectedLocationDataErrorState) {

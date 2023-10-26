@@ -97,4 +97,5 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
     locationData = null;
     emit(DeleteSelectedLocationState());
   }
+
 }

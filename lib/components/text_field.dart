@@ -132,7 +132,7 @@ class AppTextField extends StatelessWidget {
                 onTap: onTap,
                 onChanged: (val) {
                   if (val.startsWith(' ')) {
-                    controller.text = '';
+                    controller.text = controller.text.trim();
                   }
                   if (val.contains(' ') && (isPassword ?? false)) {
                     controller.text = controller.text.trim();

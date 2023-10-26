@@ -1,7 +1,9 @@
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
-import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
+import 'package:bid_express/models/responses/location_data/location_data.dart';
+import 'package:bid_express/ui/pages/otp/ui/otp_page.dart';
+import 'package:bid_express/ui/pages/signup/bloc/signup_bloc.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/address_title.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/set_location_on_map.dart';
 import 'package:bid_express/utils/ui_utility.dart';
@@ -46,6 +48,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   final TextEditingController _buildingCont = TextEditingController();
   final FocusNode _buildingFoc = FocusNode();
 
+  late SignupBloc _bloc;
+
   @override
   void dispose() {
     _businessNameCont.dispose();
@@ -71,6 +75,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
 
   @override
   Widget build(BuildContext context) {
+    _bloc = context.read<SignupBloc>();
     return Scaffold(
       appBar: getAppBar(context: context, title: 'Sign Up', hasBackIcon: true),
       body: Padding(
@@ -140,7 +145,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                       isObscure: true,
                       regex: passwordRegex,
                       maxLength: 16,
-                      onSubmit: (val) => _cityFoc.requestFocus(),
+                      onSubmit: (val) => _addressNameFoc.requestFocus(),
                       onSaved: (val) => {},
                       validator: (value) {
                         final regex = passwordRegex;
@@ -163,11 +168,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                     const AddressTitle(),
 
                     /// Location fields
-                    BlocConsumer<SelectLocationCubit, SelectLocationState>(
+                    BlocConsumer<SignupBloc, SignupState>(
                       listener: (context, state) {
-                        if (state is GetSelectedLocationDataSuccessState) {
-                          _fillLocationData();
-                        }
+                        if (state is UpdateLocationFieldsState) {}
                       },
                       builder: (context, state) {
                         return Column(
@@ -177,9 +180,10 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                               controller: _addressNameCont,
                               focusNode: _addressNameFoc,
                               title: 'Address Name',
-                              hint: 'Amman branch, Zarqa branch',
+                              hint: 'Clients will not see your address name',
                               inputType: TextInputType.name,
                               regex: businessNameRegex,
+                              maxLength: 120,
                               onSaved: (val) => {},
                             ),
 
@@ -192,7 +196,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                               title: 'City',
                               hint: 'Located city',
                               inputType: TextInputType.name,
-                              regex: businessNameRegex,
+                              regex: cityNameRegex,
                               onSaved: (val) => {},
                             ),
 
@@ -205,7 +209,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                               title: 'Area',
                               hint: 'Located Area',
                               inputType: TextInputType.name,
-                              regex: businessNameRegex,
+                              regex: cityNameRegex,
                               onSaved: (val) => {},
                             ),
 
@@ -216,9 +220,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                               controller: _streetCont,
                               focusNode: _streetFoc,
                               title: 'Street',
-                              hint: 'Street Name, Number..',
+                              hint: 'Street Name/Number',
                               inputType: TextInputType.name,
-                              regex: streetAndBuildingRegex,
+                              regex: businessNameRegex,
                               onSaved: (val) => {},
                             ),
 
@@ -232,7 +236,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                               hint: 'Building Number',
                               isRequired: false,
                               inputType: TextInputType.name,
-                              regex: streetAndBuildingRegex,
+                              regex: businessNameRegex,
                               textInputAction: TextInputAction.done,
                               onSaved: (val) => {},
                             ),
@@ -245,7 +249,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
               ),
 
               /// Set location on map
-              SetLocationOnMap(onData: () => _fillLocationData()),
+              SetLocationOnMap(onData: (data) => _fillLocationData(data)),
 
               /// Login button
               Padding(
@@ -263,34 +267,51 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   }
 
   void _validate({bool? isKeyboardOpen}) {
-    if (!(_formKey.currentState?.validate() ?? false)) {
-      return;
-    } else {
-      _formKey.currentState?.save();
-      if (isKeyboardOpen ?? false) {
-        FocusManager.instance.primaryFocus?.unfocus();
-        Future.delayed(const Duration(milliseconds: 300)).then((value) {
-          _callSignupApi();
-        });
-      } else {
-        _callSignupApi();
-      }
-    }
+    _callSignupApi();
+    // if (!(_formKey.currentState?.validate() ?? false)) {
+    //   return;
+    // } else {
+    //   _formKey.currentState?.save();
+    //   if (isKeyboardOpen ?? false) {
+    //     FocusManager.instance.primaryFocus?.unfocus();
+    //     Future.delayed(const Duration(milliseconds: 300)).then((value) {
+    //       _callSignupApi();
+    //     });
+    //   } else {
+    //     _callSignupApi();
+    //   }
+    // }
   }
 
-  void _callSignupApi() {}
+  void _callSignupApi() {
+    _goToOtpPage();
+  }
 
-  void _fillLocationData() {
-    final cubit = context.read<SelectLocationCubit>();
-    _addressNameCont.text = cubit.locationData?.name ?? '';
-    _cityCont.text = cubit.locationData?.addressData?.city ??
-        cubit.locationData?.addressData?.state ??
+  void _fillLocationData(LocationData data) {
+    _addressNameCont.text = data.displayName ?? '';
+    _cityCont.text = data.addressData?.city ?? data.addressData?.state ?? '';
+    _areaCont.text = data.addressData?.suburb ??
+        data.addressData?.neighbourhood ??
+        data.addressData?.stateDistrict ??
         '';
-    _areaCont.text = cubit.locationData?.addressData?.suburb ??
-        cubit.locationData?.addressData?.neighbourhood ??
-        cubit.locationData?.addressData?.stateDistrict ??
-        '';
-    _streetCont.text =
-        cubit.locationData?.addressData?.road ?? cubit.locationData?.name ?? '';
+    _streetCont.text = data.addressData?.road ?? data.name ?? '';
+    _updateFields();
+  }
+
+  void _updateFields() {
+    _bloc.add(UpdateLocationFields());
+  }
+
+  void _goToOtpPage() {
+    navigate(
+      context: context,
+      page: BlocProvider(
+        create: (context) => SignupBloc(),
+        child: const OtpPage(
+          mobileNumber: '',
+          password: '',
+        ),
+      ),
+    );
   }
 }

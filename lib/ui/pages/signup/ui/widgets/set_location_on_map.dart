@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SetLocationOnMap extends StatelessWidget with UiUtility {
-  final Function onData;
+  final Function(LocationData data) onData;
    SetLocationOnMap({required this.onData});
 
   @override
@@ -50,13 +50,13 @@ class SetLocationOnMap extends StatelessWidget with UiUtility {
     navigate(
       context: context,
       page: BlocProvider(
-        create: (context) => context.read<SelectLocationCubit>()..checkLocationPermission(),
+        create: (context) => SelectLocationCubit()..checkLocationPermission(),
         child: const SelectLocationPage(),
       ),
       then: (val) {
         if (val != null) {
           val as LocationData;
-          onData();
+          onData(val);
         }
       }
     );

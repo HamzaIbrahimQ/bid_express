@@ -13,10 +13,13 @@ final RegExp passwordRegex =
 
 /// business name regex
 final RegExp businessNameRegex =
-    RegExp(r'^[a-zA-Z\u0600-\u06FF][a-zA-Z0-9\u0600-\u06FF]*$');
+    RegExp(r'^[a-zA-Z0-9\u0600-\u06FF,،:() ]+$');
 
-/// street and building name regex
-final RegExp streetAndBuildingRegex = RegExp(r'^[a-zA-Z0-9\u0600-\u06FF]+$');
+/// business name regex
+final RegExp cityNameRegex =
+RegExp(r'^[a-zA-Z\u0621-\u064A،,][a-zA-Z\u0621-\u064A،, ]*$');
+
+
 
 
 final LatLngBounds jordanBounds = LatLngBounds(
@@ -36,6 +39,7 @@ final Set<Polygon> polygons = {
   ),
 };
 
+/// TODO: enhance the polygon and take the right LatLongs
 List<LatLng> _createJordanBorder() {
   return const [
     LatLng(32.333126, 36.821604),

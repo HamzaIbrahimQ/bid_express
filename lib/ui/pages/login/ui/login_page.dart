@@ -1,6 +1,7 @@
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
+import 'package:bid_express/ui/pages/home/ui/home_page.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/dont_have_account.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/forgot_password.dart';
 import 'package:bid_express/ui/pages/profile/ui/profile_page.dart';
@@ -134,7 +135,8 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
   void _callLoginApi() {
     navigate(
       context: context,
-      page: ProfilePage(),
+      isFade: true,
+      page: const HomePage(),
     );
   }
 }
