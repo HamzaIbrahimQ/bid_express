@@ -4,7 +4,7 @@
 
 
     <application
-        android:label="bid_express"
+        android:label="BidExpress"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

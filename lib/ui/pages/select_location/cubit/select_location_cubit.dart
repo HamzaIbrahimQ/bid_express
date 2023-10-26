@@ -22,12 +22,13 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
 
     _permission = await Geolocator.checkPermission();
     if (_permission == LocationPermission.denied) {
-      await Geolocator.requestPermission();
+      await Geolocator.requestPermission().then((value) {
+        _permission = value;
+      });
       log('Location service are denied');
     }
     _serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!_serviceEnabled) {
-      _permission = await Geolocator.requestPermission();
       if (_permission == LocationPermission.denied) {
         log('Location permissions are denied');
         emit(GetCurrentLocationErrorState());
@@ -42,8 +43,6 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
     if (_permission == LocationPermission.whileInUse ||
         _permission == LocationPermission.always) {
       await getCurrentLocation();
-    } else {
-      emit(GetCurrentLocationErrorState());
     }
   }
 
@@ -97,5 +96,4 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
     locationData = null;
     emit(DeleteSelectedLocationState());
   }
-
 }
