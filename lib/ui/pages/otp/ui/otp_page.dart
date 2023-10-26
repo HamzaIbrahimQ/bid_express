@@ -118,10 +118,11 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
                   32.verticalSpace,
 
                   /// Timer
-                  if (!_showTimer) OtpTimer(
-                    showTimer: _showTimer,
-                    onFinished: () async => setState(() => _showTimer = true),
-                  ),
+                  if (!_showTimer)
+                    OtpTimer(
+                      showTimer: _showTimer,
+                      onFinished: () async => setState(() => _showTimer = true),
+                    ),
 
                   32.verticalSpace,
 
@@ -149,8 +150,6 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
                         ),
                         length: 5,
                         obscureText: false,
-                        cursorWidth: 4.w,
-                        cursorHeight: 1.h,
                         cursorColor: primaryColor.withOpacity(.5),
                         animationType: AnimationType.scale,
                         errorTextSpace: 24.w,
