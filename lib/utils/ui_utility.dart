@@ -67,6 +67,7 @@ mixin UiUtility {
     bool? isFromBottom,
     bool? clearPagesStack,
     Duration? duration,
+     Function(dynamic value)? then,
   }) {
     if (isReplacement ?? false) {
       Navigator.pushReplacement(
@@ -80,7 +81,9 @@ mixin UiUtility {
                   : PageTransitionType.rightToLeft,
           child: page,
         ),
-      );
+      ).then((value) {
+        if (then != null) then(value);
+      });
     } else if (clearPagesStack ?? false) {
       Navigator.pushAndRemoveUntil(
           context,
@@ -93,7 +96,9 @@ mixin UiUtility {
                     : PageTransitionType.rightToLeft,
             child: page,
           ),
-          (route) => false);
+          (route) => false).then((value) {
+        if (then != null) then(value);
+      });
     } else {
       Navigator.push(
         context,
@@ -107,7 +112,9 @@ mixin UiUtility {
                   : PageTransitionType.rightToLeft,
           child: page,
         ),
-      );
+      ).then((value) {
+        if (then != null) then(value);
+      });
     }
   }
 
@@ -126,7 +133,9 @@ mixin UiUtility {
               .bodyLarge
               ?.copyWith(color: Colors.white)),
       messageText: Text(
-          msg ?? 'Something went wrong, please check your internet connection',
+          msg ??
+              'Something went wrong, please check your internet '
+                  'connection and try again later',
           style: Theme.of(context).textTheme.bodySmall),
       mainButton: Padding(
         padding: EdgeInsetsDirectional.only(start: 2.w, end: 4.w),
@@ -164,8 +173,14 @@ mixin UiUtility {
     ).show(context);
   }
 
-  void showSuccessToast(
-      {required BuildContext context, String? title, String? msg}) async {
+  void showSuccessToast({
+    required BuildContext context,
+    String? title,
+    String? msg,
+    int? duration,
+    VoidCallback? onPressed,
+    Widget? button,
+  }) async {
     await Flushbar(
       titleText: Text(title ?? 'Success',
           style: Theme.of(context)
@@ -174,13 +189,18 @@ mixin UiUtility {
               ?.copyWith(color: Colors.white)),
       messageText: Text(msg ?? 'Process completed successfully',
           style: Theme.of(context).textTheme.bodySmall),
+      mainButton: Padding(
+        padding: EdgeInsetsDirectional.only(start: 2.w, end: 4.w),
+        child: button,
+      ),
+      onTap: (f) => Navigator.of(context).pop(),
       animationDuration: const Duration(seconds: 1),
       borderRadius: BorderRadius.circular(15),
       margin: EdgeInsets.symmetric(horizontal: 12.w),
       flushbarPosition: FlushbarPosition.TOP,
       backgroundColor: primaryColor,
       icon: const Icon(Icons.error_outline, color: Colors.white),
-      duration: const Duration(seconds: 3),
+      duration: Duration(seconds: duration ?? 3),
     ).show(context);
   }
 }

@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
               6.verticalSpace,
 
               /// Forget password
-              const ForgotPassword(),
+              ForgotPassword(),
 
               24.verticalSpace,
 
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
               .17.sh.verticalSpace,
 
               /// Dont have account
-              const DontHaveAccount(),
+              DontHaveAccount(),
             ],
           ),
         ),
@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
   void _callLoginApi() {
     navigate(
       context: context,
-      page: const ProfilePage(),
+      page: ProfilePage(),
     );
   }
 }

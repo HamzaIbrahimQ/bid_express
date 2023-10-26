@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'package:animate_do/animate_do.dart';
+import 'package:bid_express/components/constants.dart';
+import 'package:bid_express/components/main_button.dart';
+import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +31,12 @@ class SelectLocationPageState extends State<SelectLocationPage>
 
   final CameraPosition _cameraPosition = const CameraPosition(
     target: LatLng(31.94027901961375, 35.90637545762584),
-    zoom: 14,
+    zoom: 12,
   );
+
+
+
+
 
   @override
   void initState() {
@@ -59,6 +67,7 @@ class SelectLocationPageState extends State<SelectLocationPage>
   Widget build(BuildContext context) {
     _selectLocationCubit = context.read<SelectLocationCubit>();
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: getAppBar(
         context: context,
         title: 'Select Location',
@@ -81,36 +90,106 @@ class SelectLocationPageState extends State<SelectLocationPage>
           }
 
           if (state is SelectLocationSuccessState) {
-            _markers.clear();
-            _markers.add(
-              Marker(
-                markerId: MarkerId(
-                  _selectLocationCubit.selectedCoordinates.toString(),
-                ),
-                position: _selectLocationCubit.selectedCoordinates,
-              ),
-            );
+            _selectLocationCubit.getSelectedLocationData();
           }
 
           if (state is SelectLocationErrorState) {
             showErrorToast(context: context);
           }
+
+          if (state is DeleteSelectedLocationState) {
+            _markers.clear();
+          }
+
+          if (state is GetSelectedLocationDataLoadingState) {
+            LoadingView.shared.startLoading(context);
+          }
+
+          if (state is GetSelectedLocationDataSuccessState) {
+            LoadingView.shared.stopLoading();
+            _addMarker();
+            // showSuccessToast(
+            //     context: context,
+            //     duration: 7,
+            //     msg: 'name: ${_selectLocationCubit.locationData.displayName},\n'
+            //         'city: ${_selectLocationCubit.locationData.addressData?.city ?? _selectLocationCubit.locationData.addressData?.state},\n'
+            //         ' area: ${_selectLocationCubit.locationData.addressData?.suburb ?? _selectLocationCubit.locationData.addressData?.neighbourhood ?? _selectLocationCubit.locationData.addressData?.stateDistrict},\n'
+            //         ' street: ${_selectLocationCubit.locationData.addressData?.road ?? _selectLocationCubit.locationData.name}');
+          }
+
+          if (state is GetSelectedLocationDataErrorState) {
+            LoadingView.shared.stopLoading();
+            showErrorToast(context: context);
+          }
+
+          if (state is SelectedLocationOutOfRangeState) {
+            LoadingView.shared.stopLoading();
+            showErrorToast(
+                context: context,
+                msg: 'Please select a location inside Jordan');
+          }
         },
         builder: (context, state) {
-          return GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: _cameraPosition,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            mapToolbarEnabled: true,
-            padding: EdgeInsets.only(top: .68.sh),
-            markers: _markers,
-            onMapCreated: (GoogleMapController controller) {
-              _mapController = controller;
-            },
-            onTap: (LatLng location) {
-              _selectLocationCubit.selectLocation(location);
-            },
+          return Stack(
+            children: [
+              /// Map view
+              GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: _cameraPosition,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                mapToolbarEnabled: true,
+                padding: EdgeInsets.only(top: .71.sh, bottom: .1.sh),
+                markers: _markers,
+                polygons: polygons,
+                onMapCreated: (GoogleMapController controller) {
+                  _mapController = controller;
+                },
+                onTap: (LatLng location) {
+                  if (!jordanBounds.contains(location)) {
+                    print('Please select a location inside Jordan');
+                    return;
+                  }
+                  _selectLocationCubit.selectLocation(location);
+                },
+              ),
+
+              /// Buttons
+              Visibility(
+                visible: _selectLocationCubit.selectedCoordinates != null,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FadeInUp(
+                    duration: const Duration(milliseconds: 800),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 12.w, vertical: 24.h),
+                      child: Row(
+                        children: [
+                          /// Cancel button
+                          Flexible(
+                            child: MainButton(
+                              title: 'CANCEL',
+                              onTap: _onCancel,
+                            ),
+                          ),
+
+                          6.horizontalSpace,
+
+                          /// Set button
+                          Flexible(
+                            child: MainButton(
+                              title: 'SET',
+                              onTap: _onSet,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -154,5 +233,21 @@ class SelectLocationPageState extends State<SelectLocationPage>
   Future<void> _openSettings() async {
     _settingsOpened = true;
     await openAppSettings();
+  }
+
+  void _addMarker() {
+    _markers.clear();
+    _markers.add(Marker(
+      markerId: MarkerId(_selectLocationCubit.selectedCoordinates.toString()),
+      position: _selectLocationCubit.selectedCoordinates ?? const LatLng(0, 0),
+    ));
+  }
+
+  void _onCancel() {
+    _selectLocationCubit.deleteLocation();
+  }
+
+  void _onSet() {
+    Navigator.of(context).pop(_selectLocationCubit.locationData);
   }
 }

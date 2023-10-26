@@ -1,10 +1,12 @@
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
+import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/address_title.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/set_location_on_map.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignupPage extends StatefulWidget {
@@ -157,79 +159,93 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                       },
                     ),
 
-                    /// Address title
+                    /// Location title
                     const AddressTitle(),
 
-                    /// Address name field
-                    AppTextField(
-                      controller: _addressNameCont,
-                      focusNode: _addressNameFoc,
-                      title: 'Address Name',
-                      hint: 'Amman branch, Zarqa branch',
-                      inputType: TextInputType.name,
-                      regex: businessNameRegex,
-                      onSaved: (val) => {},
-                    ),
+                    /// Location fields
+                    BlocConsumer<SelectLocationCubit, SelectLocationState>(
+                      listener: (context, state) {
+                        if (state is GetSelectedLocationDataSuccessState) {
+                          _fillLocationData();
+                        }
+                      },
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            /// Address name field
+                            AppTextField(
+                              controller: _addressNameCont,
+                              focusNode: _addressNameFoc,
+                              title: 'Address Name',
+                              hint: 'Amman branch, Zarqa branch',
+                              inputType: TextInputType.name,
+                              regex: businessNameRegex,
+                              onSaved: (val) => {},
+                            ),
 
-                    12.verticalSpace,
+                            12.verticalSpace,
 
-                    /// City field
-                    AppTextField(
-                      controller: _cityCont,
-                      focusNode: _cityFoc,
-                      title: 'City',
-                      hint: 'Located city',
-                      inputType: TextInputType.name,
-                      regex: businessNameRegex,
-                      onSaved: (val) => {},
-                    ),
+                            /// City field
+                            AppTextField(
+                              controller: _cityCont,
+                              focusNode: _cityFoc,
+                              title: 'City',
+                              hint: 'Located city',
+                              inputType: TextInputType.name,
+                              regex: businessNameRegex,
+                              onSaved: (val) => {},
+                            ),
 
-                    12.verticalSpace,
+                            12.verticalSpace,
 
-                    /// Area field
-                    AppTextField(
-                      controller: _areaCont,
-                      focusNode: _areaFoc,
-                      title: 'Area',
-                      hint: 'Located Area',
-                      inputType: TextInputType.name,
-                      regex: businessNameRegex,
-                      onSaved: (val) => {},
-                    ),
+                            /// Area field
+                            AppTextField(
+                              controller: _areaCont,
+                              focusNode: _areaFoc,
+                              title: 'Area',
+                              hint: 'Located Area',
+                              inputType: TextInputType.name,
+                              regex: businessNameRegex,
+                              onSaved: (val) => {},
+                            ),
 
-                    12.verticalSpace,
+                            12.verticalSpace,
 
-                    /// Street field
-                    AppTextField(
-                      controller: _streetCont,
-                      focusNode: _streetFoc,
-                      title: 'Street',
-                      hint: 'Street Name, Number..',
-                      inputType: TextInputType.name,
-                      regex: streetAndBuildingRegex,
-                      onSaved: (val) => {},
-                    ),
+                            /// Street field
+                            AppTextField(
+                              controller: _streetCont,
+                              focusNode: _streetFoc,
+                              title: 'Street',
+                              hint: 'Street Name, Number..',
+                              inputType: TextInputType.name,
+                              regex: streetAndBuildingRegex,
+                              onSaved: (val) => {},
+                            ),
 
-                    12.verticalSpace,
+                            12.verticalSpace,
 
-                    /// Building field
-                    AppTextField(
-                      controller: _buildingCont,
-                      focusNode: _buildingFoc,
-                      title: 'Building',
-                      hint: 'Building Number',
-                      isRequired: false,
-                      inputType: TextInputType.name,
-                      regex: streetAndBuildingRegex,
-                      textInputAction: TextInputAction.done,
-                      onSaved: (val) => {},
+                            /// Building field
+                            AppTextField(
+                              controller: _buildingCont,
+                              focusNode: _buildingFoc,
+                              title: 'Building',
+                              hint: 'Building Number',
+                              isRequired: false,
+                              inputType: TextInputType.name,
+                              regex: streetAndBuildingRegex,
+                              textInputAction: TextInputAction.done,
+                              onSaved: (val) => {},
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
 
               /// Set location on map
-              const SetLocationOnMap(),
+              SetLocationOnMap(onData: () => _fillLocationData()),
 
               /// Login button
               Padding(
@@ -263,4 +279,18 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   }
 
   void _callSignupApi() {}
+
+  void _fillLocationData() {
+    final cubit = context.read<SelectLocationCubit>();
+    _addressNameCont.text = cubit.locationData?.name ?? '';
+    _cityCont.text = cubit.locationData?.addressData?.city ??
+        cubit.locationData?.addressData?.state ??
+        '';
+    _areaCont.text = cubit.locationData?.addressData?.suburb ??
+        cubit.locationData?.addressData?.neighbourhood ??
+        cubit.locationData?.addressData?.stateDistrict ??
+        '';
+    _streetCont.text =
+        cubit.locationData?.addressData?.road ?? cubit.locationData?.name ?? '';
+  }
 }

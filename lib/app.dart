@@ -23,7 +23,7 @@ class BidExpressApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: BlocProvider(
             create: (context) => SplashBloc()..add(GetInitValues()),
-            child: const SplashPage(),
+            child: SplashPage(),
           ),
         );
       },
