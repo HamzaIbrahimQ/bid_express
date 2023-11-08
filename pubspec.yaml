@@ -33,6 +33,7 @@ dependencies:
   lottie:
   pin_code_fields:
   timer_count_down:
+  logger:
 
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:logger/logger.dart';
 
 mixin Utility {
   Future<bool> checkInternetConnection() async {
@@ -13,5 +14,15 @@ mixin Utility {
     } else {
       return false;
     }
+  }
+
+  void log(String msg) {
+    final Logger logger = Logger();
+    logger.i(msg);
+  }
+
+  void errorLog(String error) {
+    final Logger logger = Logger();
+    logger.e(error.toString());
   }
 }

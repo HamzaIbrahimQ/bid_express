@@ -1,0 +1,75 @@
+import 'dart:convert';
+
+import 'package:bid_express/models/requests/resend_otp/resend_otp_request.dart';
+import 'package:bid_express/models/requests/signup/signup_request.dart';
+import 'package:bid_express/models/responses/main_response/main_response.dart';
+import 'package:bid_express/models/responses/signup/signup_response.dart';
+import 'package:bid_express/utils/base_repository.dart';
+import 'package:http/http.dart' as http;
+
+class SignupRepository extends BaseRepository {
+  Future<MainResponse?> sendOtp(
+      {required ResendOtpRequest resendOtpRequest}) async {
+    MainResponse _mainResponse = MainResponse();
+    final headers = {'Accept': 'application/json'};
+    resendOtpRequest.clientId = id.toString();
+    resendOtpRequest.clientSecret = clientSecret;
+
+    final request =
+        http.Request('POST', Uri.parse('${baseUrl}resend_verification_otp'));
+    request.headers.addAll(headers);
+
+    try {
+      final http.StreamedResponse response = await request.send();
+      final String apiResponse = await response.stream.bytesToString();
+
+      log(response.request.toString() +
+          '\n' +
+          json.encode(request.body) +
+          '\n' +
+          (response.reasonPhrase ?? '') +
+          '\n' +
+          apiResponse);
+      _mainResponse = MainResponse.fromJson(json.decode(apiResponse));
+      return _mainResponse;
+    } catch (e) {
+      errorLog(e.toString());
+      return null;
+    }
+  }
+
+  Future<MainResponse<SignupResponse>?> signup(
+      {required SignupRequest signupRequest}) async {
+    MainResponse<SignupResponse> _mainResponse = MainResponse<SignupResponse>();
+    final headers = {'Accept': 'application/json'};
+
+    final request = http.Request(
+      'POST',
+      Uri.parse(
+        '${baseUrl}Seller/CreateSeller',
+      ),
+    );
+
+    request.headers.addAll(headers);
+    request.body = json.encode(signupRequest.toJson());
+
+
+    try {
+      final http.StreamedResponse response = await request.send();
+      final String apiResponse = await response.stream.bytesToString();
+
+      log(response.request.toString() +
+          '\n' +
+          json.encode(request.body) +
+          '\n' +
+          (response.reasonPhrase ?? '') +
+          '\n' +
+          apiResponse);
+      _mainResponse = MainResponse.fromJson(json.decode(apiResponse));
+      return _mainResponse;
+    } catch (e) {
+      errorLog(e.toString());
+      return null;
+    }
+  }
+}

@@ -1,73 +1,80 @@
-// Package imports:
 import 'package:json_annotation/json_annotation.dart';
 
 part 'signup_request.g.dart';
 
 @JsonSerializable()
-class RegistrationInfo {
-  @JsonKey(name: 'first_name')
-  String? firstName;
-
-  @JsonKey(name: 'last_name')
-  String? lastName;
-
-  @JsonKey(name: 'user_name')
+class SignupRequest {
+  @JsonKey(name: 'userName')
   String? userName;
 
-  @JsonKey(name: 'country_id')
-  String? countryId;
+  @JsonKey(name: 'name')
+  String? name;
 
-  @JsonKey(name: 'country_code_id')
-  String? countryCodeId;
+  @JsonKey(name: 'email')
+  String? email;
 
-  @JsonKey(name: 'mobile_number')
+  @JsonKey(name: 'langCode')
+  String? langCode;
+
+  @JsonKey(name: 'mobileNumber')
   String? mobileNumber;
+
+  @JsonKey(name: 'mobileAreaCode')
+  String? mobileAreaCode;
 
   @JsonKey(name: 'password')
   String? password;
 
-  @JsonKey(name: 'confirm_password')
-  String? confirmPassword;
+  @JsonKey(name: 'city')
+  String? city;
 
-  @JsonKey(name: 'profile_image')
-  String? profileImage;
+  @JsonKey(name: 'area')
+  String? area;
 
-  @JsonKey(name: 'client_id')
-  String? clientId;
+  @JsonKey(name: 'street')
+  String? street;
 
-  @JsonKey(name: 'client_secret')
-  String? clientSecret;
+  @JsonKey(name: 'latitude')
+  double? latitude;
 
-  RegistrationInfo({
+  @JsonKey(name: 'longitude')
+  double? longitude;
+
+  @JsonKey(name: 'otpCode')
+  String? otpCode;
+
+  SignupRequest({
     this.userName,
-    this.firstName,
-    this.lastName,
+    this.name,
+    this.email,
     this.mobileNumber,
-    this.countryId,
-    this.countryCodeId,
+    this.mobileAreaCode,
     this.password,
-    this.confirmPassword,
-    this.profileImage,
-    this.clientId,
-    this.clientSecret,
+    this.city,
+    this.area,
+    this.street,
+    this.langCode,
+    this.latitude,
+    this.longitude,
+    this.otpCode,
   });
 
-  factory RegistrationInfo.fromJson(Map<String, dynamic> json) =>
-      _$RegistrationInfoFromJson(json);
+  factory SignupRequest.fromJson(Map<String, dynamic> json) =>
+      _$SignupRequestFromJson(json);
 
-  Map<String, String> toJson() => _registrationInfoToJson(this);
+  Map<String, dynamic> toJson() => _$SignupRequestToJson(this);
 
-  Map<String, String> _registrationInfoToJson(RegistrationInfo instance) =>
-      <String, String>{
-        'user_name': instance.userName ?? '',
-        'first_name': instance.firstName ?? '',
-        'last_name': instance.lastName ?? '',
-        'mobile_number': instance.mobileNumber ?? '',
-        'country_id': instance.countryId ?? '',
-        'country_code_id': instance.countryCodeId ?? '',
-        'password': instance.password ?? '',
-        'confirm_password': instance.confirmPassword ?? '',
-        'client_id': instance.clientId ?? '',
-        'client_secret': instance.clientSecret ?? '',
-      };
+// Map<String, String> _SignupRequestToJson(SignupRequest instance) =>
+//     <String, String>{
+//       'user_name': instance.userName ?? '',
+//       'first_name': instance.firstName ?? '',
+//       'last_name': instance.lastName ?? '',
+//       'mobile_number': instance.mobileNumber ?? '',
+//       'country_id': instance.countryId ?? '',
+//       'country_code_id': instance.countryCodeId ?? '',
+//       'password': instance.password ?? '',
+//       'confirm_password': instance.confirmPassword ?? '',
+//       'client_id': instance.clientId ?? '',
+//       'client_secret': instance.clientSecret ?? '',
+//     };
 }
