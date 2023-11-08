@@ -1,10 +1,13 @@
 // Package imports:
 import 'package:json_annotation/json_annotation.dart';
 
-part 'change_password_request.g.dart';
+part 'forget_password_reuqest.g.dart';
 
 @JsonSerializable()
-class ChangePasswordRequest {
+class ForgetPasswordRequest {
+  @JsonKey(name: 'langCode')
+  String? langCode;
+
   @JsonKey(name: 'userName')
   String? userName;
 
@@ -14,26 +17,23 @@ class ChangePasswordRequest {
   @JsonKey(name: 'mobileAreaCode')
   String? mobileAreaCode;
 
-  @JsonKey(name: 'oldPassword')
-  String? oldPassword;
-
   @JsonKey(name: 'newPassword')
   String? newPassword;
 
   @JsonKey(name: 'otpCode')
   String? otpCode;
 
-  ChangePasswordRequest({
+  ForgetPasswordRequest({
     this.userName,
+    this.langCode,
     this.mobileNumber,
     this.mobileAreaCode,
-    this.oldPassword,
     this.newPassword,
     this.otpCode,
   });
 
-  factory ChangePasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$ChangePasswordRequestFromJson(json);
+  factory ForgetPasswordRequest.fromJson(Map<String, dynamic> json) =>
+      _$ForgetPasswordRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ChangePasswordRequestToJson(this);
+  Map<String, dynamic> toJson() => _$ForgetPasswordRequestToJson(this);
 }

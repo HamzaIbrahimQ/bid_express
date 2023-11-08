@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:bid_express/models/requests/signup/signup_request.dart';
-import 'package:bid_express/models/responses/validation_messages/response_errors.dart';
+import 'package:bid_express/models/responses/response_errors/response_errors.dart';
 import 'package:bid_express/ui/pages/signup/bloc/signup_repository.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:bloc/bloc.dart';

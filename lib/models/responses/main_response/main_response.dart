@@ -1,5 +1,6 @@
+import 'package:bid_express/models/responses/login/login_response.dart';
+import 'package:bid_express/models/responses/response_errors/response_errors.dart';
 import 'package:bid_express/models/responses/signup/signup_response.dart';
-import 'package:bid_express/models/responses/validation_messages/response_errors.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
@@ -40,6 +41,10 @@ class MainResponse<T> {
     }
     if (T == SignupResponse) {
       mainResponse.data = SignupResponse.fromJson(json['data']);
+    }
+
+    if (T == LoginResponse) {
+      mainResponse.data = LoginResponse.fromJson(json['data']);
     }
     // else if (T == List<Appointment>) {
       //   mainResponse.data = (json['data'] as List<dynamic>)

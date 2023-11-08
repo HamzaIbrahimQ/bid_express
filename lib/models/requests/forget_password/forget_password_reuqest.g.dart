@@ -1,29 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'change_password_request.dart';
+part of 'forget_password_reuqest.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChangePasswordRequest _$ChangePasswordRequestFromJson(
+ForgetPasswordRequest _$ForgetPasswordRequestFromJson(
         Map<String, dynamic> json) =>
-    ChangePasswordRequest(
+    ForgetPasswordRequest(
       userName: json['userName'] as String?,
+      langCode: json['langCode'] as String?,
       mobileNumber: json['mobileNumber'] as String?,
       mobileAreaCode: json['mobileAreaCode'] as String?,
-      oldPassword: json['oldPassword'] as String?,
       newPassword: json['newPassword'] as String?,
       otpCode: json['otpCode'] as String?,
     );
 
-Map<String, dynamic> _$ChangePasswordRequestToJson(
-        ChangePasswordRequest instance) =>
+Map<String, dynamic> _$ForgetPasswordRequestToJson(
+        ForgetPasswordRequest instance) =>
     <String, dynamic>{
+      'langCode': instance.langCode,
       'userName': instance.userName,
       'mobileNumber': instance.mobileNumber,
       'mobileAreaCode': instance.mobileAreaCode,
-      'oldPassword': instance.oldPassword,
       'newPassword': instance.newPassword,
       'otpCode': instance.otpCode,
     };
