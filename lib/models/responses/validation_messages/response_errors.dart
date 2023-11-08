@@ -4,20 +4,20 @@ import 'package:json_annotation/json_annotation.dart';
 part 'response_errors.g.dart';
 
 @JsonSerializable()
-class ResponseError {
+class ResponseErrors {
   @JsonKey(name: 'mobileAreaCode')
   List<String>? mobileAreaCode;
 
   @JsonKey(name: 'mobileNumber')
   List<String>? mobileNumber;
 
-  ResponseError({
+  ResponseErrors({
     this.mobileAreaCode,
     this.mobileNumber,
   });
 
-  factory ResponseError.fromJson(Map<String, dynamic> json) =>
-      _$ResponseErrorFromJson(json);
+  factory ResponseErrors.fromJson(Map<String, dynamic> json) =>
+      _$ResponseErrorsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResponseErrorToJson(this);
+  Map<String, dynamic> toJson() => _$ResponseErrorsToJson(this);
 }

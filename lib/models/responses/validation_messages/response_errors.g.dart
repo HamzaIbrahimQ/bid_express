@@ -6,8 +6,8 @@ part of 'response_errors.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ResponseError _$ResponseErrorFromJson(Map<String, dynamic> json) =>
-    ResponseError(
+ResponseErrors _$ResponseErrorsFromJson(Map<String, dynamic> json) =>
+    ResponseErrors(
       mobileAreaCode: (json['mobileAreaCode'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -16,7 +16,7 @@ ResponseError _$ResponseErrorFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$ResponseErrorToJson(ResponseError instance) =>
+Map<String, dynamic> _$ResponseErrorsToJson(ResponseErrors instance) =>
     <String, dynamic>{
       'mobileAreaCode': instance.mobileAreaCode,
       'mobileNumber': instance.mobileNumber,

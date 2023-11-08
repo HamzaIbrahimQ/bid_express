@@ -13,7 +13,7 @@ class MainResponse<T> {
   @JsonKey(name: 'message')
   String? message;
 
-  ResponseError? responseError;
+  ResponseErrors? responseError;
 
   @JsonKey(name: 'data')
   dynamic data;
@@ -33,7 +33,7 @@ class MainResponse<T> {
     mainResponse.title = json['title'] as String?;
     mainResponse.message = json['message'] as String?;
     mainResponse.responseError =
-        mainResponse.data = ResponseError.fromJson(json['errors']);
+        mainResponse.data = ResponseErrors.fromJson(json['errors']);
 
     if (json['data'] != null && mainResponse.responseError != null) {
       return mainResponse;
@@ -41,73 +41,11 @@ class MainResponse<T> {
     if (T == SignupResponse) {
       mainResponse.data = SignupResponse.fromJson(json['data']);
     }
-    // else if (T == VerifyUserResponse) {
-    //   mainResponse.data = VerifyUserResponse.fromJson(json['data']);
-    // } else if (T == ChangePasswordResponse) {
-    //   mainResponse.data = ChangePasswordResponse.fromJson(json['data']);
-    // } else if (T == User) {
-    //   mainResponse.data = User.fromJson(json['data']);
-    // } else if (T == List<Country>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Country.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Appointment>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Appointment.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Child>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Child.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Allergy>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Allergy.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Disease>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Disease.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Notification>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Notification.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == Doctor) {
-    //   mainResponse.data = Doctor.fromJson(json['data']);
-    // } else if (T == List<Doctor>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Doctor.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<AvailableTime>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => AvailableTime.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Article>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Article.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Leaflet>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Leaflet.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Medicine>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Medicine.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<PaymentMethod>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => PaymentMethod.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<LiveSession>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => LiveSession.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == List<Nursery>) {
-    //   mainResponse.data = (json['data'] as List<dynamic>)
-    //       .map((e) => Nursery.fromJson(e as Map<String, dynamic>))
-    //       .toList();
-    // } else if (T == Wallet) {
-    //   mainResponse.data = Wallet.fromJson(json['data']);
-    // }
+    // else if (T == List<Appointment>) {
+      //   mainResponse.data = (json['data'] as List<dynamic>)
+      //       .map((e) => Appointment.fromJson(e as Map<String, dynamic>))
+      //       .toList();
+      // }
     else {
       mainResponse.data = json['data'];
     }
