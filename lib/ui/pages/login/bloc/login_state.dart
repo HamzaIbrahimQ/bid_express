@@ -4,3 +4,26 @@ part of 'login_bloc.dart';
 abstract class LoginState {}
 
 class LoginInitial extends LoginState {}
+
+class LoginLoadingState extends LoginState {
+  LoginLoadingState();
+}
+
+class LoginSuccessState extends LoginState {
+  final String message;
+
+  LoginSuccessState({
+    required this.message,
+  });
+}
+
+class LoginErrorState extends LoginState {
+  final String? error;
+
+  LoginErrorState({
+    this.error,
+  });
+}
+
+class LoginFailureState extends LoginState {}
+

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bid_express/models/requests/login/login_request.dart';
 import 'package:bid_express/models/requests/signup/signup_request.dart';
 import 'package:bid_express/models/responses/login/login_response.dart';
 import 'package:bid_express/models/responses/main_response/main_response.dart';
@@ -9,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 class LoginRepository extends BaseRepository {
   Future<MainResponse<LoginResponse>?> login(
-      {required String mobileNum}) async {
+      {required LoginRequest loginRequest}) async {
     MainResponse<LoginResponse> _mainResponse = MainResponse<LoginResponse>();
     final headers = {
       'Accept': 'application/json',
