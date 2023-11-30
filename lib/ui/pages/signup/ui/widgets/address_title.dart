@@ -8,10 +8,7 @@ class AddressTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.only(
-        top: 24.h,
-        bottom: 16.h,
-      ),
+      padding: EdgeInsetsDirectional.only(top: 24.h),
       child: Text(
         'Address/Location',
         style: TextStyle(

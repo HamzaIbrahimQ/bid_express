@@ -5,28 +5,23 @@ import 'package:intl/intl.dart';
 final NumberFormat amountFormat = NumberFormat('###,###', 'en_US');
 
 /// mobile regex
-final RegExp mobileRegex = RegExp(r'^07[0-9]{8}$');
+final RegExp mobileRegex = RegExp(r'^[0-9٠١٢٣٤٥٦٧٨٩]+$');
 
 /// password regex
-final RegExp passwordRegex =
-    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@.#\$&*~])\S{8,}$');
+final RegExp passwordRegex = RegExp(
+    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@.#\$&*~\-_+])[A-Za-z0-9!@.#\$&*~\-_+]{8,}$');
 
 /// business name regex
-final RegExp businessNameRegex =
-    RegExp(r'^[a-zA-Z0-9\u0600-\u06FF,،:() ]+$');
+final RegExp businessNameRegex = RegExp(r'^[a-zA-Z0-9\u0600-\u06FF,،:() ]+$');
 
 /// business name regex
 final RegExp cityNameRegex =
-RegExp(r'^[a-zA-Z\u0621-\u064A،,][a-zA-Z\u0621-\u064A،, ]*$');
-
-
-
+    RegExp(r'^[a-zA-Z\u0621-\u064A،,][a-zA-Z\u0621-\u064A،, ]*$');
 
 final LatLngBounds jordanBounds = LatLngBounds(
   southwest: const LatLng(29.0000, 34.0000),
   northeast: const LatLng(33.5000, 39.3000),
 );
-
 
 /// Jordan borders polygons
 final Set<Polygon> polygons = {

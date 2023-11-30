@@ -61,12 +61,12 @@ class SignupRepository extends BaseRepository {
     try {
       final http.StreamedResponse response = await request.send();
 
-      if (response.statusCode == 401) {
-        final RefreshTokenResponse? _refreshTokenResponse =
-        await callRefreshToken();
-        _refreshedToken = _refreshTokenResponse?.accessToken ?? '';
-        return signup(signupRequest: signupRequest);
-      } else {
+      // if (response.statusCode == 401) {
+      //   final RefreshTokenResponse? _refreshTokenResponse =
+      //   await callRefreshToken();
+      //   _refreshedToken = _refreshTokenResponse?.accessToken ?? '';
+      //   return signup(signupRequest: signupRequest);
+      // } else {
         final String apiResponse = await response.stream.bytesToString();
 
         log(response.request.toString() +
@@ -78,7 +78,7 @@ class SignupRepository extends BaseRepository {
             apiResponse);
         _mainResponse = MainResponse.fromJson(json.decode(apiResponse));
         return _mainResponse;
-      }
+      // }
     } catch (e) {
       errorLog(e.toString());
       return null;

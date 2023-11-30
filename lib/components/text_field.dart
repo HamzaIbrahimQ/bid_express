@@ -150,7 +150,7 @@ class AppTextField extends StatelessWidget {
                     (maxLines != null
                         ? 250
                         : (isMobileNumber ?? false)
-                            ? 10
+                            ? 15
                             : (maxLength ?? 28)),
                 enabled: enabled ?? true,
                 textAlign:
@@ -285,17 +285,16 @@ class AppTextField extends StatelessWidget {
                       if ((value?.trim().isEmpty ?? false) &&
                           (isRequired ?? false)) {
                         return 'This field is required';
-                      } else if ((_getRegex() != null) &&
+                      } else if (((isRequired ?? false) ||
+                              controller.text.isNotEmpty) &&
+                          (_getRegex() != null) &&
                           (!_getRegex()!.hasMatch(value ?? ''))) {
                         return (isPassword ?? false)
                             ? 'one uppercase letter, one lowercase letter, '
                                 'one digit,'
                                 ' one special character, '
                                 '8 characters, no spaces'
-                            : (isMobileNumber ?? false)
-                                ? 'contains 10 numbers starting '
-                                    'with (07)'
-                                : 'Invalid input';
+                            : 'Invalid input';
                       } else {
                         return null;
                       }

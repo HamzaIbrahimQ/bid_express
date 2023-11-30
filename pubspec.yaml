@@ -34,6 +34,7 @@ dependencies:
   pin_code_fields:
   timer_count_down:
   logger:
+  country_code_picker:
 
 
 dev_dependencies:

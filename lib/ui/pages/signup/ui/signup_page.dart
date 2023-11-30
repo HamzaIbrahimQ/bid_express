@@ -131,168 +131,172 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                 },
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// Business name field
-                      AppTextField(
-                        controller: _businessNameCont,
-                        focusNode: _businessNameFoc,
-                        title: 'Business Name',
-                        hint: 'Enter Your Business Name',
-                        inputType: TextInputType.name,
-                        regex: businessNameRegex,
-                        onSaved: (val) => {},
-                      ),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 24.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Business name field
+                        AppTextField(
+                          controller: _businessNameCont,
+                          focusNode: _businessNameFoc,
+                          title: 'Business Name',
+                          hint: 'Enter Your Business Name',
+                          inputType: TextInputType.name,
+                          regex: businessNameRegex,
+                          onSaved: (val) => {},
+                        ),
 
-                      12.verticalSpace,
+                        12.verticalSpace,
 
-                      /// Mobile field
-                      AppTextField(
-                        controller: _mobileCont,
-                        focusNode: _mobileFoc,
-                        title: 'Mobile number',
-                        hint: 'Enter Your Mobile number',
-                        isMobileNumber: true,
-                        inputType: TextInputType.number,
-                        regex: mobileRegex,
-                        onSaved: (val) => {},
-                      ),
+                        /// Mobile field
+                        AppTextField(
+                          controller: _mobileCont,
+                          focusNode: _mobileFoc,
+                          title: 'Mobile number',
+                          hint: 'Enter Your Mobile number',
+                          isMobileNumber: true,
+                          inputType: TextInputType.number,
+                          regex: mobileRegex,
+                          onSaved: (val) => {},
+                        ),
 
-                      12.verticalSpace,
+                        12.verticalSpace,
 
-                      /// Password field
-                      AppTextField(
-                        controller: _passCont,
-                        focusNode: _passFoc,
-                        title: 'Password',
-                        hint: 'Enter Password',
-                        isPassword: true,
-                        isObscure: true,
-                        regex: passwordRegex,
-                        maxLength: 16,
-                        onSubmit: (val) => _confirmPassFoc.requestFocus(),
-                        onSaved: (val) => {},
-                      ),
+                        /// Password field
+                        AppTextField(
+                          controller: _passCont,
+                          focusNode: _passFoc,
+                          title: 'Password',
+                          hint: 'Enter Password',
+                          isPassword: true,
+                          isObscure: true,
+                          regex: passwordRegex,
+                          maxLength: 16,
+                          onSubmit: (val) => _confirmPassFoc.requestFocus(),
+                          onSaved: (val) => {},
+                        ),
 
-                      12.verticalSpace,
+                        12.verticalSpace,
 
-                      /// Confirm password field
-                      AppTextField(
-                        controller: _confirmPassCont,
-                        focusNode: _confirmPassFoc,
-                        title: 'Confirm Password',
-                        hint: 'Re-Enter Password',
-                        isPassword: true,
-                        isObscure: true,
-                        regex: passwordRegex,
-                        maxLength: 16,
-                        onSubmit: (val) => _addressNameFoc.requestFocus(),
-                        onSaved: (val) => {},
-                        validator: (value) {
-                          final regex = passwordRegex;
-                          if (value?.trim().isEmpty ?? false) {
-                            return 'This field is required';
-                          } else if (!regex.hasMatch(value ?? '')) {
-                            return 'one uppercase letter, one lowercase letter, '
-                                'one digit,'
-                                ' one special character, 8 characters, no spaces';
-                          }
-                          if (value?.trim() != _passCont.text.trim()) {
-                            return 'The passwords do not match';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
+                        /// Confirm password field
+                        AppTextField(
+                          controller: _confirmPassCont,
+                          focusNode: _confirmPassFoc,
+                          title: 'Confirm Password',
+                          hint: 'Re-Enter Password',
+                          isPassword: true,
+                          isObscure: true,
+                          regex: passwordRegex,
+                          maxLength: 16,
+                          onSubmit: (val) => _addressNameFoc.requestFocus(),
+                          onSaved: (val) => {},
+                          validator: (value) {
+                            final regex = passwordRegex;
+                            if (value?.trim().isEmpty ?? false) {
+                              return 'This field is required';
+                            } else if (value?.trim() != _passCont.text.trim()) {
+                              return 'The passwords do not match';
+                            } else if (!regex.hasMatch(value ?? '')) {
+                              return 'one uppercase letter, one lowercase letter, '
+                                  'one digit,'
+                                  ' one special character, 8 characters, no spaces';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
 
-                      /// Location title
-                      const AddressTitle(),
+                        /// Location title
+                        const AddressTitle(),
 
-                      /// Location fields
-                      BlocConsumer<SignupBloc, SignupState>(
-                        listener: (context, state) {
-                          if (state is UpdateLocationFieldsState) {}
-                        },
-                        builder: (context, state) {
-                          return Column(
-                            children: [
-                              /// Address name field
-                              AppTextField(
-                                controller: _addressNameCont,
-                                focusNode: _addressNameFoc,
-                                title: 'Address Name',
-                                hint: 'Clients will not see your address name',
-                                inputType: TextInputType.name,
-                                regex: businessNameRegex,
-                                maxLength: 120,
-                                onSaved: (val) => {},
-                              ),
+                        /// Set location on map
+                        SetLocationOnMap(
+                            onData: (data) => _fillLocationData(data)),
 
-                              12.verticalSpace,
+                        /// Location fields
+                        BlocConsumer<SignupBloc, SignupState>(
+                          listener: (context, state) {
+                            if (state is UpdateLocationFieldsState) {}
+                          },
+                          builder: (context, state) {
+                            return Column(
+                              children: [
+                                /// Address name field
+                                AppTextField(
+                                  controller: _addressNameCont,
+                                  focusNode: _addressNameFoc,
+                                  title: 'Address Name',
+                                  hint:
+                                      'Clients will not see your address name',
+                                  inputType: TextInputType.name,
+                                  regex: businessNameRegex,
+                                  maxLength: 120,
+                                  onSaved: (val) => {},
+                                ),
 
-                              /// City field
-                              AppTextField(
-                                controller: _cityCont,
-                                focusNode: _cityFoc,
-                                title: 'City',
-                                hint: 'Located city',
-                                inputType: TextInputType.name,
-                                regex: cityNameRegex,
-                                onSaved: (val) => {},
-                              ),
+                                12.verticalSpace,
 
-                              12.verticalSpace,
+                                /// City field
+                                AppTextField(
+                                  controller: _cityCont,
+                                  focusNode: _cityFoc,
+                                  title: 'City',
+                                  hint: 'Located city',
+                                  inputType: TextInputType.name,
+                                  regex: cityNameRegex,
+                                  onSaved: (val) => {},
+                                ),
 
-                              /// Area field
-                              AppTextField(
-                                controller: _areaCont,
-                                focusNode: _areaFoc,
-                                title: 'Area',
-                                hint: 'Located Area',
-                                inputType: TextInputType.name,
-                                regex: cityNameRegex,
-                                onSaved: (val) => {},
-                              ),
+                                12.verticalSpace,
 
-                              12.verticalSpace,
+                                /// Area field
+                                AppTextField(
+                                  controller: _areaCont,
+                                  focusNode: _areaFoc,
+                                  title: 'Area',
+                                  hint: 'Located Area',
+                                  inputType: TextInputType.name,
+                                  regex: cityNameRegex,
+                                  onSaved: (val) => {},
+                                ),
 
-                              /// Street field
-                              AppTextField(
-                                controller: _streetCont,
-                                focusNode: _streetFoc,
-                                title: 'Street',
-                                hint: 'Street Name/Number',
-                                inputType: TextInputType.name,
-                                regex: businessNameRegex,
-                                onSaved: (val) => {},
-                              ),
+                                12.verticalSpace,
 
-                              12.verticalSpace,
+                                /// Street field
+                                AppTextField(
+                                  controller: _streetCont,
+                                  focusNode: _streetFoc,
+                                  title: 'Street',
+                                  hint: 'Street Name/Number',
+                                  inputType: TextInputType.name,
+                                  regex: businessNameRegex,
+                                  onSaved: (val) => {},
+                                ),
 
-                              /// Building field
-                              AppTextField(
-                                controller: _buildingCont,
-                                focusNode: _buildingFoc,
-                                title: 'Building',
-                                hint: 'Building Number',
-                                isRequired: false,
-                                inputType: TextInputType.name,
-                                regex: businessNameRegex,
-                                textInputAction: TextInputAction.done,
-                                onSaved: (val) => {},
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
+                                12.verticalSpace,
+
+                                /// Building field
+                                AppTextField(
+                                  controller: _buildingCont,
+                                  focusNode: _buildingFoc,
+                                  title: 'Building',
+                                  hint: 'Building Number',
+                                  isRequired: false,
+                                  inputType: TextInputType.name,
+                                  regex: businessNameRegex,
+                                  textInputAction: TextInputAction.done,
+                                  onSaved: (val) => {},
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-
-              /// Set location on map
-              SetLocationOnMap(onData: (data) => _fillLocationData(data)),
 
               /// Login button
               Padding(
@@ -310,7 +314,6 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   }
 
   void _validate({bool? isKeyboardOpen}) {
-    _requestOtp();
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     } else {

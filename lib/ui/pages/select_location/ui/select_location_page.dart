@@ -34,10 +34,6 @@ class SelectLocationPageState extends State<SelectLocationPage>
     zoom: 12,
   );
 
-
-
-
-
   @override
   void initState() {
     super.initState();
@@ -134,22 +130,17 @@ class SelectLocationPageState extends State<SelectLocationPage>
                 mapToolbarEnabled: true,
                 padding: EdgeInsets.only(top: .71.sh, bottom: .1.sh),
                 markers: _markers,
-                polygons: polygons,
                 onMapCreated: (GoogleMapController controller) {
                   _mapController = controller;
                 },
                 onTap: (LatLng location) {
-                  if (!jordanBounds.contains(location)) {
-                    print('Please select a location inside Jordan');
-                    return;
-                  }
                   _selectLocationCubit.selectLocation(location);
                 },
               ),
 
               /// Buttons
               Visibility(
-                visible: _selectLocationCubit.selectedCoordinates != null,
+                visible: _showButtons(),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: FadeInUp(
@@ -242,5 +233,12 @@ class SelectLocationPageState extends State<SelectLocationPage>
 
   void _onSet() {
     Navigator.of(context).pop(_selectLocationCubit.locationData);
+  }
+
+  bool _showButtons() {
+    return _selectLocationCubit.selectedCoordinates != null &&
+        _selectLocationCubit.locationData?.addressData?.countryCode
+                ?.toLowerCase() ==
+            'jo';
   }
 }
