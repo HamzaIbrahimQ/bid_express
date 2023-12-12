@@ -51,12 +51,19 @@ class _AddModelPageState extends State<AddModelPage>
           isScrollable: true,
           unselectedLabelColor: blackColor,
           tabs: [
-            Text(
-              'My List (0)',
-              style: TextStyle(
-                color: secondaryColor,
-                fontSize: 12.sp,
-              ),
+            BlocConsumer<AddBrandsBloc, AddBrandsState>(
+              listener: (context, state) {
+                if (state is SelectUnselectModelSuccessState) {}
+              },
+              builder: (context, state) {
+                return Text(
+                  'My List (${widget.brand.myModels?.length ?? 0})',
+                  style: TextStyle(
+                    color: secondaryColor,
+                    fontSize: 12.sp,
+                  ),
+                );
+              },
             ),
             Text(
               'Available',
@@ -74,10 +81,7 @@ class _AddModelPageState extends State<AddModelPage>
           controller: _tabController,
           children: [
             Container(),
-            BlocProvider(
-              create: (context) => AddBrandsBloc(),
-              child: AvailableModelsTab(brand: widget.brand),
-            ),
+            AvailableModelsTab(brand: widget.brand),
           ],
         ),
       ),

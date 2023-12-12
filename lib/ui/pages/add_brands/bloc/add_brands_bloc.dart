@@ -61,6 +61,7 @@ class AddBrandsBloc extends Bloc<AddBrandsEvent, AddBrandsState> {
         !(item.models[event.index].isSelected ?? false);
 
     if (item.models[event.index].isSelected ?? false) {
+      item.myModels ??= [];
       item.myModels?.add(item.models[event.index]);
     } else {
       item.myModels

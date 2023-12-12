@@ -1,7 +1,9 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
+import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/add_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,8 +18,11 @@ class BrandWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => AddModelPage(
-              brand: brand,
+            builder: (context) => BlocProvider(
+              create: (context) => AddBrandsBloc(),
+              child: AddModelPage(
+                brand: brand,
+              ),
             ),
           ),
         );
