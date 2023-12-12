@@ -35,6 +35,7 @@ dependencies:
   timer_count_down:
   logger:
   country_code_picker:
+  device_preview:
 
 
 dev_dependencies:

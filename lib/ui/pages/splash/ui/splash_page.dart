@@ -1,5 +1,6 @@
 import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/ui/pages/addresses/ui/add_address.dart';
+import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/splash/bloc/splash_bloc.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashPage extends StatelessWidget with UiUtility {
-   SplashPage({super.key});
+  SplashPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +53,14 @@ class SplashPage extends StatelessWidget with UiUtility {
           //     : accessToken.isNotEmpty
           //     ? const BottomNavBar()
           //     :
+
+          //   BlocProvider(
+          // create: (context) => LoginBloc(),
+          // child: const LoginPage(),
+
           BlocProvider(
-        create: (context) => LoginBloc(),
-        child: const LoginPage(),
+        create: (context) => AddBrandsBloc(),
+        child: const AddBrandsPage(),
       ),
     );
   }
