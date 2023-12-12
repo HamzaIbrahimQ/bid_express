@@ -54,13 +54,13 @@ class SplashPage extends StatelessWidget with UiUtility {
           //     ? const BottomNavBar()
           //     :
 
-          //   BlocProvider(
-          // create: (context) => LoginBloc(),
-          // child: const LoginPage(),
-
           BlocProvider(
-        create: (context) => AddBrandsBloc(),
-        child: const AddBrandsPage(),
+        create: (context) => LoginBloc(),
+        child: const LoginPage(),
+
+        //     BlocProvider(
+        //   create: (context) => AddBrandsBloc(),
+        //   child: const AddBrandsPage(),
       ),
     );
   }
