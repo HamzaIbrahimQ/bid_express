@@ -7,9 +7,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ModelWidget extends StatelessWidget {
   final Model model;
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
+  final bool? isFromMyModels;
 
-  const ModelWidget({super.key, required this.model, required this.onTap});
+  const ModelWidget({
+    super.key,
+    required this.model,
+    required this.onTap,
+    this.isFromMyModels,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +78,15 @@ class ModelWidget extends StatelessWidget {
 
             /// Add icon
             Icon(
-              Icons.check_circle,
+              isFromMyModels ?? false
+                  ? Icons.delete_forever_outlined
+                  : Icons.check_circle,
               size: 26.w,
-              color:
-                  model.isSelected ?? false ? primaryColor : Colors.transparent,
+              color: isFromMyModels ?? false
+                  ? primaryColor
+                  : model.isSelected ?? false
+                      ? primaryColor
+                      : Colors.transparent,
             ),
           ],
         ),

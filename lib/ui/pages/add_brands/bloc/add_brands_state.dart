@@ -10,3 +10,5 @@ class SearchSuccessState extends AddBrandsState {}
 class SearchForModelSuccessState extends AddBrandsState {}
 
 class SelectUnselectModelSuccessState extends AddBrandsState {}
+
+class SearchInMyModelsSuccessState extends AddBrandsState {}

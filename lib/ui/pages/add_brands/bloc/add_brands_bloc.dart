@@ -36,6 +36,14 @@ class AddBrandsBloc extends Bloc<AddBrandsEvent, AddBrandsState> {
     on<SelectUnselectModelSuccess>((event, emit) {
       emit.call(SelectUnselectModelSuccessState());
     });
+
+    on<SearchInMyModels>((event, emit) {
+      _searchInMyModels(event);
+    });
+
+    on<SearchInMyModelsSuccess>((event, emit) {
+      emit.call(SearchInMyModelsSuccessState());
+    });
   }
 
   void _search(String input) {
@@ -56,16 +64,28 @@ class AddBrandsBloc extends Bloc<AddBrandsEvent, AddBrandsState> {
 
   void _selectUnselectModel(SelectUnselectModel event) {
     final item = data.firstWhere((element) => element.id == event.brand.id);
+    final model = item.models.firstWhere((element) => element.id == event.id);
 
-    item.models[event.index].isSelected =
-        !(item.models[event.index].isSelected ?? false);
+    item.models.firstWhere((element) => element.id == event.id).isSelected =
+        !(item.models
+                .firstWhere((element) => element.id == event.id)
+                .isSelected ??
+            false);
 
-    if (item.models[event.index].isSelected ?? false) {
+    if (model.isSelected ?? false) {
       item.myModels ??= [];
-      item.myModels?.add(item.models[event.index]);
+      item.myModels?.add(model);
     } else {
-      item.myModels
-          ?.removeWhere((element) => element.id == item.models[event.index].id);
+      item.myModels?.removeWhere((element) => element.id == model.id);
+      if (item.myModelsSearchList != null &&
+          (item.myModelsSearchList?.isNotEmpty ?? false)) {
+        try {
+          item.myModelsSearchList
+              ?.removeWhere((element) => element.id == model.id);
+        } catch (e) {
+          print(e.toString());
+        }
+      }
     }
     add(SelectUnselectModelSuccess());
   }
@@ -84,5 +104,21 @@ class AddBrandsBloc extends Bloc<AddBrandsEvent, AddBrandsState> {
       }
     });
     add(SearchForModelSuccess());
+  }
+
+  void _searchInMyModels(SearchInMyModels event) {
+    event.brand.myModelsSearchList = [];
+    if (event.input.isEmpty) {
+      event.brand.myModelsSearchList = null;
+      add(SearchInMyModelsSuccess());
+      return;
+    }
+    event.brand.myModels?.forEach((element) {
+      if (element.name.toLowerCase().contains(event.input.toLowerCase()) ||
+          event.input.toLowerCase().contains(element.name.toLowerCase())) {
+        event.brand.myModelsSearchList?.add(element);
+      }
+    });
+    add(SearchInMyModelsSuccess());
   }
 }

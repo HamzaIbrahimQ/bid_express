@@ -1,5 +1,6 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
+import 'package:bid_express/models/data_models/cars/model/car_model_model.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/model_widget.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/search_text_field.dart';
@@ -7,17 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AvailableModelsTab extends StatefulWidget {
+class MyModelsTab extends StatefulWidget {
   final Brand brand;
 
-  const AvailableModelsTab({super.key, required this.brand});
+  const MyModelsTab({super.key, required this.brand});
 
   @override
-  State<AvailableModelsTab> createState() => _AvailableModelsTabState();
+  State<MyModelsTab> createState() => _MyModelsTabState();
 }
 
-class _AvailableModelsTabState extends State<AvailableModelsTab>
-    with AutomaticKeepAliveClientMixin {
+class _MyModelsTabState extends State<MyModelsTab> with AutomaticKeepAliveClientMixin{
   late AddBrandsBloc _bloc;
 
   final TextEditingController _controller = TextEditingController();
@@ -41,7 +41,7 @@ class _AvailableModelsTabState extends State<AvailableModelsTab>
           child: SearchTextField(
             controller: _controller,
             focusNode: _focusNode,
-            onChange: (v) => _bloc.add(SearchForModel(
+            onChange: (v) => _bloc.add(SearchInMyModels(
               brand: widget.brand,
               input: v.trim(),
             )),
@@ -53,14 +53,14 @@ class _AvailableModelsTabState extends State<AvailableModelsTab>
         /// Brands list
         BlocConsumer<AddBrandsBloc, AddBrandsState>(
           listener: (context, state) {
-            if (state is SearchForModelSuccessState) {}
+            if (state is SearchInMyModelsSuccessState) {}
             if (state is SelectUnselectModelSuccessState) {}
           },
           builder: (context, state) {
             return Expanded(
               child: _controller.text.trim().isNotEmpty &&
-                      ((widget.brand.searchList?.isEmpty ?? false) ||
-                          (widget.brand.searchList == null))
+                      ((widget.brand.myModelsSearchList?.isEmpty ?? false) ||
+                          (widget.brand.myModelsSearchList == null))
                   ? Center(
                       child: Text(
                         'No Result',
@@ -74,22 +74,23 @@ class _AvailableModelsTabState extends State<AvailableModelsTab>
                   : ListView.builder(
                       padding:
                           EdgeInsetsDirectional.only(start: 24.w, end: 24.w),
-                      itemCount: (widget.brand.searchList != null)
-                          ? widget.brand.searchList?.length
-                          : widget.brand.models.length,
+                      itemCount: (widget.brand.myModelsSearchList != null)
+                          ? widget.brand.myModelsSearchList?.length
+                          : widget.brand.myModels?.length ?? 0,
                       keyboardDismissBehavior:
                           ScrollViewKeyboardDismissBehavior.onDrag,
                       itemBuilder: (context, index) {
                         return ModelWidget(
-                          model: (widget.brand.searchList != null)
-                              ? widget.brand.searchList![index]
-                              : widget.brand.models[index],
+                          model: (widget.brand.myModelsSearchList != null)
+                              ? widget.brand.myModelsSearchList![index]
+                              : widget.brand.myModels![index],
+                          isFromMyModels: true,
                           onTap: () => _bloc.add(
                             SelectUnselectModel(
                               brand: widget.brand,
-                              id: (widget.brand.searchList != null)
-                                  ? widget.brand.searchList![index].id
-                                  : widget.brand.models[index].id,
+                              id: (widget.brand.myModelsSearchList != null)
+                                  ? widget.brand.myModelsSearchList![index].id
+                                  : widget.brand.myModels![index].id,
                             ),
                           ),
                         );

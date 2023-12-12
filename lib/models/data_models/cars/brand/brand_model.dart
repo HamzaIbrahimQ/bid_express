@@ -8,6 +8,7 @@ class Brand {
   List<Model> models;
   List<Model>? myModels;
   List<Model>? searchList;
+  List<Model>? myModelsSearchList;
 
   Brand({
     required this.id,
@@ -17,5 +18,6 @@ class Brand {
     required this.models,
     this.myModels,
     this.searchList,
+    this.myModelsSearchList,
   });
 }

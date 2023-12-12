@@ -2,6 +2,7 @@ import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/available_models_tab.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/widgets/my_models_tab.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,8 @@ class AddModelPage extends StatefulWidget {
 
 class _AddModelPageState extends State<AddModelPage>
     with UiUtility, TickerProviderStateMixin {
+  late AddBrandsBloc _bloc;
+
   late TabController _tabController;
 
   @override
@@ -28,6 +31,7 @@ class _AddModelPageState extends State<AddModelPage>
 
   @override
   Widget build(BuildContext context) {
+    _bloc = context.read<AddBrandsBloc>();
     return Scaffold(
       appBar: getAppBar(
         context: context,
@@ -75,14 +79,23 @@ class _AddModelPageState extends State<AddModelPage>
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsetsDirectional.only(top: 16.h),
-        child: TabBarView(
-          controller: _tabController,
-          children: [
-            Container(),
-            AvailableModelsTab(brand: widget.brand),
-          ],
+      body: PopScope(
+        canPop: true,
+        onPopInvoked: (pop) {
+          _bloc.data.firstWhere((element) => element.id == widget.brand.id)
+            ..searchList = null
+            ..myModelsSearchList = null;
+          return;
+        },
+        child: Padding(
+          padding: EdgeInsetsDirectional.only(top: 16.h),
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              MyModelsTab(brand: widget.brand),
+              AvailableModelsTab(brand: widget.brand),
+            ],
+          ),
         ),
       ),
     );

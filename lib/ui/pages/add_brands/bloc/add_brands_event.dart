@@ -22,9 +22,18 @@ class SearchForModelSuccess extends AddBrandsEvent {}
 
 class SelectUnselectModel extends AddBrandsEvent {
   final Brand brand;
-  final int index;
+  final int id;
 
-  SelectUnselectModel({required this.brand, required this.index});
+  SelectUnselectModel({required this.brand, required this.id});
 }
 
 class SelectUnselectModelSuccess extends AddBrandsEvent {}
+
+class SearchInMyModels extends AddBrandsEvent {
+  final Brand brand;
+  final String input;
+
+  SearchInMyModels({required this.brand, required this.input});
+}
+
+class SearchInMyModelsSuccess extends AddBrandsEvent {}
