@@ -16,6 +16,7 @@ mixin UiUtility {
     bool? hasBackIcon,
     VoidCallback? onBackPressed,
     Color? backArrowColor,
+    PreferredSizeWidget? bottomWidget,
   }) {
     return AppBar(
       forceMaterialTransparency: appBarColor == null,
@@ -25,6 +26,7 @@ mixin UiUtility {
       scrolledUnderElevation: 0,
       shadowColor: appBarColor ?? Colors.white,
       elevation: 0.0,
+      bottom: bottomWidget,
       title: Text(
         title,
         style: TextStyle(

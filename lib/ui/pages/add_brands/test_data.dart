@@ -3,39 +3,43 @@ import 'package:bid_express/models/data_models/cars/model/car_model_model.dart';
 
 final List<Brand> testBrands = [
   Brand(
+    id: 0,
     name: 'Honda',
     models: [
-      Model(name: 'Civic'),
-      Model(name: 'Acord'),
-      Model(name: 'Fit'),
-      Model(name: 'HR-V'),
-      Model(name: 'Stepwgn'),
+      Model(id: 0, name: 'Civic'),
+      Model(id: 1, name: 'Acord'),
+      Model(id: 2, name: 'Fit'),
+      Model(id: 3, name: 'HR-V'),
+      Model(id: 4, name: 'Stepwgn'),
     ],
   ),
   Brand(
+    id: 1,
     name: 'Ford',
     models: [
-      Model(name: 'Fusion'),
-      Model(name: 'Focus'),
-      Model(name: 'C-Max'),
-      Model(name: 'Explorer'),
+      Model(id: 0, name: 'Fusion'),
+      Model(id: 1, name: 'Focus'),
+      Model(id: 2, name: 'C-Max'),
+      Model(id: 3, name: 'Explorer'),
     ],
   ),
   Brand(
+    id: 2,
     name: 'Nissan',
     models: [
-      Model(name: 'Qashqai'),
-      Model(name: 'Pathfinder'),
-      Model(name: 'Almera'),
+      Model(id: 0, name: 'Qashqai'),
+      Model(id: 1, name: 'Pathfinder'),
+      Model(id: 2, name: 'Almera'),
     ],
   ),
   Brand(
+    id: 3,
     name: 'Toyota',
     models: [
-      Model(name: 'Camry'),
-      Model(name: 'Corolla'),
-      Model(name: 'Prius'),
-      Model(name: 'Land cruiser'),
+      Model(id: 0, name: 'Camry'),
+      Model(id: 1, name: 'Corolla'),
+      Model(id: 2, name: 'Prius'),
+      Model(id: 3, name: 'Land cruiser'),
     ],
   ),
 ];

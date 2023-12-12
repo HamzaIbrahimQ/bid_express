@@ -20,6 +20,22 @@ class AddBrandsBloc extends Bloc<AddBrandsEvent, AddBrandsState> {
     on<SearchSuccess>((event, emit) {
       emit.call(SearchSuccessState());
     });
+
+    on<SearchForModel>((event, emit) {
+      _searchForModel(event);
+    });
+
+    on<SearchForModelSuccess>((event, emit) {
+      emit.call(SearchForModelSuccessState());
+    });
+
+    on<SelectUnselectModel>((event, emit) {
+      _selectUnselectModel(event);
+    });
+
+    on<SelectUnselectModelSuccess>((event, emit) {
+      emit.call(SelectUnselectModelSuccessState());
+    });
   }
 
   void _search(String input) {
@@ -36,5 +52,36 @@ class AddBrandsBloc extends Bloc<AddBrandsEvent, AddBrandsState> {
       }
     });
     add(SearchSuccess());
+  }
+
+  void _selectUnselectModel(SelectUnselectModel event) {
+    final item = data.firstWhere((element) => element.id == event.brand.id);
+
+    item.models[event.index].isSelected =
+        !(item.models[event.index].isSelected ?? false);
+
+    if (item.models[event.index].isSelected ?? false) {
+      item.myModels?.add(item.models[event.index]);
+    } else {
+      item.myModels
+          ?.removeWhere((element) => element.id == item.models[event.index].id);
+    }
+    add(SelectUnselectModelSuccess());
+  }
+
+  void _searchForModel(SearchForModel event) {
+    event.brand.searchList = [];
+    if (event.input.isEmpty) {
+      event.brand.searchList = null;
+      add(SearchForModelSuccess());
+      return;
+    }
+    event.brand.models.forEach((element) {
+      if (element.name.toLowerCase().contains(event.input.toLowerCase()) ||
+          event.input.toLowerCase().contains(element.name.toLowerCase())) {
+        event.brand.searchList?.add(element);
+      }
+    });
+    add(SearchForModelSuccess());
   }
 }

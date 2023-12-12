@@ -11,6 +11,7 @@ class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final String? hint;
   final Color? hintTextColor;
+  final TextStyle? hintTextStyle;
   final String? label;
   final bool? isCenter;
   final bool? isPassword;
@@ -54,6 +55,7 @@ class AppTextField extends StatelessWidget {
     required this.controller,
     this.hint,
     this.hintTextColor,
+    this.hintTextStyle,
     this.label,
     this.isCenter,
     this.isPassword,
@@ -236,9 +238,9 @@ class AppTextField extends StatelessWidget {
                     width: 0,
                     height: 0,
                   ),
-                  hintStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  hintStyle: hintTextStyle ?? Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: hintTextColor ?? secondaryColor,
-                      fontSize: hintTextColor != null ? 14.sp : 11.sp),
+                      fontSize: hintTextColor != null ? 11.sp : 11.sp),
                   errorStyle: Theme.of(context)
                       .textTheme
                       .bodySmall
