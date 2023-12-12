@@ -2,6 +2,7 @@ import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/brand_widget.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/widgets/no_result.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/search_text_field.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
@@ -61,16 +62,7 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
                 child: _controller.text.trim().isNotEmpty &&
                         ((_bloc.searchList?.isEmpty ?? false) ||
                             (_bloc.searchList == null))
-                    ? Center(
-                        child: Text(
-                          'No Result',
-                          style: TextStyle(
-                            color: secondaryColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
+                    ? const NoResult()
                     : ListView.builder(
                         padding:
                             EdgeInsetsDirectional.only(start: 24.w, end: 24.w),

@@ -2,6 +2,7 @@ import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/model_widget.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/widgets/no_result.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,16 +62,7 @@ class _AvailableModelsTabState extends State<AvailableModelsTab>
               child: _controller.text.trim().isNotEmpty &&
                       ((widget.brand.searchList?.isEmpty ?? false) ||
                           (widget.brand.searchList == null))
-                  ? Center(
-                      child: Text(
-                        'No Result',
-                        style: TextStyle(
-                          color: secondaryColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
+                  ? const NoResult()
                   : ListView.builder(
                       padding:
                           EdgeInsetsDirectional.only(start: 24.w, end: 24.w),
