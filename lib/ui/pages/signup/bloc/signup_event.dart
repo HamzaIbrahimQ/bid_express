@@ -34,9 +34,7 @@ class SignupLoadingEvent extends SignupEvent {
 }
 
 class SignupSuccessEvent extends SignupEvent {
-  final String? message;
 
-  SignupSuccessEvent({this.message});
 }
 
 class SignupErrorEvent extends SignupEvent {

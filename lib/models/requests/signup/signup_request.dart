@@ -1,80 +1,48 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_reflectable/json_reflectable.dart';
 
 part 'signup_request.g.dart';
 
 @JsonSerializable()
 class SignupRequest {
-  @JsonKey(name: 'userName')
-  String? userName;
-
-  @JsonKey(name: 'name')
-  String? name;
-
-  @JsonKey(name: 'email')
-  String? email;
-
-  @JsonKey(name: 'langCode')
-  String? langCode;
-
-  @JsonKey(name: 'mobileNumber')
-  String? mobileNumber;
-
-  @JsonKey(name: 'mobileAreaCode')
-  String? mobileAreaCode;
-
-  @JsonKey(name: 'password')
-  String? password;
-
-  @JsonKey(name: 'city')
-  String? city;
-
-  @JsonKey(name: 'area')
-  String? area;
-
-  @JsonKey(name: 'street')
-  String? street;
-
-  @JsonKey(name: 'latitude')
-  double? latitude;
-
-  @JsonKey(name: 'longitude')
-  double? longitude;
-
-  @JsonKey(name: 'otpCode')
-  String? otpCode;
+  final String? langCode;
+  final String? userName;
+  final String? name;
+  final String? email;
+  final String? mobileNumber;
+  final String? mobileAreaCode;
+  final String? password;
+  final String? addressName;
+  final String? city;
+  final String? area;
+  final String? street;
+  final int? longitude;
+  final int? latitude;
+  final String? otpCode;
+  final String? profilePictureFileName;
+  final String? profilePictureFileBase64;
 
   SignupRequest({
+    this.langCode,
     this.userName,
     this.name,
     this.email,
     this.mobileNumber,
     this.mobileAreaCode,
     this.password,
+    this.addressName,
     this.city,
     this.area,
     this.street,
-    this.langCode,
-    this.latitude,
     this.longitude,
+    this.latitude,
     this.otpCode,
+    this.profilePictureFileName,
+    this.profilePictureFileBase64,
   });
 
   factory SignupRequest.fromJson(Map<String, dynamic> json) =>
       _$SignupRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignupRequestToJson(this);
-
-// Map<String, String> _SignupRequestToJson(SignupRequest instance) =>
-//     <String, String>{
-//       'user_name': instance.userName ?? '',
-//       'first_name': instance.firstName ?? '',
-//       'last_name': instance.lastName ?? '',
-//       'mobile_number': instance.mobileNumber ?? '',
-//       'country_id': instance.countryId ?? '',
-//       'country_code_id': instance.countryCodeId ?? '',
-//       'password': instance.password ?? '',
-//       'confirm_password': instance.confirmPassword ?? '',
-//       'client_id': instance.clientId ?? '',
-//       'client_secret': instance.clientSecret ?? '',
-//     };
 }

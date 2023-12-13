@@ -18,6 +18,7 @@ class LoginRepository extends BaseRepository {
     };
     final request = http.Request('POST', Uri.parse('${baseUrl}User/Login'));
     request.headers.addAll(headers);
+    request.body = json.encode(loginRequest.toJson());
     try {
       final http.StreamedResponse response = await request.send();
 

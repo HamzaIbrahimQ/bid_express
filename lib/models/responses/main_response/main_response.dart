@@ -51,9 +51,7 @@ class MainResponse<T> {
     if (json['data'] != null && mainResponse.responseError != null) {
       return mainResponse;
     }
-    if (T == SignupResponse) {
-      mainResponse.data = SignupResponse.fromJson(json['data']);
-    }
+
     if (T == LoginResponse) {
       mainResponse.data = LoginResponse.fromJson(json['data']);
     } else if (T == List<CategoryResponse>) {

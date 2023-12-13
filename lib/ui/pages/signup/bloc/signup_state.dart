@@ -12,9 +12,7 @@ class SignupLoadingState extends SignupState {
 }
 
 class SignupSuccessState extends SignupState {
-  final String? message;
 
-  SignupSuccessState({this.message});
 }
 
 class SignupErrorState extends SignupState {

@@ -51,7 +51,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
     });
 
     on<SignupSuccessEvent>((event, emit) {
-      emit.call(SignupSuccessState(message: event.message));
+      emit.call(SignupSuccessState());
     });
 
     on<SignupErrorEvent>((event, emit) {
@@ -85,7 +85,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
       }
     } else {
       // no internet connection
-
       add(SendOtpFailureEvent());
     }
   }
@@ -99,17 +98,16 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
         _signupRepository
             .signup(signupRequest: signupRequest)
             .then((value) async {
-          if (value?.status == 'Success') {
-            add(SignupSuccessEvent(message: value?.message));
+          if (value?.isSuccess ?? false) {
+            add(SignupSuccessEvent());
 
             /// Save user mobile number to send it to reset password API
             await _sharedPreferenceHelper.saveStringValue(
               key: 'mobileNumber',
-              value: value?.data.mobileNumber,
+              value: value?.mobileNumber,
             );
           } else {
-            add(SignupErrorEvent(
-                error: value?.message, responseErrors: value?.responseError));
+            add(SignupErrorEvent(error: value?.errorMessage));
           }
         }).catchError((e) {
           errorLog(e.toString());
@@ -124,6 +122,4 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
       add(SignupFailureEvent());
     }
   }
-
-
 }

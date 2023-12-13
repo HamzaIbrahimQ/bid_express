@@ -45,10 +45,8 @@ class SignupRepository extends BaseRepository {
     }
   }
 
-  Future<MainResponse<SignupResponse>?> signup(
-      {required SignupRequest signupRequest}) async {
-    MainResponse<SignupResponse> _mainResponse = MainResponse<SignupResponse>();
-    String? _refreshedToken;
+  Future<SignupResponse?> signup({required SignupRequest signupRequest}) async {
+    SignupResponse _signupResponse = SignupResponse();
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -67,17 +65,17 @@ class SignupRepository extends BaseRepository {
       //   _refreshedToken = _refreshTokenResponse?.accessToken ?? '';
       //   return signup(signupRequest: signupRequest);
       // } else {
-        final String apiResponse = await response.stream.bytesToString();
+      final String apiResponse = await response.stream.bytesToString();
 
-        log(response.request.toString() +
-            '\n' +
-            json.encode(request.body) +
-            '\n' +
-            (response.reasonPhrase ?? '') +
-            '\n' +
-            apiResponse);
-        _mainResponse = MainResponse.fromJson(json.decode(apiResponse));
-        return _mainResponse;
+      log(response.request.toString() +
+          '\n' +
+          json.encode(request.body) +
+          '\n' +
+          (response.reasonPhrase ?? '') +
+          '\n' +
+          apiResponse);
+      _signupResponse = SignupResponse.fromJson(json.decode(apiResponse));
+      return _signupResponse;
       // }
     } catch (e) {
       errorLog(e.toString());
