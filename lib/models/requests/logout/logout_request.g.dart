@@ -8,12 +8,12 @@ part of 'logout_request.dart';
 
 LogoutRequest _$LogoutRequestFromJson(Map<String, dynamic> json) =>
     LogoutRequest(
-      userName: json['userName'] as String?,
       langCode: json['langCode'] as String?,
+      deviceId: json['deviceId'] as String?,
     );
 
 Map<String, dynamic> _$LogoutRequestToJson(LogoutRequest instance) =>
     <String, dynamic>{
       'langCode': instance.langCode,
-      'userName': instance.userName,
+      'deviceId': instance.deviceId,
     };

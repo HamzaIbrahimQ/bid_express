@@ -6,6 +6,7 @@ import 'package:bid_express/models/responses/part/part_response.dart';
 import 'package:bid_express/models/responses/part_addition/part_addition_response.dart';
 import 'package:bid_express/models/responses/response_errors/response_errors.dart';
 import 'package:bid_express/models/responses/signup/signup_response.dart';
+import 'package:bid_express/models/responses/user/user_data_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
@@ -54,6 +55,8 @@ class MainResponse<T> {
 
     if (T == LoginResponse) {
       mainResponse.data = LoginResponse.fromJson(json['data']);
+    } else if (T == UserData) {
+      mainResponse.data = UserData.fromJson(json['data']);
     } else if (T == List<CategoryResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CategoryResponse.fromJson(e as Map<String, dynamic>))

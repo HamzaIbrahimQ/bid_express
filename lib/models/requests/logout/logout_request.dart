@@ -1,17 +1,14 @@
-// Package imports:
 import 'package:json_annotation/json_annotation.dart';
 
 part 'logout_request.g.dart';
 
 @JsonSerializable()
 class LogoutRequest {
-  @JsonKey(name: 'langCode')
   String? langCode;
 
-  @JsonKey(name: 'userName')
-  String? userName;
+  String? deviceId;
 
-  LogoutRequest({this.userName, this.langCode});
+  LogoutRequest({this.langCode, this.deviceId});
 
   factory LogoutRequest.fromJson(Map<String, dynamic> json) =>
       _$LogoutRequestFromJson(json);
