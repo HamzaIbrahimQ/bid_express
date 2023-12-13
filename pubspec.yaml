@@ -36,6 +36,8 @@ dependencies:
   logger:
   country_code_picker:
   device_preview:
+  json_reflectable: ^1.0.1
+  json_annotation: ^4.8.1
 
 
 dev_dependencies:
@@ -43,7 +45,6 @@ dev_dependencies:
     sdk: flutter
   build_runner:
   flutter_lints: ^2.0.0
-  json_annotation:
   json_serializable:
 
 

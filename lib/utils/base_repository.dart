@@ -9,8 +9,6 @@ class BaseRepository with Utility {
   final SharedPreferenceHelper _sharedPreferenceHelper =
       SharedPreferenceHelper();
   final String baseUrl = 'https://bidexpress-app.azurewebsites.net/api/';
-  final int id = 1;
-  final String clientSecret = 'JSHpAJgG5XAupLAZrwmENOBZCinrcFKsF08td8uh';
 
   Future<String> getAccessToken() async {
     try {
