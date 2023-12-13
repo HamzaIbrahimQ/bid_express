@@ -5,20 +5,13 @@ part 'refresh_token_request.g.dart';
 
 @JsonSerializable()
 class RefreshTokenRequest {
-  @JsonKey(name: 'langCode')
-  final String? langCode;
+  String? langCode;
 
-  @JsonKey(name: 'userName')
-  final String? userName;
+  String? accessToken;
 
-  @JsonKey(name: 'accessToken')
-   String? accessToken;
-
-  @JsonKey(name: 'refreshToken')
-   String? refreshToken;
+  String? refreshToken;
 
   RefreshTokenRequest({
-    this.userName,
     this.langCode,
     this.accessToken,
     this.refreshToken,

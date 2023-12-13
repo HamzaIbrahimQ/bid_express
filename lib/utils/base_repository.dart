@@ -60,6 +60,7 @@ class BaseRepository with Utility {
       'Content-Type': 'application/json',
     };
     try {
+      _refreshTokenRequest.langCode = 'en';
       _refreshTokenRequest.accessToken = await getAccessToken();
       _refreshTokenRequest.refreshToken = await getRefreshToken();
       final _response = await http.post(
