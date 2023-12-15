@@ -288,7 +288,7 @@ class AppTextField extends StatelessWidget {
                     (value) {
                       if ((value?.trim().isEmpty ?? false) &&
                           (isRequired ?? false)) {
-                        return 'This field is required';
+                        return '';
                       } else if (((isRequired ?? false) ||
                               controller.text.isNotEmpty) &&
                           (_getRegex() != null) &&

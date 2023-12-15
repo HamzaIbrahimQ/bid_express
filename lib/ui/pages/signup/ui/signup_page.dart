@@ -371,7 +371,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                           validator: (value) {
                             final regex = passwordRegex;
                             if (value?.trim().isEmpty ?? false) {
-                              return 'This field is required';
+                              return '';
                             } else if (value?.trim() != _passCont.text.trim()) {
                               return 'The passwords do not match';
                             } else if (!regex.hasMatch(value ?? '')) {

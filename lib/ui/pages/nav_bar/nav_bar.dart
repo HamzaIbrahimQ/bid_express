@@ -22,7 +22,11 @@ class _NavBarState extends State<NavBar> {
       create: (context) => HomeBloc()..add(GetUserData()),
       child: const HomePage(),
     ),
-    const ManageCarsPage(),
+    BlocProvider(
+      create: (context) => HomeBloc(),
+      child:  const ManageCarsPage(),
+    ),
+
     NotificationsPage(),
     ProfilePage(),
   ];

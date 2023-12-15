@@ -13,6 +13,7 @@ class Assets {
   static const String iconsProfile = 'assets/icons/profile.svg';
   static const String iconsSearch = 'assets/icons/search.svg';
   static const String iconsShowPass = 'assets/icons/show_pass.svg';
+  static const String iconsToyota = 'assets/icons/toyota.svg';
   static const String imgsDashboardBg = 'assets/imgs/dashboard_bg.jpg';
   static const String imgsLoginLogo = 'assets/imgs/login_logo.svg';
   static const String imgsLogo = 'assets/imgs/logo.svg';
