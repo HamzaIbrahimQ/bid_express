@@ -1,3 +1,4 @@
+import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
@@ -91,8 +92,7 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
                           return BrandWidget(
                             brand: (_bloc.searchList != null)
                                 ? _bloc.searchList![index]
-                                : _bloc.brands?[index] ??
-                                    CarBrandResponse(),
+                                : _bloc.brands?[index] ?? CarBrandResponse(),
                             brands: _bloc.brands ?? [],
                           );
                         },
@@ -101,6 +101,14 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
             },
           ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 20.w),
+        child: MainButton(
+          title: 'Save',
+          onTap: () {},
+        ),
       ),
     );
   }
