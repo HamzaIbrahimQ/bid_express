@@ -9,9 +9,9 @@ import 'package:bid_express/utils/base_repository.dart';
 import 'package:http/http.dart' as http;
 
 class LoginRepository extends BaseRepository {
-  Future<MainResponse<LoginResponse>?> login(
+  Future<LoginResponse?> login(
       {required LoginRequest loginRequest}) async {
-    MainResponse<LoginResponse> _mainResponse = MainResponse<LoginResponse>();
+    LoginResponse _mainResponse = LoginResponse();
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ class LoginRepository extends BaseRepository {
           (response.reasonPhrase ?? '') +
           '\n' +
           apiResponse);
-      _mainResponse = MainResponse.fromJson(json.decode(apiResponse));
+      _mainResponse = LoginResponse.fromJson(json.decode(apiResponse));
       return _mainResponse;
     } catch (e) {
       errorLog(e.toString());

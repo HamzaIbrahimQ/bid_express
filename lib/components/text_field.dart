@@ -47,6 +47,7 @@ class AppTextField extends StatelessWidget {
   final bool? closeOnTapOutside;
   final VoidCallback? onPasswordIconPressed;
   final List<TextInputFormatter>? inputFormatters;
+  final Color? borderColor;
 
   AppTextField({
     this.title,
@@ -90,6 +91,7 @@ class AppTextField extends StatelessWidget {
     this.closeOnTapOutside,
     this.onPasswordIconPressed,
     this.inputFormatters,
+    this.borderColor,
   });
 
   @override
@@ -189,24 +191,24 @@ class AppTextField extends StatelessWidget {
                       ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius ?? 6),
-                    borderSide: const BorderSide(
-                      color: greyColor,
+                    borderSide: BorderSide(
+                      color: borderColor ?? greyColor,
                       width: 1,
                       style: BorderStyle.solid,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius ?? 6),
-                    borderSide: const BorderSide(
-                      color: greyColor,
+                    borderSide:  BorderSide(
+                      color: borderColor ?? greyColor,
                       width: 1,
                       style: BorderStyle.solid,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius ?? 6),
-                    borderSide: const BorderSide(
-                      color: greyColor,
+                    borderSide:  BorderSide(
+                      color: borderColor ?? greyColor,
                       width: 1,
                       style: BorderStyle.solid,
                     ),
@@ -221,8 +223,8 @@ class AppTextField extends StatelessWidget {
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius ?? 6),
-                    borderSide: const BorderSide(
-                      color: greyColor,
+                    borderSide:  BorderSide(
+                      color: borderColor ?? greyColor,
                       width: 1,
                       style: BorderStyle.solid,
                     ),

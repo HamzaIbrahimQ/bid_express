@@ -1,5 +1,12 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/main_button.dart';
+import 'package:bid_express/components/progress_hud.dart';
+import 'package:bid_express/models/requests/signup/signup_request.dart';
+import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
+import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
+import 'package:bid_express/ui/pages/home/ui/home_page.dart';
+import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_page_message.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_timer.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/resend_code.dart';
@@ -14,8 +21,15 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class OtpPage extends StatefulWidget {
   final String mobileNumber;
   final String password;
+  final bool? isSignup;
+  final SignupRequest? signupRequest;
 
-  const OtpPage({required this.mobileNumber, required this.password});
+  const OtpPage({
+    required this.mobileNumber,
+    required this.password,
+    this.isSignup,
+    this.signupRequest,
+  });
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -32,6 +46,9 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
   @override
   void initState() {
     super.initState();
+    if (widget.signupRequest != null) {
+      context.read<SignupBloc>().signupRequest = widget.signupRequest!;
+    }
   }
 
   @override
@@ -50,56 +67,45 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
         title: 'OTP Verification',
       ),
       body: BlocConsumer<SignupBloc, SignupState>(
-        listener: (context, state) {},
-        // listener: (context, state) {
-        //   if (state is VerifyUserLoadingState) {
-        //     ProgressHud.shared.startLoading(context);
-        //   }
-        //
-        //   if (state is UserVerifiedSuccessfullyState) {
-        //     ProgressHud.shared.stopLoading();
-        //     // _navigateToInfoMessagePage();
-        //     showSuccessToast(context: context, msg: 'Verified Successfully');
-        //     _navigateToHomePage();
-        //   }
-        //
-        //   if (state is VerificationErrorState) {
-        //     ProgressHud.shared.stopLoading();
-        //     showErrorToast(context: context, msg: state.error);
-        //   }
-        //
-        //   if (state is VerificationFailureState) {
-        //     ProgressHud.shared.stopLoading();
-        //     showErrorToast(
-        //         context: context, msg: 'Check your internet connection');
-        //   }
-        //
-        //   if (state is ResendOtpLoadingState) {
-        //     ProgressHud.shared.startLoading(context);
-        //   }
-        //
-        //   if (state is OtpResentSuccessfullyState) {
-        //     ProgressHud.shared.stopLoading();
-        //     setState(() {
-        //       _showTimer = false;
-        //       _resentTime++;
-        //     });
-        //     showSuccessToast(
-        //         context: context,
-        //         msg: state.message ?? 'Code sent successfully');
-        //   }
-        //
-        //   if (state is ResendOtpErrorState) {
-        //     ProgressHud.shared.stopLoading();
-        //     showErrorToast(context: context, msg: state.error);
-        //   }
-        //
-        //   if (state is ResendOtpFailureState) {
-        //     ProgressHud.shared.stopLoading();
-        //     showErrorToast(
-        //         context: context, msg: 'Check your internet connection');
-        //   }
-        // },
+        listener: (context, state) {
+          if (state is ReSendOtpLoadingState) {
+            LoadingView.shared.startLoading(context);
+          }
+
+          if (state is ReSendOtpSuccessState) {
+            LoadingView.shared.stopLoading();
+            setState(() {
+              _showTimer = false;
+              _resentTime++;
+            });
+            showSuccessToast(context: context, msg: 'Code sent successfully');
+          }
+
+          if (state is ReSendOtpErrorState) {
+            LoadingView.shared.stopLoading();
+            showErrorToast(context: context, msg: state.error);
+          }
+
+          if (state is ReSendOtpFailureState) {
+            LoadingView.shared.stopLoading();
+            showErrorToast(context: context);
+          }
+
+          if (state is SignupLoadingState) {
+            LoadingView.shared.startLoading(context);
+          }
+          if (state is SignupSuccessState) {
+            LoadingView.shared.stopLoading();
+            _goToAddBrands();
+          }
+          if (state is SignupErrorState) {
+            LoadingView.shared.stopLoading();
+            showErrorToast(context: context, msg: state.error);
+          }
+          if (state is SignupFailureState) {
+            showErrorToast(context: context);
+          }
+        },
         builder: (context, state) {
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -195,9 +201,12 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
                   14.verticalSpace,
 
                   /// Resend
-                  ResendCode(
-                    isResendButtonDeactivated: _isResendButtonDeactivated,
-                    onPressed: _onResendPressed,
+                  Visibility(
+                    visible: _showTimer,
+                    child: ResendCode(
+                      isResendButtonDeactivated: _isResendButtonDeactivated,
+                      onPressed: _onResendPressed,
+                    ),
                   ),
                 ],
               ),
@@ -218,24 +227,16 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
     );
   }
 
-  void _callVerifyUserApi() {
-    // BlocProvider.of<SignupBloc>(context).add(
-    //   VerifyUser(),
-    // );
-  }
-
   void _onOtpSubmitted() {
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     } else {
       _formKey.currentState?.save();
-      _callVerifyUserApi();
+      if (widget.isSignup ?? false) {
+        _signupBloc.signupRequest.otpCode = _otpController.text.trim();
+        _signupBloc.add(Signup());
+      }
     }
-  }
-
-  void _resendOtp() {
-    // BlocProvider.of<SignupBloc>(context).add(ResendOtp(
-    //     resendOtpRequest: ResendOtpRequest(mobileNumber: widget.mobileNumber)));
   }
 
   void _navigateToHomePage() {
@@ -261,6 +262,20 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
       });
       return;
     }
-    _resendOtp();
+    if (widget.isSignup ?? false) {
+      _signupBloc.add(ReSendOtp());
+    }
+  }
+
+  void _goToAddBrands() {
+    navigate(
+      context: context,
+      isFade: true,
+      clearPagesStack: true,
+      page: BlocProvider(
+        create: (context) => AddBrandsBloc()..add(GetBrands()),
+        child: const AddBrandsPage(),
+      ),
+    );
   }
 }

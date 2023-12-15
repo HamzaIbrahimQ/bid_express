@@ -1,5 +1,4 @@
 import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/ui/pages/profile/ui/widgets/profile_item.dart';
 import 'package:bid_express/ui/pages/profile/ui/widgets/profile_items.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
@@ -40,13 +39,16 @@ class ProfilePage extends StatelessWidget with UiUtility {
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: EdgeInsetsDirectional.only(start: 84.w, top: 8.h),
-              child: Image.asset(
-                'assets/imgs/profile_img.png',
-                alignment: Alignment.center,
-                height: .25.sh,
-                // width: ,
-                fit: BoxFit.cover,
+              padding: EdgeInsetsDirectional.only(top: 8.h),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6.r),
+                child: Image.asset(
+                  'assets/imgs/user.png',
+                  alignment: Alignment.center,
+                  height: .18.sh,
+                  // width: ,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

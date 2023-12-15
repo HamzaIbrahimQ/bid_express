@@ -5,22 +5,22 @@ part 'signup_request.g.dart';
 
 @JsonSerializable()
 class SignupRequest {
-  final String? langCode;
-  final String? userName;
-  final String? name;
-  final String? email;
-  final String? mobileNumber;
-  final String? mobileAreaCode;
-  final String? password;
-  final String? addressName;
-  final String? city;
-  final String? area;
-  final String? street;
-  final int? longitude;
-  final int? latitude;
-  final String? otpCode;
-  final String? profilePictureFileName;
-  final String? profilePictureFileBase64;
+  String? langCode;
+  String? userName;
+  String? name;
+  String? email;
+  String? mobileNumber;
+  String? mobileAreaCode;
+  String? password;
+  String? addressName;
+  String? city;
+  String? area;
+  String? street;
+  double? longitude;
+  double? latitude;
+  String? otpCode;
+  String? profilePictureFileName;
+  String? profilePictureFileBase64;
 
   SignupRequest({
     this.langCode,

@@ -4,22 +4,22 @@ part 'signup_response.g.dart';
 
 @JsonSerializable()
 class SignupResponse {
-  final bool? isSuccess;
-  final String? errorMessage;
   final String? userName;
   final String? name;
   final String? email;
   final String? mobileNumber;
   final String? mobileAreaCode;
+  final String? accessToken;
+  final String? refreshToken;
 
   SignupResponse({
-    this.isSuccess,
-    this.errorMessage,
     this.userName,
     this.name,
     this.email,
     this.mobileNumber,
     this.mobileAreaCode,
+    this.accessToken,
+    this.refreshToken,
   });
 
   factory SignupResponse.fromJson(Map<String, dynamic> json) =>

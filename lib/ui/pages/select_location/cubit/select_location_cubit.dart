@@ -16,7 +16,7 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
 
   SelectLocationCubit() : super(SelectLocationInitial());
 
-  Future<void> checkLocationPermission() async {
+  Future<void> checkLocationPermission({bool? isFromInit}) async {
     bool _serviceEnabled;
     LocationPermission _permission;
 
@@ -35,14 +35,15 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
       }
     }
 
-    if (_permission == LocationPermission.deniedForever) {
+    if (_permission == LocationPermission.deniedForever ||
+        _permission == LocationPermission.denied) {
       log('Location permission are permanently denied');
       emit(GetCurrentLocationErrorState());
     }
 
     if (_permission == LocationPermission.whileInUse ||
         _permission == LocationPermission.always) {
-      await getCurrentLocation();
+      await getCurrentLocation(isFromInit: isFromInit);
     }
   }
 
@@ -51,7 +52,10 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
     emit(SelectLocationSuccessState());
   }
 
-  Future<void> getCurrentLocation() async {
+  Future<void> getCurrentLocation({bool? isFromInit}) async {
+    if (isFromInit ?? false) {
+      emit(GetSelectedLocationDataLoadingState());
+    }
     await Geolocator.getCurrentPosition().then((value) {
       currentLocation = LatLng(value.latitude, value.longitude);
       emit(GetCurrentLocationSuccessState());
@@ -60,13 +64,18 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
     });
   }
 
-  Future<void> getSelectedLocationData() async {
-    emit(GetSelectedLocationDataLoadingState());
+  Future<void> getSelectedLocationData({bool? isCurrentLocation}) async {
+    if (!(isCurrentLocation ?? false)) {
+      emit(GetSelectedLocationDataLoadingState());
+    }
+
     final bool _isConnected = await checkInternetConnection();
     if (_isConnected) {
       try {
         SelectLocationRepo()
-            .getSelectedLocationData(selectedCoordinates ?? const LatLng(0, 0))
+            .getSelectedLocationData(isCurrentLocation ?? false
+                ? currentLocation
+                : (selectedCoordinates ?? const LatLng(0, 0)))
             .then((value) async {
           if (value?.placeId != null) {
             if (value?.addressData?.countryCode?.toLowerCase() != 'jo') {

@@ -5,11 +5,11 @@ abstract class SignupEvent {}
 
 class UpdateLocationFields extends SignupEvent {}
 
-class SendOtp extends SignupEvent {}
+class SendOtp extends SignupEvent {
 
-class SendOtpLoadingEvent extends SignupEvent {
-  SendOtpLoadingEvent();
 }
+
+class SendOtpLoadingEvent extends SignupEvent {}
 
 class SendOtpSuccessEvent extends SignupEvent {
   final String? message;
@@ -23,9 +23,27 @@ class SendOtpErrorEvent extends SignupEvent {
   SendOtpErrorEvent({this.error});
 }
 
-class SendOtpFailureEvent extends SignupEvent {
-  SendOtpFailureEvent();
+class SendOtpFailureEvent extends SignupEvent {}
+
+class ReSendOtp extends SignupEvent {
+
 }
+
+class ReSendOtpLoadingEvent extends SignupEvent {}
+
+class ReSendOtpSuccessEvent extends SignupEvent {
+  final String? message;
+
+  ReSendOtpSuccessEvent({this.message});
+}
+
+class ReSendOtpErrorEvent extends SignupEvent {
+  final String? error;
+
+  ReSendOtpErrorEvent({this.error});
+}
+
+class ReSendOtpFailureEvent extends SignupEvent {}
 
 class Signup extends SignupEvent {}
 
@@ -33,9 +51,7 @@ class SignupLoadingEvent extends SignupEvent {
   SignupLoadingEvent();
 }
 
-class SignupSuccessEvent extends SignupEvent {
-
-}
+class SignupSuccessEvent extends SignupEvent {}
 
 class SignupErrorEvent extends SignupEvent {
   final String? error;

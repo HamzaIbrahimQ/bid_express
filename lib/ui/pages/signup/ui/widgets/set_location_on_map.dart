@@ -10,21 +10,29 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SetLocationOnMap extends StatelessWidget with UiUtility {
   final Function(LocationData data) onData;
-   SetLocationOnMap({required this.onData});
+  final String? title;
+
+  SetLocationOnMap({
+    required this.onData,
+    this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12.h),
+      padding: EdgeInsets.symmetric(
+          vertical: title?.isNotEmpty ?? false ? 2.h : 12.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Set Location On The Map',
+            title ?? 'Set Location On The Map',
             style: TextStyle(fontSize: 12.sp),
           ),
           InkWell(
-            onTap: () => _goToMapPage(context),
+            onTap: () => (title?.isNotEmpty ?? false)
+                ? context.read<SelectLocationCubit>().checkLocationPermission(isFromInit: true)
+                : _goToMapPage(context),
             borderRadius: BorderRadius.circular(6.r),
             overlayColor: MaterialStatePropertyAll(
               primaryColor.withOpacity(.1),
@@ -48,17 +56,16 @@ class SetLocationOnMap extends StatelessWidget with UiUtility {
 
   void _goToMapPage(BuildContext context) {
     navigate(
-      context: context,
-      page: BlocProvider(
-        create: (context) => SelectLocationCubit()..checkLocationPermission(),
-        child: const SelectLocationPage(),
-      ),
-      then: (val) {
-        if (val != null) {
-          val as LocationData;
-          onData(val);
-        }
-      }
-    );
+        context: context,
+        page: BlocProvider(
+          create: (context) => SelectLocationCubit()..checkLocationPermission(),
+          child: const SelectLocationPage(),
+        ),
+        then: (val) {
+          if (val != null) {
+            val as LocationData;
+            onData(val);
+          }
+        });
   }
 }

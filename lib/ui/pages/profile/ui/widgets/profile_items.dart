@@ -1,9 +1,15 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/helpers/shared_preference_helper.dart';
+import 'package:bid_express/ui/pages/home/ui/home_page.dart';
+import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
+import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/profile/ui/widgets/profile_item.dart';
+import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProfileItems extends StatelessWidget {
+class ProfileItems extends StatelessWidget with UiUtility {
   const ProfileItems({Key? key}) : super(key: key);
 
   @override
@@ -49,11 +55,27 @@ class ProfileItems extends StatelessWidget {
               /// Logout
               ProfileItem(
                 title: 'Logout',
-                onTap: () {},
+                onTap: () => _logout(context),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    final SharedPreferenceHelper _sharedPreferenceHelper =
+        SharedPreferenceHelper();
+    await _sharedPreferenceHelper.deleteValue(key: 'accessToken');
+    await _sharedPreferenceHelper.deleteValue(key: 'refreshToken');
+    navigate(
+      context: context,
+      isFade: true,
+      clearPagesStack: true,
+      page: BlocProvider(
+        create: (context) => LoginBloc(),
+        child: const LoginPage(),
       ),
     );
   }

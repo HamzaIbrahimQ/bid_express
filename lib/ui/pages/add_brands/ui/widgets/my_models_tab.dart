@@ -1,6 +1,7 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
 import 'package:bid_express/models/data_models/cars/model/car_model_model.dart';
+import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/model_widget.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/no_result.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyModelsTab extends StatefulWidget {
-  final Brand brand;
+  final CarBrandResponse brand;
 
   const MyModelsTab({super.key, required this.brand});
 
@@ -67,7 +68,7 @@ class _MyModelsTabState extends State<MyModelsTab> with AutomaticKeepAliveClient
                       padding:
                           EdgeInsetsDirectional.only(start: 24.w, end: 24.w),
                       itemCount: (widget.brand.myModelsSearchList != null)
-                          ? widget.brand.myModelsSearchList?.length
+                          ? widget.brand.myModelsSearchList?.length ?? 0
                           : widget.brand.myModels?.length ?? 0,
                       keyboardDismissBehavior:
                           ScrollViewKeyboardDismissBehavior.onDrag,
@@ -81,8 +82,8 @@ class _MyModelsTabState extends State<MyModelsTab> with AutomaticKeepAliveClient
                             SelectUnselectModel(
                               brand: widget.brand,
                               id: (widget.brand.myModelsSearchList != null)
-                                  ? widget.brand.myModelsSearchList![index].id
-                                  : widget.brand.myModels![index].id,
+                                  ? widget.brand.myModelsSearchList![index].id ?? 0
+                                  : widget.brand.myModels![index].id ?? 0,
                             ),
                           ),
                         );

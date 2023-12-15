@@ -14,7 +14,7 @@ part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
   final SignupRepository _signupRepository = SignupRepository();
-  final SignupRequest signupRequest = SignupRequest();
+   SignupRequest signupRequest = SignupRequest();
   final SharedPreferenceHelper _sharedPreferenceHelper =
       SharedPreferenceHelper();
 
@@ -38,8 +38,29 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
     on<SendOtpErrorEvent>((event, emit) {
       emit.call(SendOtpErrorState(error: event.error));
     });
+
     on<SendOtpFailureEvent>((event, emit) {
       emit.call(SendOtpFailureState());
+    });
+
+    on<ReSendOtp>((event, emit) {
+      _resendOtp(event);
+    });
+
+    on<ReSendOtpLoadingEvent>((event, emit) {
+      emit.call(ReSendOtpLoadingState());
+    });
+
+    on<ReSendOtpSuccessEvent>((event, emit) {
+      emit.call(ReSendOtpSuccessState(message: event.message));
+    });
+
+    on<ReSendOtpErrorEvent>((event, emit) {
+      emit.call(ReSendOtpErrorState(error: event.error));
+    });
+
+    on<ReSendOtpFailureEvent>((event, emit) {
+      emit.call(ReSendOtpFailureState());
     });
 
     on<Signup>((event, emit) {
@@ -71,21 +92,56 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
       try {
         // internet connection available
         _signupRepository
-            .sendOtp(mobileNum: signupRequest.mobileNumber ?? '')
+            .sendOtp(
+                mobileNum: signupRequest.mobileNumber ?? '',
+                areaCode: signupRequest.mobileAreaCode ?? '')
             .then((value) {
-          if (value?.status == 'Success') {
-            add(SendOtpSuccessEvent(message: value?.message ?? ''));
+          if (value?.isSuccess ?? false) {
+            add(SendOtpSuccessEvent(
+              message: value?.message ?? '',
+            ));
           } else {
-            add(SendOtpErrorEvent(error: value?.message));
+            add(SendOtpErrorEvent(
+              error: value?.message,
+            ));
           }
         });
       } catch (error) {
         errorLog(error.toString());
-        add(SendOtpErrorEvent(error: error.toString()));
+        add(SendOtpErrorEvent(
+          error: error.toString(),
+        ));
       }
     } else {
       // no internet connection
       add(SendOtpFailureEvent());
+    }
+  }
+
+  Future<void> _resendOtp(ReSendOtp event) async {
+    add(ReSendOtpLoadingEvent());
+    final bool _isConnected = await checkInternetConnection();
+    if (_isConnected) {
+      try {
+        // internet connection available
+        _signupRepository
+            .sendOtp(
+                mobileNum: signupRequest.mobileNumber ?? '',
+                areaCode: signupRequest.mobileAreaCode ?? '')
+            .then((value) {
+          if (value?.isSuccess ?? false) {
+            add(ReSendOtpSuccessEvent(message: value?.message ?? ''));
+          } else {
+            add(ReSendOtpErrorEvent(error: value?.message));
+          }
+        });
+      } catch (error) {
+        errorLog(error.toString());
+        add(ReSendOtpErrorEvent(error: error.toString()));
+      }
+    } else {
+      // no internet connection
+      add(ReSendOtpFailureEvent());
     }
   }
 
@@ -95,16 +151,27 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
     if (_isConnected) {
       try {
         // internet connection available
+        signupRequest.langCode = 'en';
+        signupRequest.email = 'hamzaiqa9@gmail.com';
         _signupRepository
             .signup(signupRequest: signupRequest)
             .then((value) async {
           if (value?.isSuccess ?? false) {
             add(SignupSuccessEvent());
 
-            /// Save user mobile number to send it to reset password API
+            print('access token:\n${value?.data.accessToken}');
+            print('refresh token:\n${value?.data.refreshToken}');
             await _sharedPreferenceHelper.saveStringValue(
-              key: 'mobileNumber',
-              value: value?.mobileNumber,
+              key: 'accessToken',
+              value: value?.data.accessToken ?? 'loggedIn',
+            );
+            await _sharedPreferenceHelper.saveStringValue(
+              key: 'refreshToken',
+              value: value?.data.refreshToken,
+            );
+            await _sharedPreferenceHelper.saveStringValue(
+              key: 'userName',
+              value: signupRequest.userName,
             );
           } else {
             add(SignupErrorEvent(error: value?.errorMessage));

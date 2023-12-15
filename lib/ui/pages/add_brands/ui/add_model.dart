@@ -1,5 +1,6 @@
 import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
+import 'package:bid_express/components/progress_hud.dart';
+import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/available_models_tab.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/my_models_tab.dart';
@@ -9,9 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddModelPage extends StatefulWidget {
-  final Brand brand;
+  final CarBrandResponse brand;
+  final List<CarBrandResponse> brands;
 
-  const AddModelPage({super.key, required this.brand});
+  const AddModelPage({super.key, required this.brand, required this.brands});
 
   @override
   State<AddModelPage> createState() => _AddModelPageState();
@@ -19,7 +21,6 @@ class AddModelPage extends StatefulWidget {
 
 class _AddModelPageState extends State<AddModelPage>
     with UiUtility, TickerProviderStateMixin {
-  late AddBrandsBloc _bloc;
 
   late TabController _tabController;
 
@@ -27,15 +28,15 @@ class _AddModelPageState extends State<AddModelPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    context.read<AddBrandsBloc>().brands = widget.brands;
   }
 
   @override
   Widget build(BuildContext context) {
-    _bloc = context.read<AddBrandsBloc>();
     return Scaffold(
       appBar: getAppBar(
         context: context,
-        title: widget.brand.name,
+        title: widget.brand.nameEn ?? '',
         hasBackIcon: true,
         bottomWidget: TabBar(
           controller: _tabController,
@@ -58,6 +59,24 @@ class _AddModelPageState extends State<AddModelPage>
             BlocConsumer<AddBrandsBloc, AddBrandsState>(
               listener: (context, state) {
                 if (state is SelectUnselectModelSuccessState) {}
+
+                if (state is GetModelsLoadingState) {
+                  LoadingView.shared.startLoading(context);
+                }
+
+                if (state is GetModelsSuccessState) {
+                  LoadingView.shared.stopLoading();
+                }
+
+                if (state is GetModelsErrorState) {
+                  LoadingView.shared.stopLoading();
+                  showErrorToast(context: context, msg: state.error);
+                }
+
+                if (state is GetModelsFailureState) {
+                  LoadingView.shared.stopLoading();
+                  showErrorToast(context: context);
+                }
               },
               builder: (context, state) {
                 return Text(
@@ -82,8 +101,8 @@ class _AddModelPageState extends State<AddModelPage>
       body: PopScope(
         canPop: true,
         onPopInvoked: (pop) {
-          _bloc.data.firstWhere((element) => element.id == widget.brand.id)
-            ..searchList = null
+          context.read<AddBrandsBloc>().brands?.firstWhere((element) => element.id == widget.brand.id)
+            ?..searchList = null
             ..myModelsSearchList = null;
           return;
         },

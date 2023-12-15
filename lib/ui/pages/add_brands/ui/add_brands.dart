@@ -1,5 +1,5 @@
-import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/components/text_field.dart';
+import 'package:bid_express/components/progress_hud.dart';
+import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/brand_widget.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/no_result.dart';
@@ -8,7 +8,6 @@ import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBrandsPage extends StatefulWidget {
   const AddBrandsPage({super.key});
@@ -34,8 +33,7 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
   Widget build(BuildContext context) {
     _bloc = context.read<AddBrandsBloc>();
     return Scaffold(
-      appBar:
-          getAppBar(context: context, title: 'New Brand', hasBackIcon: true),
+      appBar: getAppBar(context: context, title: 'Add brands'),
       body: Column(
         children: [
           16.verticalSpace,
@@ -56,6 +54,24 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
           BlocConsumer<AddBrandsBloc, AddBrandsState>(
             listener: (context, state) {
               if (state is SearchSuccessState) {}
+
+              if (state is GetBrandsLoadingState) {
+                LoadingView.shared.startLoading(context);
+              }
+
+              if (state is GetBrandsSuccessState) {
+                LoadingView.shared.stopLoading();
+              }
+
+              if (state is GetBrandsErrorState) {
+                LoadingView.shared.stopLoading();
+                showErrorToast(context: context, msg: state.error);
+              }
+
+              if (state is GetBrandsFailureState) {
+                LoadingView.shared.stopLoading();
+                showErrorToast(context: context);
+              }
             },
             builder: (context, state) {
               return Expanded(
@@ -67,15 +83,17 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
                         padding:
                             EdgeInsetsDirectional.only(start: 24.w, end: 24.w),
                         itemCount: (_bloc.searchList != null)
-                            ? _bloc.searchList?.length
-                            : _bloc.data.length,
+                            ? _bloc.searchList?.length ?? 0
+                            : _bloc.brands?.length ?? 0,
                         keyboardDismissBehavior:
                             ScrollViewKeyboardDismissBehavior.onDrag,
                         itemBuilder: (context, index) {
                           return BrandWidget(
                             brand: (_bloc.searchList != null)
                                 ? _bloc.searchList![index]
-                                : _bloc.data[index],
+                                : _bloc.brands?[index] ??
+                                    CarBrandResponse(),
+                            brands: _bloc.brands ?? [],
                           );
                         },
                       ),

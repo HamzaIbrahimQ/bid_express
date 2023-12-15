@@ -1,12 +1,13 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/cars/model/car_model_model.dart';
+import 'package:bid_express/models/responses/car_model/car_model_response.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/add_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ModelWidget extends StatelessWidget {
-  final Model model;
+  final CarModelResponse model;
   final GestureTapCallback? onTap;
   final bool? isFromMyModels;
 
@@ -66,7 +67,7 @@ class ModelWidget extends StatelessWidget {
           children: [
             /// Name
             Text(
-              model.name,
+              model.nameEn ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -77,17 +78,22 @@ class ModelWidget extends StatelessWidget {
             ),
 
             /// Add icon
-            Icon(
-              isFromMyModels ?? false
-                  ? Icons.delete_forever_outlined
-                  : Icons.check_circle,
-              size: 26.w,
-              color: isFromMyModels ?? false
-                  ? primaryColor
-                  : model.isSelected ?? false
-                      ? primaryColor
-                      : Colors.transparent,
-            ),
+            isFromMyModels ?? false
+                ? SvgPicture.asset(
+                    'assets/icons/delete.svg',
+                    width: 18.w,
+                    height: 22.h,
+                    fit: BoxFit.cover,
+                  )
+                : Icon(
+                    Icons.check_circle,
+                    size: 26.w,
+                    color: isFromMyModels ?? false
+                        ? primaryColor
+                        : model.isSelected ?? false
+                            ? primaryColor
+                            : Colors.transparent,
+                  ),
           ],
         ),
       ),

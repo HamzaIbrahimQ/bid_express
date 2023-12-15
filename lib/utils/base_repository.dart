@@ -13,7 +13,7 @@ class BaseRepository with Utility {
   Future<String> getAccessToken() async {
     try {
       final String token =
-          await _sharedPreferenceHelper.getStringValue(key: 'token');
+          await _sharedPreferenceHelper.getStringValue(key: 'accessToken');
       return token;
     } catch (e) {
       return '';
@@ -23,7 +23,7 @@ class BaseRepository with Utility {
   Future<String> getRefreshToken() async {
     try {
       final String token =
-          await _sharedPreferenceHelper.getStringValue(key: 'refresh_token');
+          await _sharedPreferenceHelper.getStringValue(key: 'refreshToken');
       return token;
     } catch (e) {
       return '';

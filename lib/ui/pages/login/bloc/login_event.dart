@@ -9,13 +9,7 @@ class LoginLoadingEvent extends LoginEvent {
   LoginLoadingEvent();
 }
 
-class LoginSuccessEvent extends LoginEvent {
-  final String message;
-
-  LoginSuccessEvent({
-    required this.message,
-  });
-}
+class LoginSuccessEvent extends LoginEvent {}
 
 class LoginErrorEvent extends LoginEvent {
   final String? error;

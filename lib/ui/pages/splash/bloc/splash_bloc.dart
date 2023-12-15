@@ -32,7 +32,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   Future<String> _getAccessToken() async {
-    return await SharedPreferenceHelper().getStringValue(key: 'token');
+    return await SharedPreferenceHelper().getStringValue(key: 'accessToken');
   }
 
   Future<bool> _getFirstRun() async {

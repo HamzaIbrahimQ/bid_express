@@ -1,5 +1,8 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
+import 'package:bid_express/models/data_models/cars/model/car_model_model.dart';
+import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
+import 'package:bid_express/models/responses/car_model/car_model_response.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/model_widget.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/no_result.dart';
@@ -9,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AvailableModelsTab extends StatefulWidget {
-  final Brand brand;
+  final CarBrandResponse brand;
 
   const AvailableModelsTab({super.key, required this.brand});
 
@@ -19,7 +22,6 @@ class AvailableModelsTab extends StatefulWidget {
 
 class _AvailableModelsTabState extends State<AvailableModelsTab>
     with AutomaticKeepAliveClientMixin {
-  late AddBrandsBloc _bloc;
 
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
@@ -33,7 +35,7 @@ class _AvailableModelsTabState extends State<AvailableModelsTab>
 
   @override
   Widget build(BuildContext context) {
-    _bloc = context.read<AddBrandsBloc>();
+    super.build(context);
     return Column(
       children: [
         /// Search field
@@ -42,7 +44,7 @@ class _AvailableModelsTabState extends State<AvailableModelsTab>
           child: SearchTextField(
             controller: _controller,
             focusNode: _focusNode,
-            onChange: (v) => _bloc.add(SearchForModel(
+            onChange: (v) => context.read<AddBrandsBloc>().add(SearchForModel(
               brand: widget.brand,
               input: v.trim(),
             )),
@@ -67,21 +69,21 @@ class _AvailableModelsTabState extends State<AvailableModelsTab>
                       padding:
                           EdgeInsetsDirectional.only(start: 24.w, end: 24.w),
                       itemCount: (widget.brand.searchList != null)
-                          ? widget.brand.searchList?.length
-                          : widget.brand.models.length,
+                          ? widget.brand.searchList?.length ?? 0
+                          : widget.brand.models?.length ?? 0,
                       keyboardDismissBehavior:
                           ScrollViewKeyboardDismissBehavior.onDrag,
                       itemBuilder: (context, index) {
                         return ModelWidget(
                           model: (widget.brand.searchList != null)
                               ? widget.brand.searchList![index]
-                              : widget.brand.models[index],
-                          onTap: () => _bloc.add(
+                              : widget.brand.models?[index] ?? CarModelResponse(),
+                          onTap: () => context.read<AddBrandsBloc>().add(
                             SelectUnselectModel(
                               brand: widget.brand,
                               id: (widget.brand.searchList != null)
-                                  ? widget.brand.searchList![index].id
-                                  : widget.brand.models[index].id,
+                                  ? widget.brand.searchList![index].id ?? 0
+                                  : widget.brand.models?[index].id ?? 0,
                             ),
                           ),
                         );

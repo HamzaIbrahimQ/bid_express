@@ -61,7 +61,9 @@ class DontHaveAccount extends StatelessWidget with UiUtility {
       page: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => SignupBloc()),
-          BlocProvider(create: (context) => SelectLocationCubit()),
+          BlocProvider(
+              create: (context) => SelectLocationCubit()
+                ..checkLocationPermission(isFromInit: true)),
         ],
         child: const SignupPage(),
       ),

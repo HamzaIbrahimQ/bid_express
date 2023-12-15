@@ -10,11 +10,7 @@ class LoginLoadingState extends LoginState {
 }
 
 class LoginSuccessState extends LoginState {
-  final String message;
 
-  LoginSuccessState({
-    required this.message,
-  });
 }
 
 class LoginErrorState extends LoginState {

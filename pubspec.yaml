@@ -38,6 +38,7 @@ dependencies:
   device_preview:
   json_reflectable: ^1.0.1
   json_annotation: ^4.8.1
+  cached_network_image:
 
 
 dev_dependencies:

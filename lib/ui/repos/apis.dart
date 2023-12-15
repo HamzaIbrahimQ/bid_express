@@ -148,29 +148,7 @@ class APIs extends BaseRepository {
     }
   }
 
-  Future<MainResponse<UserData>?> getUserData() async {
-    MainResponse<UserData> _apiResponse = MainResponse<UserData>();
-    final String _token = await getAccessToken();
-    final Map<String, String> _headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $_token',
-    };
-    try {
-      final response = await http.get(Uri.parse('${baseUrl}User/GetUser'),
-          headers: _headers);
 
-      log(response.request.toString() +
-          '\n' +
-          response.statusCode.toString() +
-          '\n' +
-          response.body);
-      _apiResponse = MainResponse.fromJson(json.decode(response.body));
-      return _apiResponse;
-    } catch (e) {
-      errorLog(e.toString());
-      return null;
-    }
-  }
 
   Future<MainResponse?> logout({required LogoutRequest logoutRequest}) async {
     MainResponse _apiResponse = MainResponse();

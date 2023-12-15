@@ -8,8 +8,6 @@ part of 'signup_response.dart';
 
 SignupResponse _$SignupResponseFromJson(Map<String, dynamic> json) =>
     SignupResponse(
-      isSuccess: json['isSuccess'] as bool?,
-      errorMessage: json['errorMessage'] as String?,
       userName: json['userName'] as String?,
       name: json['name'] as String?,
       email: json['email'] as String?,
@@ -19,8 +17,6 @@ SignupResponse _$SignupResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SignupResponseToJson(SignupResponse instance) =>
     <String, dynamic>{
-      'isSuccess': instance.isSuccess,
-      'errorMessage': instance.errorMessage,
       'userName': instance.userName,
       'name': instance.name,
       'email': instance.email,

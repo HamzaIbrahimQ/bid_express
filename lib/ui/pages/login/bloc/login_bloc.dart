@@ -8,14 +8,14 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> with Utility {
   final LoginRepository _loginRepository = LoginRepository();
   final LoginRequest loginRequest = LoginRequest();
   final SharedPreferenceHelper _sharedPreferenceHelper =
-  SharedPreferenceHelper();
-
+      SharedPreferenceHelper();
 
   LoginBloc() : super(LoginInitial()) {
     on<Login>((event, emit) {
@@ -27,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with Utility {
     });
 
     on<LoginSuccessEvent>((event, emit) {
-      emit.call(LoginSuccessState(message: event.message));
+      emit.call(LoginSuccessState());
     });
 
     on<LoginErrorEvent>((event, emit) {
@@ -45,28 +45,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with Utility {
     if (_isConnected) {
       try {
         // internet connection available
+        loginRequest.langCode = 'en';
+        loginRequest.userName = 'hamzaa';
         _loginRepository.login(loginRequest: loginRequest).then(
-              (value) async {
-            if (value?.status == 'Success') {
-              add(LoginSuccessEvent(message: value?.message ?? ''));
-              print('access token:\n${value?.data.accessToken}');
-              print('refresh token:\n${value?.data.refreshToken}');
+          (value) async {
+            if (value?.isSuccess ?? false) {
+              add(LoginSuccessEvent());
+              print('access token:\n${value?.accessToken}');
+              print('refresh token:\n${value?.refreshToken}');
               await _sharedPreferenceHelper.saveStringValue(
-                key: 'token',
-                value: value?.data.accessToken,
+                key: 'accessToken',
+                value: value?.accessToken,
               );
               await _sharedPreferenceHelper.saveStringValue(
-                key: 'refresh_token',
-                value: value?.data.refreshToken,
+                key: 'refreshToken',
+                value: value?.refreshToken,
+              );
+              await _sharedPreferenceHelper.saveStringValue(
+                key: 'userName',
+                value: loginRequest.userName,
               );
             } else {
-              add(LoginErrorEvent(error: value?.message));
+              add(LoginErrorEvent(error: value?.errorMessage));
             }
           },
         ).catchError((e) {
           errorLog(e.toString());
           add(LoginErrorEvent(error: e.toString()));
-        });;
+        });
+        ;
       } catch (error) {
         errorLog(error.toString());
         add(LoginErrorEvent(error: error.toString()));

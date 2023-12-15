@@ -9,8 +9,8 @@ class UserAddress {
   final String? city;
   final String? area;
   final String? street;
-  final int? longitude;
-  final int? latitude;
+  final double? longitude;
+  final double? latitude;
 
   UserAddress({
     this.id,

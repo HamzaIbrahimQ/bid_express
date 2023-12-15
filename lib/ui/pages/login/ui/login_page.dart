@@ -1,14 +1,22 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
+import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/components/text_field.dart';
+import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
+import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/home/ui/home_page.dart';
+import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/country_code.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/dont_have_account.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/forgot_password.dart';
+import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,6 +28,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with UiUtility {
+  late LoginBloc _bloc;
+
   final GlobalKey<FormState> _mobileFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _passFormKey = GlobalKey<FormState>();
 
@@ -32,6 +42,15 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
   CountryCode countryCode = CountryCode(code: 'JO', dialCode: '962');
 
   @override
+  void initState() {
+    super.initState();
+    if (kDebugMode) {
+      _mobileCont.text = '7721235';
+      _passCont.text = 'Aa@11111';
+    }
+  }
+
+  @override
   void dispose() {
     _mobileCont.dispose();
     _mobileFoc.dispose();
@@ -42,105 +61,124 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
 
   @override
   Widget build(BuildContext context) {
+    _bloc = context.read<LoginBloc>();
     return Scaffold(
       appBar: getAppBar(context: context, title: 'Login'),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              /// Logo
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 48.h),
-                child: Center(
-                  child: SvgPicture.asset('assets/imgs/login_logo.svg'),
-                ),
-              ),
+      body: BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) {
+          if (state is LoginLoadingState) {
+            LoadingView.shared.startLoading(context);
+          }
 
-              /// Form fields
-              Column(
+          if (state is LoginSuccessState) {
+            LoadingView.shared.stopLoading();
+            _goToHomePage();
+          }
+
+          if (state is LoginErrorState) {
+            LoadingView.shared.stopLoading();
+            showErrorToast(context: context, msg: state.error ?? '');
+          }
+
+          if (state is LoginFailureState) {
+            LoadingView.shared.stopLoading();
+            showErrorToast(context: context);
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  /// Mobile field and country code
-                  StatefulBuilder(
-                    builder: (context, setState) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          /// Mobile field
-                          Expanded(
-                            child: Form(
-                              key: _mobileFormKey,
-                              child: AppTextField(
-                                controller: _mobileCont,
-                                focusNode: _mobileFoc,
-                                title: 'Mobile number',
-                                hint: 'Enter Mobile Number',
-                                regex: mobileRegex,
-                                isMobileNumber: true,
-                                prefixWidget: CountryCodeWidget(
-                                  countryCode: countryCode,
-                                  onChanged: (val) {
-                                    countryCode = val;
-                                  },
-                                  hasPadding: !(_mobileFormKey.currentState
-                                          ?.validate() ??
-                                      false),
-                                ),
-                                onChange: (v) => setState(() {}),
-                                inputType: TextInputType.number,
-                                onSaved: (val) => {},
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-
-                  12.verticalSpace,
-
-                  /// Password field
-                  Form(
-                    key: _passFormKey,
-                    child: AppTextField(
-                      controller: _passCont,
-                      focusNode: _passFoc,
-                      title: 'Password',
-                      hint: 'Enter Password',
-                      isRequired: true,
-                      isPassword: true,
-                      isObscure: true,
-                      regex: passwordRegex,
-                      maxLength: 16,
-                      textInputAction: TextInputAction.done,
-                      onSubmit: (val) => _validate(isKeyboardOpen: true),
-                      onSaved: (val) => {},
+                  /// Logo
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 48.h),
+                    child: Center(
+                      child: SvgPicture.asset('assets/imgs/login_logo.svg'),
                     ),
                   ),
+
+                  /// Form fields
+                  Column(
+                    children: [
+                      /// Mobile field and country code
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return Form(
+                            key: _mobileFormKey,
+                            child: AppTextField(
+                              controller: _mobileCont,
+                              focusNode: _mobileFoc,
+                              title: 'Mobile number',
+                              hint: 'Enter Mobile Number',
+                              regex: mobileRegex,
+                              isMobileNumber: true,
+                              prefixWidget: CountryCodeWidget(
+                                countryCode: countryCode,
+                                onChanged: (val) {
+                                  countryCode = val;
+                                },
+                                hasPadding:
+                                    !(_mobileFormKey.currentState?.validate() ??
+                                        false),
+                              ),
+                              onChange: (v) => setState(() {}),
+                              inputType: TextInputType.number,
+                              onSaved: (val) =>
+                                  _bloc.loginRequest.userName = val?.trim(),
+                            ),
+                          );
+                        },
+                      ),
+
+                      12.verticalSpace,
+
+                      /// Password field
+                      Form(
+                        key: _passFormKey,
+                        child: AppTextField(
+                          controller: _passCont,
+                          focusNode: _passFoc,
+                          title: 'Password',
+                          hint: 'Enter Password',
+                          isRequired: true,
+                          isPassword: true,
+                          isObscure: true,
+                          regex: passwordRegex,
+                          maxLength: 16,
+                          textInputAction: TextInputAction.done,
+                          onSubmit: (val) => _validate(isKeyboardOpen: true),
+                          onSaved: (val) =>
+                              _bloc.loginRequest.password = val?.trim(),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  6.verticalSpace,
+
+                  /// Forget password
+                  ForgotPassword(),
+
+                  24.verticalSpace,
+
+                  /// Login button
+                  MainButton(
+                    title: 'Login',
+                    onTap: () => _validate(),
+                  ),
+
+                  .17.sh.verticalSpace,
+
+                  /// Dont have account
+                  DontHaveAccount(),
                 ],
               ),
-
-              6.verticalSpace,
-
-              /// Forget password
-              ForgotPassword(),
-
-              24.verticalSpace,
-
-              /// Login button
-              MainButton(
-                title: 'Login',
-                onTap: () => _validate(),
-              ),
-
-              .17.sh.verticalSpace,
-
-              /// Dont have account
-              DontHaveAccount(),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -166,10 +204,25 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
   }
 
   void _callLoginApi() {
+    _bloc.add(Login());
+  }
+
+  void _goToHomePage() {
+    // navigate(
+    //   context: context,
+    //   isFade: true,
+    //   clearPagesStack: true,
+    //   page: const NavBar(),
+    // );
+
     navigate(
       context: context,
       isFade: true,
-      page: const HomePage(),
+      clearPagesStack: true,
+      page: BlocProvider(
+        create: (context) => AddBrandsBloc()..add(GetBrands()),
+        child: const AddBrandsPage(),
+      ),
     );
   }
 }

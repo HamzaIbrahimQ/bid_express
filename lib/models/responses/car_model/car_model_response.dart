@@ -8,12 +8,14 @@ class CarModelResponse {
   final String? name;
   final String? nameEn;
   final String? imageUrl;
+  bool? isSelected;
 
   CarModelResponse({
     this.id,
     this.name,
     this.nameEn,
     this.imageUrl,
+    this.isSelected
   });
 
   factory CarModelResponse.fromJson(Map<String, dynamic> json) =>

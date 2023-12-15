@@ -12,7 +12,7 @@ import 'package:json_annotation/json_annotation.dart';
 @JsonSerializable()
 class MainResponse<T> {
   @JsonKey(name: 'status')
-  String? status;
+  int? status;
 
   @JsonKey(name: 'title')
   String? title;
@@ -41,44 +41,53 @@ class MainResponse<T> {
   factory MainResponse.fromJson(Map<String, dynamic> json) {
     final MainResponse<T> mainResponse = MainResponse<T>();
 
-    mainResponse.status = json['status'] as String?;
+    mainResponse.status = json['status'] as int?;
     mainResponse.title = json['title'] as String?;
     mainResponse.message = json['message'] as String?;
     mainResponse.errorMessage = json['errorMessage'] as String?;
     mainResponse.isSuccess = json['isSuccess'] as bool?;
-    mainResponse.responseError =
-        mainResponse.data = ResponseErrors.fromJson(json['errors']);
+    if (json.containsKey('errors') && json['errors'] != null) {
+      mainResponse.responseError = ResponseErrors.fromJson(json['errors']);
+    }
 
-    if (json['data'] != null && mainResponse.responseError != null) {
+    if (json.containsKey('data') && json['data'] == null) {
+      json['data'] = <String, dynamic>{};
+    }
+
+    if (json.containsKey('data') &&
+        json['data'] != null &&
+        mainResponse.responseError != null) {
       return mainResponse;
     }
 
-    if (T == LoginResponse) {
+    if (json.containsKey('data') && T == LoginResponse) {
       mainResponse.data = LoginResponse.fromJson(json['data']);
-    } else if (T == UserData) {
+    } else if (json.containsKey('data') && T == SignupResponse) {
+      mainResponse.data = SignupResponse.fromJson(json['data']);
+    } else if (json.containsKey('data') && T == UserData) {
       mainResponse.data = UserData.fromJson(json['data']);
-    } else if (T == List<CategoryResponse>) {
+    } else if (json.containsKey('data') && T == List<CategoryResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CategoryResponse.fromJson(e as Map<String, dynamic>))
           .toList();
-    } else if (T == List<PartResponse>) {
+    } else if (json.containsKey('data') && T == List<PartResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => PartResponse.fromJson(e as Map<String, dynamic>))
           .toList();
-    } else if (T == List<PartAdditionResponse>) {
+    } else if (json.containsKey('data') && T == List<PartAdditionResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => PartAdditionResponse.fromJson(e as Map<String, dynamic>))
           .toList();
-    } else if (T == List<CarBrandResponse>) {
+    } else if (json.containsKey('data') && T == List<CarBrandResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CarBrandResponse.fromJson(e as Map<String, dynamic>))
           .toList();
-    } else if (T == List<CarModelResponse>) {
+    } else if (json.containsKey('data') && T == List<CarModelResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CarModelResponse.fromJson(e as Map<String, dynamic>))
           .toList();
     } else {
-      mainResponse.data = json['data'];
+      mainResponse.data = json['data'] ?? {};
     }
     return mainResponse;
   }
