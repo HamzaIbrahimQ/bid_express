@@ -46,7 +46,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with Utility {
       try {
         // internet connection available
         loginRequest.langCode = 'en';
-        loginRequest.userName = 'hamzaa';
         _loginRepository.login(loginRequest: loginRequest).then(
           (value) async {
             if (value?.isSuccess ?? false) {
