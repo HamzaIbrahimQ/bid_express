@@ -8,18 +8,19 @@ part of 'get_cars_response.dart';
 
 GetCarsResponse _$GetCarsResponseFromJson(Map<String, dynamic> json) =>
     GetCarsResponse(
-      json['sellerBrandId'] as int?,
-      json['brandId'] as int?,
-      json['name'] as String?,
-      json['imageUrl'] as String?,
-      (json['sellerCarModels'] as List<dynamic>?)
+      sellerBrandId: json['sellerBrandId'] as int?,
+      brandId: json['brandId'] as int?,
+      name: json['name'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      sellerCarModels: (json['sellerCarModels'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
               : GetCarsResponseCarModels.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['carModelIdList'] as List<dynamic>?)
+      carModelIdList: (json['carModelIdList'] as List<dynamic>?)
           ?.map((e) => e as int?)
           .toList(),
+      isSelected: json['isSelected'] as bool?,
     );
 
 Map<String, dynamic> _$GetCarsResponseToJson(GetCarsResponse instance) =>
@@ -30,16 +31,18 @@ Map<String, dynamic> _$GetCarsResponseToJson(GetCarsResponse instance) =>
       'imageUrl': instance.imageUrl,
       'sellerCarModels': instance.sellerCarModels,
       'carModelIdList': instance.carModelIdList,
+      'isSelected': instance.isSelected,
     };
 
 GetCarsResponseCarModels _$GetCarsResponseCarModelsFromJson(
         Map<String, dynamic> json) =>
     GetCarsResponseCarModels(
-      json['sellerBrandId'] as int?,
-      json['sellerCarModelId'] as int?,
-      json['carModelId'] as int?,
-      json['name'] as String?,
-      json['imageUrl'] as String?,
+      sellerBrandId: json['sellerBrandId'] as int?,
+      sellerCarModelId: json['sellerCarModelId'] as int?,
+      carModelId: json['carModelId'] as int?,
+      name: json['name'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      isSelected: json['isSelected'] as bool?,
     );
 
 Map<String, dynamic> _$GetCarsResponseCarModelsToJson(
@@ -50,4 +53,5 @@ Map<String, dynamic> _$GetCarsResponseCarModelsToJson(
       'carModelId': instance.carModelId,
       'name': instance.name,
       'imageUrl': instance.imageUrl,
+      'isSelected': instance.isSelected,
     };

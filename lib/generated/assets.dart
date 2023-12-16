@@ -7,6 +7,7 @@ class Assets {
   static const String iconsCamera = 'assets/icons/camera.svg';
   static const String iconsDashboard = 'assets/icons/dashboard.svg';
   static const String iconsDelete = 'assets/icons/delete.svg';
+  static const String iconsFilter = 'assets/icons/filter.svg';
   static const String iconsLocationMarker = 'assets/icons/location_marker.svg';
   static const String iconsManageCars = 'assets/icons/manage_cars.svg';
   static const String iconsNotifications = 'assets/icons/notifications.svg';
@@ -17,6 +18,7 @@ class Assets {
   static const String imgsDashboardBg = 'assets/imgs/dashboard_bg.jpg';
   static const String imgsLoginLogo = 'assets/imgs/login_logo.svg';
   static const String imgsLogo = 'assets/imgs/logo.svg';
+  static const String imgsOil = 'assets/imgs/oil.png';
   static const String imgsProfileImg = 'assets/imgs/profile_img.png';
   static const String imgsUser = 'assets/imgs/user.png';
   static const String lottiesLoading = 'assets/lotties/loading.json';

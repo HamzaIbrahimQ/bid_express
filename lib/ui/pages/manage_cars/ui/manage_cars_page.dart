@@ -1,8 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/progress_hud.dart';
+import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/manage_cars/bloc/manage_cars_bloc.dart';
+import 'package:bid_express/ui/pages/manage_cars/ui/widgets/category_widget.dart';
+import 'package:bid_express/ui/pages/manage_cars/ui/widgets/seller_brand_widget.dart';
+import 'package:bid_express/ui/pages/manage_cars/ui/widgets/seller_car_model_widget.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +21,7 @@ class ManageCarsPage extends StatefulWidget {
 }
 
 class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
+  late ManageCarsBloc _bloc;
   late Future<String> future;
 
   @override
@@ -27,6 +32,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
 
   @override
   Widget build(BuildContext context) {
+    _bloc = context.read<ManageCarsBloc>();
     return Scaffold(
       body: BlocConsumer<ManageCarsBloc, ManageCarsState>(
         listener: (context, state) {
@@ -36,6 +42,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
 
           if (state is GetCarsSuccessState) {
             LoadingView.shared.stopLoading();
+            _bloc.add(GetCategories());
           }
 
           if (state is GetCarsErrorState) {
@@ -131,309 +138,159 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
                           ),
                         ],
                       ),
+
+                      124.verticalSpace,
+
+                      /// Model years and categories
+                      Expanded(
+                        child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
+                          listener: (context, state) {
+                            if (state is GetCategoriesLoadingState) {
+                              LoadingView.shared.startLoading(context);
+                            }
+
+                            if (state is GetCategoriesSuccessState) {
+                              LoadingView.shared.stopLoading();
+                              if (_bloc.cars.isNotEmpty) {
+                                _bloc.add(SelectBrand(
+                                    brandId: _bloc.cars.first.brandId ?? 0));
+                              }
+                            }
+
+                            if (state is GetCategoriesErrorState) {
+                              LoadingView.shared.stopLoading();
+                              showErrorToast(
+                                  context: context, msg: state.error);
+                            }
+
+                            if (state is GetCategoriesFailureState) {
+                              LoadingView.shared.stopLoading();
+                              showErrorToast(context: context);
+                            }
+
+                            if (state is GetSelectedCategoriesLoadingState) {
+                              LoadingView.shared.startLoading(context);
+                            }
+
+                            if (state is GetSelectedCategoriesSuccessState) {
+                              LoadingView.shared.stopLoading();
+                              //
+                            }
+
+                            if (state is GetSelectedCategoriesErrorState) {
+                              LoadingView.shared.stopLoading();
+                              showErrorToast(
+                                  context: context, msg: state.error);
+                            }
+
+                            if (state is GetSelectedCategoriesFailureState) {
+                              LoadingView.shared.stopLoading();
+                              showErrorToast(context: context);
+                            }
+                          },
+                          builder: (context, state) {
+                            return Column(
+                              children: [
+                                /// Fields
+                                const SizedBox.shrink(),
+
+                                /// Categories
+                                GridView.builder(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 24.w,
+                                    vertical: 6.h,
+                                  ),
+                                  itemCount: _bloc.categories.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1.0,
+                                    mainAxisSpacing: 16.h,
+                                    crossAxisSpacing: 16.w,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return CategoryWidget(
+                                      category: _bloc.categories[index],
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
 
                   16.verticalSpace,
 
-                  /// Cars
+                  /// Brands and models
                   Positioned(
-                    top: 170,
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.only(start: 24.w),
-                      child: Row(
-                        children: [
-                          /// Car
-                          Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            margin: EdgeInsetsDirectional.only(end: 6.w),
-                            padding: EdgeInsetsDirectional.only(
-                              start: 15.w,
-                              end: 15.w,
-                              top: 15.h,
-                              bottom: 7.h,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                /// Car logo
-                                SvgPicture.asset(
-                                  'assets/icons/toyota.svg',
-                                  width: 50.w,
-                                ),
-
-                                12.verticalSpace,
-
-                                Text(
-                                  'Toyota',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            margin: EdgeInsetsDirectional.only(end: 6.w),
-                            padding: EdgeInsetsDirectional.only(
-                              start: 15.w,
-                              end: 15.w,
-                              top: 15.h,
-                              bottom: 7.h,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                /// Car logo
-                                SvgPicture.asset(
-                                  'assets/icons/toyota.svg',
-                                  width: 50.w,
-                                ),
-
-                                12.verticalSpace,
-
-                                Text(
-                                  'Nissan',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            margin: EdgeInsetsDirectional.only(end: 6.w),
-                            padding: EdgeInsetsDirectional.only(
-                              start: 15.w,
-                              end: 15.w,
-                              top: 15.h,
-                              bottom: 7.h,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                /// Car logo
-                                SvgPicture.asset(
-                                  'assets/icons/toyota.svg',
-                                  width: 50.w,
-                                ),
-
-                                12.verticalSpace,
-
-                                Text(
-                                  'Ford',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            margin: EdgeInsetsDirectional.only(end: 6.w),
-                            padding: EdgeInsetsDirectional.only(
-                              start: 15.w,
-                              end: 15.w,
-                              top: 15.h,
-                              bottom: 7.h,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                /// Car logo
-                                SvgPicture.asset(
-                                  'assets/icons/toyota.svg',
-                                  width: 50.w,
-                                ),
-
-                                12.verticalSpace,
-
-                                Text(
-                                  'Kia',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 285,
-                    child: SizedBox(
-                      width: 1.sw,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
+                    top: 160,
+                    child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
+                      listener: (context, state) {
+                        if (state is UpdateSelectedBrandState) {
+                          _bloc.add(SelectModel(
+                              modelId: _getSelectedBrand()
+                                      ?.sellerCarModels
+                                      ?.first
+                                      ?.carModelId ??
+                                  0));
+                        }
+                      },
+                      builder: (context, state) {
+                        return Column(
                           children: [
-                            /// Car
-                            Padding(
-                              padding: EdgeInsetsDirectional.only(start: 24.w),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  borderRadius: BorderRadius.circular(6.r),
-                                ),
-                                margin: EdgeInsetsDirectional.only(end: 6.w),
-                                padding: EdgeInsetsDirectional.only(
-                                  start: 23.w,
-                                  end: 23.w,
-                                  top: 10.h,
-                                  bottom: 10.h,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Camry',
-                                      style: TextStyle(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            /// Brands
+                            SizedBox(
+                              width: 1.sw,
+                              height: .12.sh,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: _bloc.cars.length,
+                                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                                itemBuilder: (context, index) {
+                                  return SellerBrandWidget(
+                                    brand: _bloc.cars[index],
+                                  );
+                                },
                               ),
                             ),
 
-                            Container(
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(6.r),
-                              ),
-                              margin: EdgeInsetsDirectional.only(end: 6.w),
-                              padding: EdgeInsetsDirectional.only(
-                                start: 23.w,
-                                end: 23.w,
-                                top: 10.h,
-                                bottom: 10.h,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Corolla',
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            16.verticalSpace,
 
-                            Container(
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(6.r),
-                              ),
-                              margin: EdgeInsetsDirectional.only(end: 6.w),
-                              padding: EdgeInsetsDirectional.only(
-                                start: 23.w,
-                                end: 23.w,
-                                top: 10.h,
-                                bottom: 10.h,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Prius',
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.white,
-                                    ),
+                            /// Models
+                            BlocConsumer<ManageCarsBloc, ManageCarsState>(
+                              listener: (context, state) {
+                                if (state is UpdateSelectedModelState) {
+                                  _bloc.add(GetSelectedCategories(
+                                      modelId: state.modelId));
+                                }
+                              },
+                              builder: (context, state) {
+                                return SizedBox(
+                                  width: 1.sw,
+                                  height: .045.sh,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 24.w),
+                                    itemCount: _getModelsCount(),
+                                    itemBuilder: (context, index) {
+                                      return SellerCarModelWidget(
+                                        model: _getSelectedBrand()
+                                                ?.sellerCarModels![index] ??
+                                            GetCarsResponseCarModels(),
+                                      );
+                                    },
                                   ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(6.r),
-                              ),
-                              margin: EdgeInsetsDirectional.only(end: 6.w),
-                              padding: EdgeInsetsDirectional.only(
-                                start: 23.w,
-                                end: 23.w,
-                                top: 10.h,
-                                bottom: 10.h,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Prius',
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            Container(
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(6.r),
-                              ),
-                              margin: EdgeInsetsDirectional.only(end: 24.w),
-                              padding: EdgeInsetsDirectional.only(
-                                start: 23.w,
-                                end: 23.w,
-                                top: 10.h,
-                                bottom: 10.h,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Land cruiser',
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                );
+                              },
                             ),
                           ],
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -443,5 +300,25 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
         },
       ),
     );
+  }
+
+  GetCarsResponse? _getSelectedBrand() {
+    try {
+      return _bloc.cars.firstWhere((element) => element.isSelected ?? false);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  int _getModelsCount() {
+    try {
+      return _bloc.cars
+              .firstWhere((element) => element.isSelected ?? false)
+              .sellerCarModels
+              ?.length ??
+          0;
+    } catch (e) {
+      return 0;
+    }
   }
 }

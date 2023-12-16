@@ -10,9 +10,17 @@ class GetCarsResponse {
   final String? imageUrl;
   final List<GetCarsResponseCarModels?>? sellerCarModels;
   final List<int?>? carModelIdList;
+  bool? isSelected;
 
-  GetCarsResponse(this.sellerBrandId, this.brandId, this.name, this.imageUrl,
-      this.sellerCarModels, this.carModelIdList);
+  GetCarsResponse({
+    this.sellerBrandId,
+    this.brandId,
+    this.name,
+    this.imageUrl,
+    this.sellerCarModels,
+    this.carModelIdList,
+    this.isSelected,
+  });
 
   factory GetCarsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCarsResponseFromJson(json);
@@ -27,9 +35,16 @@ class GetCarsResponseCarModels {
   final int? carModelId;
   final String? name;
   final String? imageUrl;
+  bool? isSelected;
 
-  GetCarsResponseCarModels(this.sellerBrandId, this.sellerCarModelId,
-      this.carModelId, this.name, this.imageUrl);
+  GetCarsResponseCarModels({
+    this.sellerBrandId,
+    this.sellerCarModelId,
+    this.carModelId,
+    this.name,
+    this.imageUrl,
+    this.isSelected,
+  });
 
   factory GetCarsResponseCarModels.fromJson(Map<String, dynamic> json) =>
       _$GetCarsResponseCarModelsFromJson(json);
