@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:bid_express/models/requests/add_brands/add_brands_request.dart';
 import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
 import 'package:bid_express/models/responses/car_model/car_model_response.dart';
 import 'package:bid_express/models/responses/main_response/main_response.dart';
+import 'package:bid_express/models/responses/refresh_token/refresh_token_response.dart';
 import 'package:bid_express/utils/base_repository.dart';
 import 'package:http/http.dart' as http;
 
@@ -57,6 +59,44 @@ class GetBrandsRepository extends BaseRepository {
       }
 
       return _apiResponse;
+    } catch (e) {
+      errorLog(e.toString());
+      return null;
+    }
+  }
+
+  Future<MainResponse?> addBrands(
+      {required AddBrandsRequest addBrandsRequest}) async {
+    MainResponse _apiResponse = MainResponse();
+
+    final String _token = await getAccessToken();
+    String? _refreshedToken;
+    final _headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${_refreshedToken ?? _token}',
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('${baseUrl}Seller/AddSellerCarConfiguration'),
+        headers: _headers,
+        body: json.encode(addBrandsRequest.toJson()),
+      );
+      if (response.statusCode == 401) {
+        final RefreshTokenResponse? _refreshTokenResponse =
+            await callRefreshToken();
+        _refreshedToken = _refreshTokenResponse?.accessToken ?? '';
+        return addBrands(addBrandsRequest: addBrandsRequest);
+      } else {
+        log(response.request.toString() +
+            '\n' +
+            response.statusCode.toString() +
+            '\n' +
+            response.body);
+        _apiResponse = MainResponse.fromJson(json.decode(response.body));
+        return _apiResponse;
+      }
     } catch (e) {
       errorLog(e.toString());
       return null;

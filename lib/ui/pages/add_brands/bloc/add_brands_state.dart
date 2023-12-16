@@ -5,11 +5,9 @@ abstract class AddBrandsState {}
 
 class AddBrandsInitial extends AddBrandsState {}
 
-class GetBrandsState extends AddBrandsState {}
+class GetBrandsLoadingState extends AddBrandsState {}
 
 class GetBrandsSuccessState extends AddBrandsState {}
-
-class GetBrandsLoadingState extends AddBrandsState {}
 
 class GetBrandsErrorState extends AddBrandsState {
   final String? error;
@@ -38,3 +36,15 @@ class SearchForModelSuccessState extends AddBrandsState {}
 class SelectUnselectModelSuccessState extends AddBrandsState {}
 
 class SearchInMyModelsSuccessState extends AddBrandsState {}
+
+class AddBrandsLoadingState extends AddBrandsState {}
+
+class AddBrandsSuccessState extends AddBrandsState {}
+
+class AddBrandsErrorState extends AddBrandsState {
+  final String? error;
+
+  AddBrandsErrorState({this.error});
+}
+
+class AddBrandsFailureState extends AddBrandsState {}

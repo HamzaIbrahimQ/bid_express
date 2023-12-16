@@ -10,7 +10,6 @@ RefreshTokenResponse _$RefreshTokenResponseFromJson(
         Map<String, dynamic> json) =>
     RefreshTokenResponse(
       isSuccess: json['isSuccess'] as bool?,
-      userName: json['userName'] as String?,
       errorMessage: json['errorMessage'] as String?,
       accessToken: json['accessToken'] as String?,
       refreshToken: json['refreshToken'] as String?,
@@ -21,7 +20,6 @@ Map<String, dynamic> _$RefreshTokenResponseToJson(
     <String, dynamic>{
       'isSuccess': instance.isSuccess,
       'errorMessage': instance.errorMessage,
-      'userName': instance.userName,
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,
     };

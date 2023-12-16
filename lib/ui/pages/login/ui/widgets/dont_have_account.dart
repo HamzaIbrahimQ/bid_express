@@ -1,4 +1,5 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
 import 'package:bid_express/ui/pages/signup/bloc/signup_bloc.dart';
@@ -61,6 +62,7 @@ class DontHaveAccount extends StatelessWidget with UiUtility {
       page: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => SignupBloc()),
+
           BlocProvider(
               create: (context) => SelectLocationCubit()
                 ..checkLocationPermission(isFromInit: true)),

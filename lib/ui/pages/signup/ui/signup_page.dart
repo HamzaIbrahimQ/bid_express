@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/models/responses/location_data/location_data.dart';
-import 'package:bid_express/ui/pages/home/ui/home_page.dart';
+import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/country_code.dart';
 import 'package:bid_express/ui/pages/otp/ui/otp_page.dart';
 import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
@@ -523,7 +522,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
       if (_profileImg != null) {
         _bloc.signupRequest.profilePictureFileBase64 = _profileImg?.path;
         _bloc.signupRequest.profilePictureFileName =
-        '${_profileImg?.name}_${DateTime.now().toIso8601String()}';
+            '${_profileImg?.name}_${DateTime.now().toIso8601String()}';
       }
       if (isKeyboardOpen ?? false) {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -569,8 +568,13 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   void _goToOtpPage() {
     navigate(
       context: context,
-      page: BlocProvider(
-        create: (context) => SignupBloc(),
+      page: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SignupBloc(),
+          ),
+          BlocProvider(create: (context) => LoginBloc()),
+        ],
         child: OtpPage(
           mobileNumber: _bloc.signupRequest.mobileNumber ?? '',
           password: _bloc.signupRequest.password ?? '',

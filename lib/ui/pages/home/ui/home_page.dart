@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage>
                       /// Bg
                       Container(
                         width: 1.sw,
-                        height: .2.sh,
+                        height: .25.sh,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>
                                         minFontSize: 10,
                                         maxLines: 2,
                                         style: TextStyle(
-                                          fontSize: 21.sp,
+                                          fontSize: 24.sp,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage>
                                         minFontSize: 8,
                                         maxLines: 1,
                                         style: TextStyle(
-                                          fontSize: 13.5.sp,
+                                          fontSize: 15.sp,
                                           color: Colors.white,
                                           fontWeight: FontWeight.normal,
                                         ),

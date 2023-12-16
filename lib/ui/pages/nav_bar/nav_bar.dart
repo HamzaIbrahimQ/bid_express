@@ -1,5 +1,6 @@
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/home/ui/home_page.dart';
+import 'package:bid_express/ui/pages/manage_cars/bloc/manage_cars_bloc.dart';
 import 'package:bid_express/ui/pages/manage_cars/ui/manage_cars_page.dart';
 import 'package:bid_express/ui/pages/nav_bar/widgets/bottom_nav_bar.dart';
 import 'package:bid_express/ui/pages/notifications/ui/notifications_page.dart';
@@ -22,11 +23,13 @@ class _NavBarState extends State<NavBar> {
       create: (context) => HomeBloc()..add(GetUserData()),
       child: const HomePage(),
     ),
-    BlocProvider(
-      create: (context) => HomeBloc(),
-      child:  const ManageCarsPage(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => HomeBloc()),
+        BlocProvider(create: (context) => ManageCarsBloc()..add(GetCars())),
+      ],
+      child: const ManageCarsPage(),
     ),
-
     NotificationsPage(),
     ProfilePage(),
   ];

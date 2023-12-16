@@ -19,7 +19,6 @@ class BrandWidget extends StatelessWidget {
     return BlocConsumer<AddBrandsBloc, AddBrandsState>(
       listener: (context, state) {
         if (state is SelectUnselectModelSuccessState) {
-          print('sdafasd');
         }
       },
       builder: (context, state) {

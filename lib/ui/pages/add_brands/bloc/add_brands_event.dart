@@ -69,3 +69,18 @@ class SearchInMyModels extends AddBrandsEvent {
 }
 
 class SearchInMyModelsSuccess extends AddBrandsEvent {}
+
+
+class AddBrands extends AddBrandsEvent {}
+
+class AddBrandsLoading extends AddBrandsEvent {}
+
+class AddBrandsSuccess extends AddBrandsEvent {}
+
+class AddBrandsError extends AddBrandsEvent {
+  final String? error;
+
+  AddBrandsError({this.error});
+}
+
+class AddBrandsFailure extends AddBrandsEvent {}

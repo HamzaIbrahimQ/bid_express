@@ -5,6 +5,7 @@ import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/brand_widget.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/no_result.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/search_text_field.dart';
+import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,6 +55,25 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
           /// Brands list
           BlocConsumer<AddBrandsBloc, AddBrandsState>(
             listener: (context, state) {
+              if (state is AddBrandsLoadingState) {
+                LoadingView.shared.startLoading(context);
+              }
+
+              if (state is AddBrandsSuccessState) {
+                LoadingView.shared.stopLoading();
+                _goToHomePage();
+              }
+
+              if (state is AddBrandsErrorState) {
+                LoadingView.shared.stopLoading();
+                showErrorToast(context: context, msg: state.error);
+              }
+
+              if (state is AddBrandsFailureState) {
+                LoadingView.shared.stopLoading();
+                showErrorToast(context: context);
+              }
+
               if (state is SearchSuccessState) {}
 
               if (state is GetBrandsLoadingState) {
@@ -107,9 +127,18 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
         padding:  EdgeInsets.symmetric(horizontal: 20.w),
         child: MainButton(
           title: 'Save',
-          onTap: () {},
+          onTap: () => _bloc.add(AddBrands()),
         ),
       ),
+    );
+  }
+
+  void _goToHomePage() {
+    navigate(
+      context: context,
+      isFade: true,
+      clearPagesStack: true,
+      page: const NavBar(),
     );
   }
 }

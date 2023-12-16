@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
+import 'package:bid_express/ui/pages/manage_cars/bloc/manage_cars_bloc.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,22 +28,22 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<HomeBloc, HomeState>(
+      body: BlocConsumer<ManageCarsBloc, ManageCarsState>(
         listener: (context, state) {
-          if (state is GetUserDataLoadingState) {
+          if (state is GetCarsLoadingState) {
             LoadingView.shared.startLoading(context);
           }
 
-          if (state is GetUserDataSuccessState) {
+          if (state is GetCarsSuccessState) {
             LoadingView.shared.stopLoading();
           }
 
-          if (state is GetUserDataErrorState) {
+          if (state is GetCarsErrorState) {
             LoadingView.shared.stopLoading();
             showErrorToast(context: context, msg: state.error);
           }
 
-          if (state is GetUserDataFailureState) {
+          if (state is GetCarsFailureState) {
             LoadingView.shared.stopLoading();
             showErrorToast(context: context);
           }
@@ -130,23 +131,16 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
                           ),
                         ],
                       ),
-
-                      /// Dashboard tabs
-                      Expanded(
-                        child: Column(
-                          children: [
-                            16.verticalSpace,
-                          ],
-                        ),
-                      ),
                     ],
                   ),
+
+                  16.verticalSpace,
 
                   /// Cars
                   Positioned(
                     top: 170,
                     child: Padding(
-                      padding:  EdgeInsetsDirectional.only(start: 24.w),
+                      padding: EdgeInsetsDirectional.only(start: 24.w),
                       child: Row(
                         children: [
                           /// Car

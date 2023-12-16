@@ -56,7 +56,6 @@ class BaseRepository with Utility {
     RefreshTokenResponse _apiResponse = RefreshTokenResponse();
     final RefreshTokenRequest _refreshTokenRequest = RefreshTokenRequest();
     final _headers = {
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
     try {
@@ -66,8 +65,9 @@ class BaseRepository with Utility {
       final _response = await http.post(
         Uri.parse('${baseUrl}User/RefreshToken'),
         headers: _headers,
-        body: _refreshTokenRequest.toJson(),
+        body: json.encode(_refreshTokenRequest.toJson()),
       );
+      log(json.encode(_refreshTokenRequest.toJson()));
       log(_response.request.toString() +
           '\n' +
           _refreshTokenRequest.toJson().toString() +
@@ -79,11 +79,11 @@ class BaseRepository with Utility {
       _apiResponse = RefreshTokenResponse.fromJson(json.decode(_response.body));
       if (_apiResponse.accessToken != null) {
         await _sharedPreferenceHelper.saveStringValue(
-          key: 'token',
+          key: 'accessToken',
           value: _apiResponse.accessToken,
         );
         await _sharedPreferenceHelper.saveStringValue(
-          key: 'refresh_token',
+          key: 'refreshToken',
           value: _apiResponse.refreshToken,
         );
       }

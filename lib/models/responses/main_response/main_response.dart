@@ -1,6 +1,7 @@
 import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
 import 'package:bid_express/models/responses/car_model/car_model_response.dart';
 import 'package:bid_express/models/responses/category/category_response.dart';
+import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
 import 'package:bid_express/models/responses/login/login_response.dart';
 import 'package:bid_express/models/responses/part/part_response.dart';
 import 'package:bid_express/models/responses/part_addition/part_addition_response.dart';
@@ -69,6 +70,10 @@ class MainResponse<T> {
     } else if (json.containsKey('data') && T == List<CategoryResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CategoryResponse.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }else if (json.containsKey('data') && T == List<GetCarsResponse>) {
+      mainResponse.data = (json['data'] as List<dynamic>)
+          .map((e) => GetCarsResponse.fromJson(e as Map<String, dynamic>))
           .toList();
     } else if (json.containsKey('data') && T == List<PartResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)

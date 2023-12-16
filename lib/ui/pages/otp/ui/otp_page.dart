@@ -1,11 +1,13 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
+import 'package:bid_express/models/requests/login/login_request.dart';
 import 'package:bid_express/models/requests/signup/signup_request.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/home/ui/home_page.dart';
+import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_page_message.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_timer.dart';
@@ -96,7 +98,9 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
           }
           if (state is SignupSuccessState) {
             LoadingView.shared.stopLoading();
-            _goToAddBrands();
+            context.read<LoginBloc>().loginRequest.userName = widget.signupRequest?.userName;
+            context.read<LoginBloc>().loginRequest.password = widget.signupRequest?.password;
+            context.read<LoginBloc>().add(Login());
           }
           if (state is SignupErrorState) {
             LoadingView.shared.stopLoading();
@@ -107,108 +111,131 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
           }
         },
         builder: (context, state) {
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 40.w,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  .1.sh.verticalSpace,
+          return BlocListener<LoginBloc, LoginState>(
+            listener: (context, state) {
+              if (state is LoginLoadingState) {
+                LoadingView.shared.startLoading(context);
+              }
 
-                  /// Message
-                  const OtpPageMessage(),
+              if (state is LoginSuccessState) {
+                LoadingView.shared.stopLoading();
+                _goToAddBrands();
+              }
 
-                  32.verticalSpace,
+              if (state is LoginErrorState) {
+                LoadingView.shared.stopLoading();
+                showErrorToast(context: context, msg: state.error ?? '');
+              }
 
-                  /// Timer
-                  if (!_showTimer)
-                    OtpTimer(
-                      showTimer: _showTimer,
-                      onFinished: () async => setState(() => _showTimer = true),
-                    ),
+              if (state is LoginFailureState) {
+                LoadingView.shared.stopLoading();
+                showErrorToast(context: context);
+              }
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 40.w,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    .1.sh.verticalSpace,
 
-                  32.verticalSpace,
+                    /// Message
+                    const OtpPageMessage(),
 
-                  /// otp fields
-                  Form(
-                    key: _formKey,
-                    child: Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: PinCodeTextField(
-                        appContext: context,
-                        controller: _otpController,
-                        autoDisposeControllers: false,
-                        hintCharacter: '-',
-                        hintStyle: TextStyle(
-                          fontSize: 10.sp,
-                          color: Colors.black,
+                    32.verticalSpace,
+
+                    /// Timer
+                    if (!_showTimer)
+                      OtpTimer(
+                        showTimer: _showTimer,
+                        onFinished: () async =>
+                            setState(() => _showTimer = true),
+                      ),
+
+                    32.verticalSpace,
+
+                    /// otp fields
+                    Form(
+                      key: _formKey,
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: PinCodeTextField(
+                          appContext: context,
+                          controller: _otpController,
+                          autoDisposeControllers: false,
+                          hintCharacter: '-',
+                          hintStyle: TextStyle(
+                            fontSize: 10.sp,
+                            color: Colors.black,
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          textStyle: TextStyle(
+                            color: primaryColor.withOpacity(.8),
+                            fontWeight: FontWeight.w400,
+                          ),
+                          length: 5,
+                          obscureText: false,
+                          cursorColor: primaryColor.withOpacity(.5),
+                          animationType: AnimationType.scale,
+                          errorTextSpace: 24.w,
+                          // errorTextDirection: AppModel.shared.isArabic()
+                          //     ? TextDirection.rtl
+                          //     : TextDirection.ltr,
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderWidth: .5,
+                            inactiveBorderWidth: .5,
+                            activeBorderWidth: .5,
+                            selectedBorderWidth: 1.2,
+                            fieldWidth: 48.w,
+                            borderRadius: BorderRadius.circular(6),
+                            selectedFillColor: primaryColor.withOpacity(.5),
+                            selectedColor: primaryColor,
+                            activeColor: greyColor,
+                            inactiveColor: greyColor,
+                          ),
+                          autovalidateMode: AutovalidateMode.disabled,
+                          animationDuration: const Duration(milliseconds: 300),
+                          validator: (value) {
+                            if (value?.isEmpty ??
+                                false || (value?.length ?? 0) < 5) {
+                              return 'Enter a valid verification code';
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (val) {
+                            // _signupBloc.verifyUserRequest = VerifyUserRequest(
+                            //   password: widget.password,
+                            //   otp: _otpController.text,
+                            // );
+                          },
+                          onChanged: (String value) {},
+                          onCompleted: (val) => _onOtpSubmitted(),
+                          onSubmitted: (val) => _onOtpSubmitted(),
                         ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        textStyle: TextStyle(
-                          color: primaryColor.withOpacity(.8),
-                          fontWeight: FontWeight.w400,
-                        ),
-                        length: 5,
-                        obscureText: false,
-                        cursorColor: primaryColor.withOpacity(.5),
-                        animationType: AnimationType.scale,
-                        errorTextSpace: 24.w,
-                        // errorTextDirection: AppModel.shared.isArabic()
-                        //     ? TextDirection.rtl
-                        //     : TextDirection.ltr,
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                          borderWidth: .5,
-                          inactiveBorderWidth: .5,
-                          activeBorderWidth: .5,
-                          selectedBorderWidth: 1.2,
-                          fieldWidth: 48.w,
-                          borderRadius: BorderRadius.circular(6),
-                          selectedFillColor: primaryColor.withOpacity(.5),
-                          selectedColor: primaryColor,
-                          activeColor: greyColor,
-                          inactiveColor: greyColor,
-                        ),
-                        autovalidateMode: AutovalidateMode.disabled,
-                        animationDuration: const Duration(milliseconds: 300),
-                        validator: (value) {
-                          if (value?.isEmpty ??
-                              false || (value?.length ?? 0) < 5) {
-                            return 'Enter a valid verification code';
-                          } else {
-                            return null;
-                          }
-                        },
-                        onSaved: (val) {
-                          // _signupBloc.verifyUserRequest = VerifyUserRequest(
-                          //   password: widget.password,
-                          //   otp: _otpController.text,
-                          // );
-                        },
-                        onChanged: (String value) {},
-                        onCompleted: (val) => _onOtpSubmitted(),
-                        onSubmitted: (val) => _onOtpSubmitted(),
                       ),
                     ),
-                  ),
 
-                  14.verticalSpace,
+                    14.verticalSpace,
 
-                  /// Resend
-                  Visibility(
-                    visible: _showTimer,
-                    child: ResendCode(
-                      isResendButtonDeactivated: _isResendButtonDeactivated,
-                      onPressed: _onResendPressed,
+                    /// Resend
+                    Visibility(
+                      visible: _showTimer,
+                      child: ResendCode(
+                        isResendButtonDeactivated: _isResendButtonDeactivated,
+                        onPressed: _onResendPressed,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -268,6 +295,25 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
   }
 
   void _goToAddBrands() {
+    navigate(
+      context: context,
+      isFade: true,
+      clearPagesStack: true,
+      page: BlocProvider(
+        create: (context) => AddBrandsBloc()..add(GetBrands()),
+        child: const AddBrandsPage(),
+      ),
+    );
+  }
+
+  void _goToHomePage() {
+    // navigate(
+    //   context: context,
+    //   isFade: true,
+    //   clearPagesStack: true,
+    //   page: const NavBar(),
+    // );
+
     navigate(
       context: context,
       isFade: true,

@@ -12,8 +12,8 @@ UserAddress _$UserAddressFromJson(Map<String, dynamic> json) => UserAddress(
       city: json['city'] as String?,
       area: json['area'] as String?,
       street: json['street'] as String?,
-      longitude: json['longitude'] as double?,
-      latitude: json['latitude'] as double?,
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      latitude: (json['latitude'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$UserAddressToJson(UserAddress instance) =>

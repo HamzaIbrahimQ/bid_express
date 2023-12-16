@@ -1,5 +1,7 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/helpers/shared_preference_helper.dart';
+import 'package:bid_express/ui/pages/change_password/bloc/change_password_bloc.dart';
+import 'package:bid_express/ui/pages/change_password/ui/chnage_password.dart';
 import 'package:bid_express/ui/pages/home/ui/home_page.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
@@ -43,7 +45,7 @@ class ProfileItems extends StatelessWidget with UiUtility {
               /// Change pass
               ProfileItem(
                 title: 'Change Password',
-                onTap: () {},
+                onTap: () => _goToChangePassword(context),
               ),
 
               /// Contact admin
@@ -76,6 +78,17 @@ class ProfileItems extends StatelessWidget with UiUtility {
       page: BlocProvider(
         create: (context) => LoginBloc(),
         child: const LoginPage(),
+      ),
+    );
+  }
+
+  void _goToChangePassword(BuildContext context) {
+    navigate(
+      context: context,
+      isFromBottom: true,
+      page: BlocProvider(
+        create: (context) => ChangePasswordBloc(),
+        child: const ChangePasswordPage(),
       ),
     );
   }

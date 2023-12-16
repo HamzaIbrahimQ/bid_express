@@ -1,4 +1,3 @@
-import 'package:bid_express/models/data_models/cars/model/car_model_model.dart';
 import 'package:bid_express/models/responses/car_model/car_model_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
