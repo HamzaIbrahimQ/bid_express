@@ -300,7 +300,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                           },
                         ),
 
-                        12.verticalSpace,
+                        6.verticalSpace,
 
                         /// Mobile field
                         StatefulBuilder(
@@ -336,7 +336,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                           },
                         ),
 
-                        12.verticalSpace,
+                        6.verticalSpace,
 
                         /// Password field
                         AppTextField(
@@ -353,7 +353,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                               _bloc.signupRequest.password = val?.trim(),
                         ),
 
-                        12.verticalSpace,
+                        6.verticalSpace,
 
                         /// Confirm password field
                         AppTextField(
@@ -419,7 +419,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                       .signupRequest.addressName = val?.trim(),
                                 ),
 
-                                12.verticalSpace,
+                                6.verticalSpace,
 
                                 /// City field
                                 AppTextField(
@@ -433,7 +433,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                       _bloc.signupRequest.city = val?.trim(),
                                 ),
 
-                                12.verticalSpace,
+                                6.verticalSpace,
 
                                 /// Area field
                                 AppTextField(
@@ -447,7 +447,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                       _bloc.signupRequest.area = val?.trim(),
                                 ),
 
-                                12.verticalSpace,
+                                6.verticalSpace,
 
                                 /// Street field
                                 AppTextField(
@@ -461,7 +461,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                       _bloc.signupRequest.street = val?.trim(),
                                 ),
 
-                                12.verticalSpace,
+                                6.verticalSpace,
 
                                 /// Building field
                                 AppTextField(
