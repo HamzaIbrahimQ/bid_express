@@ -34,6 +34,7 @@ class _MyModelsTabState extends State<MyModelsTab> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     _bloc = context.read<AddBrandsBloc>();
     return Column(
       children: [

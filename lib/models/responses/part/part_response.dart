@@ -8,12 +8,14 @@ class PartResponse {
   final String? name;
   final String? nameEn;
   final String? imageUrl;
+  bool? isSelected;
 
   PartResponse({
     this.id,
     this.name,
     this.nameEn,
     this.imageUrl,
+    this.isSelected,
   });
 
   factory PartResponse.fromJson(Map<String, dynamic> json) =>

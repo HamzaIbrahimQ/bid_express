@@ -1,5 +1,6 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/responses/category/category_response.dart';
+import 'package:bid_express/models/responses/part/part_response.dart';
 import 'package:bid_express/models/responses/selected_category/selected_category.dart';
 import 'package:bid_express/ui/pages/manage_cars/bloc/manage_cars_bloc.dart';
 import 'package:bid_express/ui/pages/manage_parts/bloc/manage_parts_bloc.dart';
@@ -10,15 +11,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CategoryWidget extends StatelessWidget with UiUtility {
-  final CategoryResponse category;
+class PartWidget extends StatelessWidget with UiUtility {
+  final PartResponse part;
 
-  const CategoryWidget({super.key, required this.category});
+  const PartWidget({super.key, required this.part});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _goToPartsPage(context),
+      onTap: () => {},
       borderRadius: BorderRadius.circular(6.r),
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
       child: Container(
@@ -63,7 +64,7 @@ class CategoryWidget extends StatelessWidget with UiUtility {
           children: [
             /// Category image
             SvgPicture.network(
-              category.imageUrl ?? '',
+              part.imageUrl ?? '',
               width: 74.w,
               height: 118.h,
               fit: BoxFit.contain,
@@ -80,7 +81,7 @@ class CategoryWidget extends StatelessWidget with UiUtility {
             12.verticalSpace,
 
             Text(
-              category.nameEn ?? '',
+              part.nameEn ?? '',
               style: TextStyle(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
@@ -93,28 +94,4 @@ class CategoryWidget extends StatelessWidget with UiUtility {
     );
   }
 
-  void _goToPartsPage(BuildContext context) {
-    navigate(
-      context: context,
-      page: BlocProvider(
-        create: (context) =>
-            ManagePartsBloc()..add(GetParts(categoryId: category.id ?? 0)),
-        child: ManagePartsPage(
-          category: category,
-          selectedPartsIds: _getSelectedCategory(context)?.partIdList,
-        ),
-      ),
-    );
-  }
-
-  SelectedCategory? _getSelectedCategory(BuildContext context) {
-    try {
-      return context
-          .read<ManageCarsBloc>()
-          .selectedCategories
-          .firstWhere((element) => element.sellerCategoryId == category.id);
-    } catch (e) {
-      return null;
-    }
-  }
 }
