@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:bid_express/models/requests/update_parts/update_parts_request.dart';
 import 'package:bid_express/models/responses/part/part_response.dart';
-import 'package:bid_express/models/responses/selected_category/selected_category.dart';
 import 'package:bid_express/ui/pages/manage_parts/bloc/manage_parts_repo.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:bloc/bloc.dart';
@@ -16,6 +16,7 @@ class ManagePartsBloc extends Bloc<ManagePartsEvent, ManagePartsState>
   final ManagePartsRepository _managePartsRepository = ManagePartsRepository();
   final List<PartResponse> parts = [];
   List<int?>? selectedPartsIds;
+  UpdatePartsRequest? updatePartsRequest;
 
   ManagePartsBloc() : super(ManagePartsInitial()) {
     on<GetParts>((event, emit) {
@@ -38,25 +39,33 @@ class ManagePartsBloc extends Bloc<ManagePartsEvent, ManagePartsState>
       emit.call(GetPartsFailureState());
     });
 
-    // on<GetSelectedParts>((event, emit) {
-    //   _getParts(categoryId: event.categoryId);
-    // });
-    //
-    // on<GetSelectedPartsLoading>((event, emit) {
-    //   emit.call(GetSelectedPartsLoadingState());
-    // });
-    //
-    // on<GetSelectedPartsSuccess>((event, emit) {
-    //   emit.call(GetSelectedPartsSuccessState());
-    // });
-    //
-    // on<GetSelectedPartsError>((event, emit) {
-    //   emit.call(GetSelectedPartsErrorState(error: event.error));
-    // });
-    //
-    // on<GetSelectedPartsFailure>((event, emit) {
-    //   emit.call(GetSelectedPartsFailureState());
-    // });
+    on<AddParts>((event, emit) {
+      _addParts(categoryId: event.categoryId);
+    });
+
+    on<AddPartsLoading>((event, emit) {
+      emit.call(AddPartsLoadingState());
+    });
+
+    on<AddPartsSuccess>((event, emit) {
+      emit.call(AddPartsLoadingState());
+    });
+
+    on<AddPartsError>((event, emit) {
+      emit.call(AddPartsErrorState(error: event.error));
+    });
+
+    on<AddPartsFailure>((event, emit) {
+      emit.call(AddPartsFailureState());
+    });
+
+    on<SelectUnselectPart>((event, emit) {
+      _selectUnselectPart(partId: event.partId);
+    });
+
+    on<SelectUnselectPartSuccess>((event, emit) {
+      emit.call(SelectUnselectPartSuccessState());
+    });
   }
 
   Future<void> _getParts({required int categoryId}) async {
@@ -90,6 +99,41 @@ class ManagePartsBloc extends Bloc<ManagePartsEvent, ManagePartsState>
     }
   }
 
+  Future<void> _addParts({required int categoryId}) async {
+    if (updatePartsRequest != null) return;
+    add(AddPartsLoading());
+    final bool _isConnected = await checkInternetConnection();
+    if (_isConnected) {
+      try {
+        // internet connection available
+        _managePartsRepository
+            .addParts(
+                categoryId: categoryId, updatePartsRequest: updatePartsRequest!)
+            .then((value) {
+          if (value?.isSuccess ?? false) {
+            if (value?.data.isNotEmpty ?? false) {
+              parts.clear();
+              parts.addAll(value?.data);
+              _checkSelectedParts();
+            }
+            add(AddPartsSuccess());
+          } else {
+            add(AddPartsError(error: value?.errorMessage));
+          }
+        }).catchError((e) {
+          errorLog(e.toString());
+          add(AddPartsError(error: e.toString()));
+        });
+      } catch (error) {
+        errorLog(error.toString());
+        add(AddPartsError(error: error.toString()));
+      }
+    } else {
+      // no internet connection
+      add(AddPartsFailure());
+    }
+  }
+
   void _checkSelectedParts() {
     if (selectedPartsIds != null && (selectedPartsIds?.isNotEmpty ?? false)) {
       parts.forEach((element) {
@@ -98,6 +142,11 @@ class ManagePartsBloc extends Bloc<ManagePartsEvent, ManagePartsState>
         }
       });
     }
+  }
+
+  void _selectUnselectPart({required int partId}) {
+    parts.firstWhere((element) => element.id == partId).isSelected = true;
+    add(SelectUnselectPartSuccess());
   }
 
 // Future<void> _getSelectedParts() async {

@@ -17,15 +17,16 @@ class GetPartsErrorState extends ManagePartsState {
 
 class GetPartsFailureState extends ManagePartsState {}
 
+class AddPartsLoadingState extends ManagePartsState {}
 
-class GetSelectedPartsLoadingState extends ManagePartsState {}
+class AddPartsSuccessState extends ManagePartsState {}
 
-class GetSelectedPartsSuccessState extends ManagePartsState {}
-
-class GetSelectedPartsErrorState extends ManagePartsState {
+class AddPartsErrorState extends ManagePartsState {
   final String? error;
 
-  GetSelectedPartsErrorState({this.error});
+  AddPartsErrorState({this.error});
 }
 
-class GetSelectedPartsFailureState extends ManagePartsState {}
+class AddPartsFailureState extends ManagePartsState {}
+
+class SelectUnselectPartSuccessState extends ManagePartsState {}

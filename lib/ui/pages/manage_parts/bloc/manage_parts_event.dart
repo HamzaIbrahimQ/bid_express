@@ -21,21 +21,28 @@ class GetPartsError extends ManagePartsEvent {
 
 class GetPartsFailure extends ManagePartsEvent {}
 
-
-class GetSelectedParts extends ManagePartsEvent {
+class AddParts extends ManagePartsEvent {
   final int categoryId;
 
-  GetSelectedParts({required this.categoryId});
+  AddParts({required this.categoryId});
 }
 
-class GetSelectedPartsLoading extends ManagePartsEvent {}
+class AddPartsLoading extends ManagePartsEvent {}
 
-class GetSelectedPartsSuccess extends ManagePartsEvent {}
+class AddPartsSuccess extends ManagePartsEvent {}
 
-class GetSelectedPartsError extends ManagePartsEvent {
+class AddPartsError extends ManagePartsEvent {
   final String? error;
 
-  GetSelectedPartsError({this.error});
+  AddPartsError({this.error});
 }
 
-class GetSelectedPartsFailure extends ManagePartsEvent {}
+class AddPartsFailure extends ManagePartsEvent {}
+
+class SelectUnselectPart extends ManagePartsEvent {
+  final int partId;
+
+  SelectUnselectPart({required this.partId});
+}
+
+class SelectUnselectPartSuccess extends ManagePartsEvent {}

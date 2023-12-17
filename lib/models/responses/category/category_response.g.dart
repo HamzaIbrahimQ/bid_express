@@ -12,6 +12,7 @@ CategoryResponse _$CategoryResponseFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       nameEn: json['nameEn'] as String?,
       imageUrl: json['imageUrl'] as String?,
+      isSelected: json['isSelected'] as bool?,
     );
 
 Map<String, dynamic> _$CategoryResponseToJson(CategoryResponse instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$CategoryResponseToJson(CategoryResponse instance) =>
       'name': instance.name,
       'nameEn': instance.nameEn,
       'imageUrl': instance.imageUrl,
+      'isSelected': instance.isSelected,
     };

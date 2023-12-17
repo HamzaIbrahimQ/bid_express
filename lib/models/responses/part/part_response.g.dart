@@ -11,6 +11,7 @@ PartResponse _$PartResponseFromJson(Map<String, dynamic> json) => PartResponse(
       name: json['name'] as String?,
       nameEn: json['nameEn'] as String?,
       imageUrl: json['imageUrl'] as String?,
+      isSelected: json['isSelected'] as bool?,
     );
 
 Map<String, dynamic> _$PartResponseToJson(PartResponse instance) =>
@@ -19,4 +20,5 @@ Map<String, dynamic> _$PartResponseToJson(PartResponse instance) =>
       'name': instance.name,
       'nameEn': instance.nameEn,
       'imageUrl': instance.imageUrl,
+      'isSelected': instance.isSelected,
     };
