@@ -619,7 +619,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     ImageSource? source,
   }) async {
     final XFile? pickedFile = await ImagePicker().pickImage(
-      source: source ?? ImageSource.gallery,
+      source: source ?? ImageSource.camera,
       imageQuality: 40,
     );
     if (pickedFile?.path.isNotEmpty ?? false) {
