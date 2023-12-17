@@ -24,7 +24,9 @@ class PartWidget extends StatelessWidget with UiUtility {
       },
       builder: (context, state) {
         return InkWell(
-          onTap: () => {},
+          onTap: () => context
+              .read<ManagePartsBloc>()
+              .add(SelectUnselectPart(partId: part.id ?? 0)),
           borderRadius: BorderRadius.circular(6.r),
           overlayColor: const MaterialStatePropertyAll(Colors.transparent),
           child: Container(
