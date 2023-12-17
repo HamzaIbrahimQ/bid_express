@@ -93,5 +93,4 @@ class PartWidget extends StatelessWidget with UiUtility {
       ),
     );
   }
-
 }
