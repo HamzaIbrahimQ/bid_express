@@ -165,7 +165,7 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
         // internet connection available
         _manageCarsRepository
             .getSelectedCategories(modelId: modelId)
-            .then((value) async {
+            .then((value) {
           if (value?.isSuccess ?? false) {
             if (value?.data.isNotEmpty ?? false) {
               selectedCategories.clear();
