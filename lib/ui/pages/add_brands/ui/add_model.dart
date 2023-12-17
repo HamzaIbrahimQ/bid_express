@@ -21,7 +21,6 @@ class AddModelPage extends StatefulWidget {
 
 class _AddModelPageState extends State<AddModelPage>
     with UiUtility, TickerProviderStateMixin {
-
   late TabController _tabController;
 
   @override
@@ -88,12 +87,35 @@ class _AddModelPageState extends State<AddModelPage>
                 );
               },
             ),
-            Text(
-              'Available',
-              style: TextStyle(
-                color: secondaryColor,
-                fontSize: 12.sp,
-              ),
+            BlocConsumer<AddBrandsBloc, AddBrandsState>(
+              listener: (context, state) {
+                if (state is GetModelsLoadingState) {
+                  LoadingView.shared.startLoading(context);
+                }
+
+                if (state is GetModelsSuccessState) {
+                  LoadingView.shared.stopLoading();
+                }
+
+                if (state is GetModelsErrorState) {
+                  LoadingView.shared.stopLoading();
+                  showErrorToast(context: context, msg: state.error);
+                }
+
+                if (state is GetModelsFailureState) {
+                  LoadingView.shared.stopLoading();
+                  showErrorToast(context: context);
+                }
+              },
+              builder: (context, state) {
+                return Text(
+                  'Available (${widget.brand.models?.length ?? 0})',
+                  style: TextStyle(
+                    color: secondaryColor,
+                    fontSize: 12.sp,
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -101,7 +123,10 @@ class _AddModelPageState extends State<AddModelPage>
       body: PopScope(
         canPop: true,
         onPopInvoked: (pop) {
-          context.read<AddBrandsBloc>().brands?.firstWhere((element) => element.id == widget.brand.id)
+          context
+              .read<AddBrandsBloc>()
+              .brands
+              ?.firstWhere((element) => element.id == widget.brand.id)
             ?..searchList = null
             ..myModelsSearchList = null;
           return;
