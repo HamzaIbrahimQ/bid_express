@@ -24,8 +24,8 @@ if (flutterVersionName == null) {
 
 
 android {
-    namespace "com.bidexpress.app"
-    compileSdkVersion 33
+    namespace "com.bidExpress.app"
+    compileSdk 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -42,8 +42,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.bidexpress.app"
-        minSdkVersion 20
+        applicationId "com.bidExpress.app"
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -67,6 +67,8 @@ dependencies {
 //    implementation 'com.google.android.gms:play-services-location:19.0.1'
 //    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 //    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
 }

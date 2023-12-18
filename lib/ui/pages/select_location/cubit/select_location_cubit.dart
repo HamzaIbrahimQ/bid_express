@@ -60,6 +60,7 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
       currentLocation = LatLng(value.latitude, value.longitude);
       emit(GetCurrentLocationSuccessState());
     }).onError((error, stackTrace) {
+      log(error.toString());
       emit(GetCurrentLocationErrorState(isService: true));
     });
   }

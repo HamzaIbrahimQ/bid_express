@@ -125,8 +125,8 @@ class SelectLocationPageState extends State<SelectLocationPage>
               GoogleMap(
                 mapType: MapType.normal,
                 initialCameraPosition: _cameraPosition,
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
+                myLocationEnabled: false,
+                myLocationButtonEnabled: false,
                 mapToolbarEnabled: true,
                 padding: EdgeInsets.only(top: .71.sh, bottom: .1.sh),
                 markers: _markers,

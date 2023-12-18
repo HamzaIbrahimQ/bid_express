@@ -26,7 +26,7 @@ dependencies:
   shared_preferences:
   page_transition:
   intl:
-  google_maps_flutter: ^2.5.0
+  google_maps_flutter:
   geolocator:
   permission_handler:
   connectivity_plus:

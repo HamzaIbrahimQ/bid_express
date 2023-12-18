@@ -1,4 +1,4 @@
-package com.bidexpress.app.app
+package com.bidExpress.app.app
 
 import io.flutter.embedding.android.FlutterActivity
 
