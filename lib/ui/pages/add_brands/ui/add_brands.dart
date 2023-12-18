@@ -101,8 +101,11 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
                             (_bloc.searchList == null))
                     ? const NoResult()
                     : ListView.builder(
-                        padding:
-                            EdgeInsetsDirectional.only(start: 24.w, end: 24.w),
+                        padding: EdgeInsetsDirectional.only(
+                          start: 24.w,
+                          end: 24.w,
+                          bottom: 116.h,
+                        ),
                         itemCount: (_bloc.searchList != null)
                             ? _bloc.searchList?.length ?? 0
                             : _bloc.brands?.length ?? 0,
@@ -124,7 +127,7 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: MainButton(
           title: 'Save',
           onTap: () => _bloc.add(AddBrands()),

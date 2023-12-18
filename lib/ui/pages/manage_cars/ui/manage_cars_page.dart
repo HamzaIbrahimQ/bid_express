@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
@@ -71,7 +72,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
                           /// Bg
                           Container(
                             width: 1.sw,
-                            height: .25.sh,
+                            height: .2.sh,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                 fit: BoxFit.cover,
@@ -196,25 +197,27 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
                                 const SizedBox.shrink(),
 
                                 /// Categories
-                                GridView.builder(
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 24.w,
-                                    vertical: 6.h,
+                                Expanded(
+                                  child: GridView.builder(
+                                    // shrinkWrap: true,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 24.w,
+                                      vertical: 6.h,
+                                    ),
+                                    itemCount: _bloc.categories.length,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 1.0,
+                                      mainAxisSpacing: 16.h,
+                                      crossAxisSpacing: 16.w,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      return CategoryWidget(
+                                        category: _bloc.categories[index],
+                                      );
+                                    },
                                   ),
-                                  itemCount: _bloc.categories.length,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 1.0,
-                                    mainAxisSpacing: 16.h,
-                                    crossAxisSpacing: 16.w,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    return CategoryWidget(
-                                      category: _bloc.categories[index],
-                                    );
-                                  },
                                 ),
                               ],
                             );
@@ -228,7 +231,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
 
                   /// Brands and models
                   Positioned(
-                    top: 160,
+                    top: 115,
                     child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
                       listener: (context, state) {
                         if (state is UpdateSelectedBrandState) {
@@ -300,6 +303,14 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
           );
         },
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Padding(
+      //   padding: EdgeInsets.symmetric(horizontal: 24.w),
+      //   child: MainButton(
+      //     onTap: () {},
+      //     title: 'save',
+      //   ),
+      // ),
     );
   }
 

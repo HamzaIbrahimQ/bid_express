@@ -1,6 +1,7 @@
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/models/responses/category/category_response.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/widgets/no_result.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/widgets/search_text_field.dart';
 import 'package:bid_express/ui/pages/manage_parts/bloc/manage_parts_bloc.dart';
 import 'package:bid_express/ui/pages/manage_parts/ui/widgets/part_widget.dart';
@@ -54,10 +55,14 @@ class _ManagePartsPageState extends State<ManagePartsPage> with UiUtility {
       body: Column(
         children: [
           /// Search field
-          SearchTextField(
-            controller: _controller,
-            focusNode: _focusNode,
-            onChange: (v) => {},
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: SearchTextField(
+              controller: _controller,
+              focusNode: _focusNode,
+              hint: 'Part name',
+              onChange: (v) => {},
+            ),
           ),
 
           16.verticalSpace,
@@ -85,37 +90,41 @@ class _ManagePartsPageState extends State<ManagePartsPage> with UiUtility {
                 }
               },
               builder: (context, state) {
-                return GridView.builder(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 24.w,
-                    vertical: 6.h,
-                  ),
-                  itemCount: _bloc.parts.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.0,
-                    mainAxisSpacing: 16.h,
-                    crossAxisSpacing: 16.w,
-                  ),
-                  itemBuilder: (context, index) {
-                    return PartWidget(part: _bloc.parts[index]);
-                  },
-                );
+                return (!(state is GetPartsLoadingState) && _bloc.parts.isEmpty)
+                    ? const NoResult(
+                        title: 'No available parts',
+                      )
+                    : GridView.builder(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24.w,
+                          vertical: 6.h,
+                        ),
+                        itemCount: _bloc.parts.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1.0,
+                          mainAxisSpacing: 16.h,
+                          crossAxisSpacing: 16.w,
+                        ),
+                        itemBuilder: (context, index) {
+                          return PartWidget(part: _bloc.parts[index]);
+                        },
+                      );
               },
             ),
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: MainButton(
-          title: 'Save',
-          onTap: () => _bloc.add(
-            AddParts(categoryId: widget.category.id ?? 0),
-          ),
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Padding(
+      //   padding: EdgeInsets.symmetric(horizontal: 20.w),
+      //   child: MainButton(
+      //     title: 'Save',
+      //     onTap: () => _bloc.add(
+      //       AddParts(categoryId: widget.category.id ?? 0),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

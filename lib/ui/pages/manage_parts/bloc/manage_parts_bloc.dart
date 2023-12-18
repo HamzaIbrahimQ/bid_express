@@ -100,7 +100,7 @@ class ManagePartsBloc extends Bloc<ManagePartsEvent, ManagePartsState>
   }
 
   Future<void> _addParts({required int categoryId}) async {
-    if (updatePartsRequest != null) return;
+    if (updatePartsRequest == null) return;
     add(AddPartsLoading());
     final bool _isConnected = await checkInternetConnection();
     if (_isConnected) {
@@ -145,7 +145,7 @@ class ManagePartsBloc extends Bloc<ManagePartsEvent, ManagePartsState>
   }
 
   void _selectUnselectPart({required int partId}) {
-    parts.firstWhere((element) => element.id == partId).isSelected = true;
+    parts.firstWhere((element) => element.id == partId).isSelected = !(parts.firstWhere((element) => element.id == partId).isSelected ?? false);
     add(SelectUnselectPartSuccess());
   }
 

@@ -62,8 +62,7 @@ class SetLocationOnMap extends StatelessWidget with UiUtility {
           child: const SelectLocationPage(),
         ),
         then: (val) {
-          if (val != null) {
-            val as LocationData;
+          if (val != null && val is LocationData) {
             onData(val);
           }
         });

@@ -44,7 +44,7 @@ class PartWidget extends StatelessWidget with UiUtility {
                       width: 2.w,
                       color: primaryColor,
                     )
-                  : Border.all(width: 0),
+                  : Border.all(width: 0, color: Colors.white),
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(0, 10),
