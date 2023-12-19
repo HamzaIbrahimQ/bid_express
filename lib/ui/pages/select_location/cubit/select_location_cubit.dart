@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
+import 'package:location/location.dart' as location;
 
 part 'select_location_state.dart';
 
@@ -56,13 +57,15 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
     if (isFromInit ?? false) {
       emit(GetSelectedLocationDataLoadingState());
     }
-    await Geolocator.getCurrentPosition().then((value) {
-      currentLocation = LatLng(value.latitude, value.longitude);
-      emit(GetCurrentLocationSuccessState());
-    }).onError((error, stackTrace) {
-      log(error.toString());
+    final _serviceEnabled = await location.Location().requestService();
+    if (_serviceEnabled) {
+      await Geolocator.getCurrentPosition().then((value) {
+        currentLocation = LatLng(value.latitude, value.longitude);
+        emit(GetCurrentLocationSuccessState());
+      });
+    } else {
       emit(GetCurrentLocationErrorState(isService: true));
-    });
+    }
   }
 
   Future<void> getSelectedLocationData({bool? isCurrentLocation}) async {

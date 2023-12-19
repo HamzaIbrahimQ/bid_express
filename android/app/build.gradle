@@ -43,14 +43,11 @@ android {
 
     defaultConfig {
         applicationId "com.bidExpress.app"
-        minSdkVersion 20
-        targetSdkVersion 28
-        multiDexEnabled true
+        minSdkVersion 23
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
 
     buildTypes {
         release {
@@ -66,12 +63,12 @@ flutter {
 }
 
 dependencies {
+//    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+//    implementation 'com.google.android.gms:play-services-location:19.0.1'
+//    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+//    implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    api 'androidx.test:core:1.2.0'
-    testImplementation 'com.google.android.gms:play-services-maps:17.0.0'
+
 }
