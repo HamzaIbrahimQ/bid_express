@@ -2,6 +2,13 @@
 class Assets {
   Assets._();
 
+  static const String fontsMontserratBold = 'assets/fonts/Montserrat-Bold.ttf';
+  static const String fontsMontserratExtraBold = 'assets/fonts/Montserrat-ExtraBold.ttf';
+  static const String fontsMontserratMedium = 'assets/fonts/Montserrat-Medium.ttf';
+  static const String fontsMontserratRegular = 'assets/fonts/Montserrat-Regular.ttf';
+  static const String fontsMontserratSemiBold = 'assets/fonts/Montserrat-SemiBold.ttf';
+  static const String fontsSofiaProMedium = 'assets/fonts/Sofia-Pro-Medium.ttf';
+  static const String fontsSofiaProSoftBold = 'assets/fonts/Sofia-Pro-Soft-Bold.ttf';
   static const String iconsAdd = 'assets/icons/add.svg';
   static const String iconsBack = 'assets/icons/back.svg';
   static const String iconsCamera = 'assets/icons/camera.svg';

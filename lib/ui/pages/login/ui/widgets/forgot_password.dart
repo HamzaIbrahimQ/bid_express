@@ -23,6 +23,7 @@ class ForgotPassword extends StatelessWidget with UiUtility {
           child: Text(
             'Forgot your password?',
             style: TextStyle(
+              fontFamily: 'SofiaPro',
               color: const Color(0xFF263C65),
               fontSize: 11.sp,
             ),

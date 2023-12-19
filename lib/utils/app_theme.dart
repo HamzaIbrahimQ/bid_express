@@ -6,12 +6,12 @@ class AppTheme {
   ThemeData appTheme() {
     final base = ThemeData.light();
     return base.copyWith(
-      useMaterial3: true,
       scaffoldBackgroundColor: bgColor,
       primaryColor: primaryColor,
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: primaryColor,
       ),
+
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           fixedSize: MaterialStateProperty.all(Size(double.infinity, .073.sh)),
@@ -75,7 +75,10 @@ class AppTheme {
           ),
         ),
       ),
+
       textTheme: TextTheme(
+
+
         /// Headline
         headlineLarge: TextStyle(
           fontFamily: 'SofiaProSoft',
