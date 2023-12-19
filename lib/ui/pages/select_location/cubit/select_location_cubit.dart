@@ -54,11 +54,12 @@ class SelectLocationCubit extends Cubit<SelectLocationState> with Utility {
   }
 
   Future<void> getCurrentLocation({bool? isFromInit}) async {
-    if (isFromInit ?? false) {
-      emit(GetSelectedLocationDataLoadingState());
-    }
+
     final _serviceEnabled = await location.Location().requestService();
     if (_serviceEnabled) {
+      if (isFromInit ?? false) {
+        emit(GetSelectedLocationDataLoadingState());
+      }
       await Geolocator.getCurrentPosition().then((value) {
         currentLocation = LatLng(value.latitude, value.longitude);
         emit(GetCurrentLocationSuccessState());

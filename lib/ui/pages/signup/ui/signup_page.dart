@@ -247,9 +247,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                       }
 
                       if (state is GetCurrentLocationErrorState) {
-                        if (state.isService ?? false) {
-                          LoadingView.shared.stopLoading();
-                        }
+                        // if (state.isService ?? false) {
+                        //   LoadingView.shared.stopLoading();
+                        // }
                         _showLocationPermissionError(state.isService);
                       }
 
