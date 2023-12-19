@@ -58,7 +58,7 @@ class SetLocationOnMap extends StatelessWidget with UiUtility {
     navigate(
         context: context,
         page: BlocProvider(
-          create: (context) => SelectLocationCubit()..checkLocationPermission(),
+          create: (context) => SelectLocationCubit(),
           child: const SelectLocationPage(),
         ),
         then: (val) {
