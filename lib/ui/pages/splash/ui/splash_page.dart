@@ -9,6 +9,7 @@ import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/ui/pages/splash/bloc/splash_bloc.dart';
 import 'package:bid_express/ui/pages/splash/ui/widgets/logo.dart';
 import 'package:bid_express/ui/pages/splash/ui/widgets/splash_progress_indicator.dart';
+import 'package:bid_express/ui/tablet/pages/seller_decision/ui/seller_decision_page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,26 +19,7 @@ class SplashPage extends StatelessWidget with UiUtility {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: splashBgColor,
-      body: BlocListener<SplashBloc, SplashState>(
-        listener: (context, state) {
-          if (state is GetInitValuesSuccessState) {
-            _openApp(
-                context: context,
-                accessToken: state.accessToken,
-                isFirstRun: state.isFirstRun);
-          }
-        },
-        child: const Stack(
-          fit: StackFit.expand,
-          children: [
-            SplashLogo(),
-            SplashProgressIndicator(),
-          ],
-        ),
-      ),
-    );
+    return SellerDecisionPage();
   }
 
   void _openApp({
