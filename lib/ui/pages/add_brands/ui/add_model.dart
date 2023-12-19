@@ -89,21 +89,13 @@ class _AddModelPageState extends State<AddModelPage>
             ),
             BlocConsumer<AddBrandsBloc, AddBrandsState>(
               listener: (context, state) {
-                if (state is GetModelsLoadingState) {
-                  LoadingView.shared.startLoading(context);
-                }
-
-                if (state is GetModelsSuccessState) {
-                  LoadingView.shared.stopLoading();
-                }
+                if (state is GetModelsSuccessState) {}
 
                 if (state is GetModelsErrorState) {
-                  LoadingView.shared.stopLoading();
                   showErrorToast(context: context, msg: state.error);
                 }
 
                 if (state is GetModelsFailureState) {
-                  LoadingView.shared.stopLoading();
                   showErrorToast(context: context);
                 }
               },
