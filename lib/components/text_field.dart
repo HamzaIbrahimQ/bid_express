@@ -245,10 +245,9 @@ class AppTextField extends StatelessWidget {
                         Theme.of(context).textTheme.labelMedium?.copyWith(
                             color: hintTextColor ?? secondaryColor,
                             fontSize: hintTextColor != null ? 11.sp : 11.sp),
-                    errorStyle: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Colors.red,fontSize: 0),
+                    errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.red,
+                        fontSize: (isPassword ?? false) ? 10.sp : 0),
                     suffixIcon: (suffixWidget != null)
                         ? suffixWidget
                         : (isPassword ?? false)
