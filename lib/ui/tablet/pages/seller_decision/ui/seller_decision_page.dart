@@ -4,6 +4,7 @@ import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/ui/pages/splash/ui/widgets/logo.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -79,6 +80,15 @@ class SellerDecisionPage extends StatelessWidget with UiUtility {
                         title: 'Seller Reject',
                         color: redColor,
                         onTap: () {},
+                      ),
+
+                      16.verticalSpace,
+
+                      /// Close app button
+                      MainButton(
+                        title: 'Close app',
+                        color: greyColor,
+                        onTap: () => SystemNavigator.pop(),
                       ),
                     ],
                   ),
