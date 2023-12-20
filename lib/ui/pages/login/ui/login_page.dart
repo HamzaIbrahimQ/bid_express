@@ -5,15 +5,13 @@ import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
-import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
-import 'package:bid_express/ui/pages/home/ui/home_page.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/country_code.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/dont_have_account.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/forgot_password.dart';
-import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +61,25 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
   Widget build(BuildContext context) {
     _bloc = context.read<LoginBloc>();
     return Scaffold(
-      appBar: getAppBar(context: context, title: 'Login'),
+      appBar: getAppBar(
+        context: context,
+        title: 'login'.tr(),
+        actions: [
+          /// Change language
+          Padding(
+            padding: EdgeInsetsDirectional.only(end: 8.w),
+            child: IconButton(
+              onPressed: () => _changeLang(),
+              tooltip: 'changeLang'.tr(),
+              icon: Icon(
+                Icons.language,
+                size: 26.w,
+                color: primaryColor,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginLoadingState) {
@@ -111,8 +127,8 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
                             child: AppTextField(
                               controller: _mobileCont,
                               focusNode: _mobileFoc,
-                              title: 'Mobile number',
-                              hint: 'Enter Mobile Number',
+                              title: 'mobileNumber'.tr(),
+                              hint: 'enterMobileNumber'.tr(),
                               regex: mobileRegex,
                               isMobileNumber: true,
                               prefixWidget: CountryCodeWidget(
@@ -141,8 +157,8 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
                         child: AppTextField(
                           controller: _passCont,
                           focusNode: _passFoc,
-                          title: 'Password',
-                          hint: 'Enter Password',
+                          title: 'password'.tr(),
+                          hint: 'enterPassword'.tr(),
                           isRequired: true,
                           isPassword: true,
                           isObscure: true,
@@ -166,11 +182,11 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
 
                   /// Login button
                   MainButton(
-                    title: 'Login',
+                    title: 'login'.tr(),
                     onTap: () => _validate(),
                   ),
 
-                  .17.sh.verticalSpace,
+                  16.verticalSpace,
 
                   /// Dont have account
                   DontHaveAccount(),
@@ -224,5 +240,13 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
         child: const AddBrandsPage(),
       ),
     );
+  }
+
+  void _changeLang() {
+    if (context.locale.languageCode == 'en') {
+      context.setLocale(const Locale('ar', 'JO'));
+    } else {
+      context.setLocale(const Locale('en', 'US'));
+    }
   }
 }

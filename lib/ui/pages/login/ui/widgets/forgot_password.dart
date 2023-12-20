@@ -1,6 +1,7 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/ui/pages/change_password/ui/chnage_password.dart';
 import 'package:bid_express/utils/ui_utility.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,7 +22,7 @@ class ForgotPassword extends StatelessWidget with UiUtility {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w),
           child: Text(
-            'Forgot your password?',
+            'forgotPassword'.tr(),
             style: TextStyle(
               fontFamily: 'SofiaPro',
               color: const Color(0xFF263C65),

@@ -1,3 +1,11 @@
 {
-  "title": "العنوان"
+  "changeLang": "تغيير اللغه",
+  "login": "تسجيل الدخول",
+  "mobileNumber": "رقم الهاتف",
+  "enterMobileNumber": "ادخل رقم الهاتف",
+  "password": "كلمة السر",
+  "enterPassword": "ادخل كلمة السر",
+  "dontHaveAccount": "لا تمتلك حسابا بعد؟",
+  "signUp": "انشا حساب",
+  "forgotPassword": "نسيت كلمة السر؟"
 }

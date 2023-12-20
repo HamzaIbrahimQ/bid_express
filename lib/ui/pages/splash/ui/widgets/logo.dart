@@ -14,9 +14,7 @@ class SplashLogo extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: SvgPicture.asset(
-              'assets/imgs/logo.svg'
-            ),
+            child: SvgPicture.asset('assets/imgs/logo.svg'),
           ),
           Padding(
             padding: EdgeInsetsDirectional.only(

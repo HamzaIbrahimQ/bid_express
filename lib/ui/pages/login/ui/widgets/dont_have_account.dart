@@ -5,6 +5,7 @@ import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit
 import 'package:bid_express/ui/pages/signup/bloc/signup_bloc.dart';
 import 'package:bid_express/ui/pages/signup/ui/signup_page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,16 +31,16 @@ class DontHaveAccount extends StatelessWidget with UiUtility {
             child: RichText(
               text: TextSpan(
                 style: TextStyle(fontSize: 12.sp),
-                children: const [
+                children: [
                   TextSpan(
-                    text: "Don't Have An Account? ",
-                    style: TextStyle(
+                    text: 'dontHaveAccount'.tr(),
+                    style: const TextStyle(
                       color: secondaryColor,
                     ),
                   ),
                   TextSpan(
-                    text: 'Sign Up',
-                    style: TextStyle(
+                    text: 'signUp'.tr(),
+                    style: const TextStyle(
                       color: secondaryColor,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,

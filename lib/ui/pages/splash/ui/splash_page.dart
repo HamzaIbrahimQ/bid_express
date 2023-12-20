@@ -29,12 +29,15 @@ class SplashPage extends StatelessWidget with UiUtility {
                 isFirstRun: state.isFirstRun);
           }
         },
-        child: const Stack(
-          fit: StackFit.expand,
-          children: [
-            SplashLogo(),
-            SplashProgressIndicator(),
-          ],
+        child: const Directionality(
+          textDirection: TextDirection.ltr,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              SplashLogo(),
+              SplashProgressIndicator(),
+            ],
+          ),
         ),
       ),
     );

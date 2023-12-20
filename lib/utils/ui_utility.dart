@@ -17,6 +17,7 @@ mixin UiUtility {
     VoidCallback? onBackPressed,
     Color? backArrowColor,
     PreferredSizeWidget? bottomWidget,
+    List<Widget>? actions,
   }) {
     return AppBar(
       forceMaterialTransparency: appBarColor == null,
@@ -37,6 +38,7 @@ mixin UiUtility {
       ),
       centerTitle: true,
       leadingWidth: hasBackIcon ?? false ? 72.w : 0,
+      actions: actions,
       leading: hasBackIcon == true
           ? IconButton(
               onPressed: () {
