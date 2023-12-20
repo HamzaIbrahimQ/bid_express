@@ -29,5 +29,7 @@ class Assets {
   static const String imgsProfileImg = 'assets/imgs/profile_img.png';
   static const String imgsUser = 'assets/imgs/user.png';
   static const String lottiesLoading = 'assets/lotties/loading.json';
+  static const String translationsArJO = 'assets/translations/ar-JO.json';
+  static const String translationsEnUS = 'assets/translations/en-US.json';
 
 }
