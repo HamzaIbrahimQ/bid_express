@@ -1,18 +1,15 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
-import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
+import 'package:bid_express/ui/pages/home/ui/widgets/username_widget.dart';
 import 'package:bid_express/ui/pages/manage_cars/bloc/manage_cars_bloc.dart';
 import 'package:bid_express/ui/pages/manage_cars/ui/widgets/category_widget.dart';
 import 'package:bid_express/ui/pages/manage_cars/ui/widgets/seller_brand_widget.dart';
 import 'package:bid_express/ui/pages/manage_cars/ui/widgets/seller_car_model_widget.dart';
 import 'package:bid_express/utils/ui_utility.dart';
+import 'package:bid_express/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ManageCarsPage extends StatefulWidget {
   const ManageCarsPage({super.key});
@@ -21,14 +18,14 @@ class ManageCarsPage extends StatefulWidget {
   State<ManageCarsPage> createState() => _ManageCarsPageState();
 }
 
-class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
+class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility {
   late ManageCarsBloc _bloc;
-  late Future<String> future;
+  late Future<String> _future;
 
   @override
   void initState() {
     super.initState();
-    future = context.read<HomeBloc>().getUserName();
+    _future = getUserName();
   }
 
   @override
@@ -84,59 +81,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility {
                           ),
 
                           /// Username
-                          FutureBuilder<String>(
-                            future: future,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const SizedBox.shrink();
-                              } else {
-                                return PositionedDirectional(
-                                  top: 60,
-                                  end: 25,
-                                  child: SizedBox(
-                                    width: .5.sw,
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          /// Hi, username
-                                          AutoSizeText(
-                                            'Hi, ${snapshot.data}',
-                                            textAlign: TextAlign.start,
-                                            minFontSize: 10,
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                              fontSize: 25.sp,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-
-                                          4.verticalSpace,
-
-                                          /// Welcome back
-                                          AutoSizeText(
-                                            'Welcome back',
-                                            textAlign: TextAlign.start,
-                                            minFontSize: 8,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                          UserNameWidget(future: _future),
                         ],
                       ),
 

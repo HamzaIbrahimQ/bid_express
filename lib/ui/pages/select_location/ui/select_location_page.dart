@@ -5,6 +5,7 @@ import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
 import 'package:bid_express/utils/ui_utility.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -192,8 +193,8 @@ class SelectLocationPageState extends State<SelectLocationPage>
         duration: 5,
         button: OutlinedButton(
           onPressed: () async => await _openSettings(),
-          child: const Text(
-            'Open Settings',
+          child:  Text(
+            'openSettings'.tr(),
             style: TextStyle(
               fontSize: 10,
               color: Colors.white,

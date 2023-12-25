@@ -57,7 +57,11 @@ class SignupRepository extends BaseRepository {
     if (signupRequest.profilePictureFileBase64?.isNotEmpty ?? false) {
       signupRequest.profilePictureFileBase64 =
           _getImageBase64(signupRequest.profilePictureFileBase64 ?? '');
+    } else {
+      signupRequest.profilePictureFileBase64 = '';
+      signupRequest.profilePictureFileName = '';
     }
+    signupRequest.email = '';
     request.body = json.encode(signupRequest.toJson());
     try {
       final http.StreamedResponse response = await request.send();

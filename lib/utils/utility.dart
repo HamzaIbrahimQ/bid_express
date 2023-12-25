@@ -1,3 +1,4 @@
+import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:logger/logger.dart';
 
@@ -24,5 +25,9 @@ mixin Utility {
   void errorLog(String error) {
     final Logger logger = Logger();
     logger.e(error.toString());
+  }
+
+  Future<String> getUserName() async {
+    return await SharedPreferenceHelper().getStringValue(key: 'userName');
   }
 }

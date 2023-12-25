@@ -3,6 +3,7 @@ import 'package:bid_express/models/responses/location_data/location_data.dart';
 import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
 import 'package:bid_express/ui/pages/select_location/ui/select_location_page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,7 @@ class SetLocationOnMap extends StatelessWidget with UiUtility {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            title ?? 'Set Location On The Map',
+            title ?? 'setLocationOnTheMap'.tr(),
             style: TextStyle(fontSize: 12.sp),
           ),
           InkWell(

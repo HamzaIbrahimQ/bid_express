@@ -15,9 +15,7 @@ class ProfileItem extends StatelessWidget {
         InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(6.r),
-          overlayColor: MaterialStatePropertyAll(
-            primaryColor.withOpacity(.1),
-          ),
+          overlayColor: MaterialStatePropertyAll(primaryColor.withOpacity(.1)),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.h),
             child: Row(

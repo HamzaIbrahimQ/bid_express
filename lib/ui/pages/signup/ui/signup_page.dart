@@ -14,6 +14,7 @@ import 'package:bid_express/ui/pages/signup/ui/widgets/address_title.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/set_location_on_map.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -273,7 +274,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                         LoadingView.shared.stopLoading();
                         showErrorToast(
                             context: context,
-                            msg: 'Please select a location inside Jordan');
+                            msg: 'locationOutOfRangeWarning'.tr());
                       }
                     },
                   ),
@@ -289,8 +290,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                         AppTextField(
                           controller: _businessNameCont,
                           focusNode: _businessNameFoc,
-                          title: 'Business Name',
-                          hint: 'Enter Your Business Name',
+                          title: 'businessName'.tr(),
+                          hint: 'enterYourBusinessName'.tr(),
                           inputType: TextInputType.name,
                           regex: businessNameRegex,
                           onSubmit: (v) => _mobileFoc.requestFocus(),
@@ -310,8 +311,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                               child: AppTextField(
                                 controller: _mobileCont,
                                 focusNode: _mobileFoc,
-                                title: 'Mobile number',
-                                hint: 'Enter Mobile Number',
+                                title: 'mobileNumber'.tr(),
+                                hint: 'enterMobileNumber'.tr(),
                                 regex: mobileRegex,
                                 isMobileNumber: true,
                                 prefixWidget: CountryCodeWidget(
@@ -342,8 +343,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                         AppTextField(
                           controller: _passCont,
                           focusNode: _passFoc,
-                          title: 'Password',
-                          hint: 'Enter Password',
+                          title: 'password'.tr(),
+                          hint: 'enterPassword'.tr(),
                           isPassword: true,
                           isObscure: true,
                           regex: passwordRegex,
@@ -359,8 +360,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                         AppTextField(
                           controller: _confirmPassCont,
                           focusNode: _confirmPassFoc,
-                          title: 'Confirm Password',
-                          hint: 'Re-Enter Password',
+                          title: 'confirmPassword'.tr(),
+                          hint: 'reEnterPassword'.tr(),
                           isPassword: true,
                           isObscure: true,
                           regex: passwordRegex,
@@ -372,11 +373,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                             if (value?.trim().isEmpty ?? false) {
                               return '';
                             } else if (value?.trim() != _passCont.text.trim()) {
-                              return 'The passwords do not match';
+                              return 'twoPasswordsDoNotMatch'.tr();
                             } else if (!regex.hasMatch(value ?? '')) {
-                              return 'one uppercase letter, one lowercase letter, '
-                                  'one digit,'
-                                  ' one special character, 8 characters, no spaces';
+                              return 'passwordRules'.tr();
                             } else {
                               return null;
                             }
@@ -393,7 +392,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
 
                         /// Use my current location
                         SetLocationOnMap(
-                          title: 'Use my current location',
+                          title: 'useMyCurrentLocation'.tr(),
                           onData: (data) => {},
                         ),
 
@@ -409,9 +408,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                 AppTextField(
                                   controller: _addressNameCont,
                                   focusNode: _addressNameFoc,
-                                  title: 'Address Name',
-                                  hint:
-                                      'Clients will not see your address name',
+                                  title: 'addressName'.tr(),
+                                  hint: 'clientsWillNotSeeYourAddressName'.tr(),
                                   inputType: TextInputType.name,
                                   regex: businessNameRegex,
                                   maxLength: 120,
@@ -425,8 +423,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                 AppTextField(
                                   controller: _cityCont,
                                   focusNode: _cityFoc,
-                                  title: 'City',
-                                  hint: 'Located city',
+                                  title: 'city'.tr(),
+                                  hint: 'locatedCity'.tr(),
                                   inputType: TextInputType.name,
                                   regex: cityNameRegex,
                                   onSaved: (val) =>
@@ -439,8 +437,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                 AppTextField(
                                   controller: _areaCont,
                                   focusNode: _areaFoc,
-                                  title: 'Area',
-                                  hint: 'Located Area',
+                                  title: 'area'.tr(),
+                                  hint: 'locatedArea'.tr(),
                                   inputType: TextInputType.name,
                                   regex: cityNameRegex,
                                   onSaved: (val) =>
@@ -453,8 +451,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                 AppTextField(
                                   controller: _streetCont,
                                   focusNode: _streetFoc,
-                                  title: 'Street',
-                                  hint: 'Street Name/Number',
+                                  title: 'street'.tr(),
+                                  hint: 'streetNameOrNumber'.tr(),
                                   inputType: TextInputType.name,
                                   regex: businessNameRegex,
                                   onSaved: (val) =>
@@ -467,8 +465,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                 AppTextField(
                                   controller: _buildingCont,
                                   focusNode: _buildingFoc,
-                                  title: 'Building',
-                                  hint: 'Building Number',
+                                  title: 'building'.tr(),
+                                  hint: 'buildingNumber'.tr(),
                                   isRequired: false,
                                   inputType: TextInputType.name,
                                   regex: businessNameRegex,
@@ -489,7 +487,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
               Padding(
                 padding: EdgeInsets.only(bottom: 24.h),
                 child: MainButton(
-                  title: 'PROCEED',
+                  title: 'proceed'.tr(),
                   onTap: () => _validate(),
                 ),
               ),
@@ -514,7 +512,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     } else {
       if (_isCoordinatesEmpty) {
         showErrorToast(
-            context: context, msg: 'Please select the business location');
+            context: context, msg: 'pleaseSelectTheBusinessLocation'.tr());
         return;
       }
       _mobileFormKey.currentState?.save();
@@ -593,9 +591,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
             ? null
             : OutlinedButton(
                 onPressed: () async => await _openSettings(),
-                child: const Text(
-                  'Open Settings',
-                  style: TextStyle(
+                child: Text(
+                  'openSettings'.tr(),
+                  style: const TextStyle(
                     fontSize: 10,
                     color: Colors.white,
                   ),
@@ -605,9 +603,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                 ),
               ),
         msg: isService ?? false
-            ? 'Please enable the location service'
-            : 'Please check the location permission in app settings and enable '
-                'the location service');
+            ? 'enableLocationServiceWarning'.tr()
+            : 'enableLocationPermissionWarning'.tr());
   }
 
   Future<void> _openSettings() async {

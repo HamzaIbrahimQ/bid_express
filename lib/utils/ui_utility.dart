@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:bid_express/components/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -208,5 +209,13 @@ mixin UiUtility {
     ).show(context);
   }
 
+
+  void changeLang(BuildContext context) {
+    if (context.locale.languageCode == 'en') {
+      context.setLocale(const Locale('ar', 'JO'));
+    } else {
+      context.setLocale(const Locale('en', 'US'));
+    }
+  }
 
 }

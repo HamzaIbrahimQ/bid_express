@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
           Padding(
             padding: EdgeInsetsDirectional.only(end: 8.w),
             child: IconButton(
-              onPressed: () => _changeLang(),
+              onPressed: () => changeLang(context),
               tooltip: 'changeLang'.tr(),
               icon: Icon(
                 Icons.language,
@@ -242,11 +242,5 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
     );
   }
 
-  void _changeLang() {
-    if (context.locale.languageCode == 'en') {
-      context.setLocale(const Locale('ar', 'JO'));
-    } else {
-      context.setLocale(const Locale('en', 'US'));
-    }
-  }
+
 }

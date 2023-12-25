@@ -1,14 +1,10 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
-import 'package:bid_express/models/requests/login/login_request.dart';
 import 'package:bid_express/models/requests/signup/signup_request.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
-import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
-import 'package:bid_express/ui/pages/home/ui/home_page.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
-import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_page_message.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_timer.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/resend_code.dart';

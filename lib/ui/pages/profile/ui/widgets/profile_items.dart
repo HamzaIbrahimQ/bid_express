@@ -7,6 +7,7 @@ import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/profile/ui/widgets/profile_item.dart';
 import 'package:bid_express/utils/ui_utility.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,37 +27,43 @@ class ProfileItems extends StatelessWidget with UiUtility {
 
               /// Profile
               ProfileItem(
-                title: 'My Profile',
+                title: 'myProfile'.tr(),
                 onTap: () {},
               ),
 
               /// Address
               ProfileItem(
-                title: 'My Addresses',
+                title: 'myAddresses'.tr(),
                 onTap: () {},
               ),
 
               /// Cars manage
               ProfileItem(
-                title: 'Cars Manage',
+                title: 'manageCars'.tr(),
                 onTap: () {},
               ),
 
               /// Change pass
               ProfileItem(
-                title: 'Change Password',
+                title: 'changePassword'.tr(),
                 onTap: () => _goToChangePassword(context),
               ),
 
               /// Contact admin
               ProfileItem(
-                title: 'Contact Administrator',
+                title: 'contactAdministrator'.tr(),
                 onTap: () {},
+              ),
+
+              /// Change lang
+              ProfileItem(
+                title: 'changeLang'.tr(),
+                onTap: () => changeLang(context),
               ),
 
               /// Logout
               ProfileItem(
-                title: 'Logout',
+                title: 'logout'.tr(),
                 onTap: () => _logout(context),
               ),
             ],

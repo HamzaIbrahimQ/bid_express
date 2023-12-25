@@ -1,4 +1,5 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,7 +11,7 @@ class AddressTitle extends StatelessWidget {
     return Padding(
       padding: EdgeInsetsDirectional.only(top: 24.h),
       child: Text(
-        'Address/Location',
+        'addressOrLocation'.tr(),
         style: TextStyle(
           color: secondaryColor,
           fontSize: 16.sp,

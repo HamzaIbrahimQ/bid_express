@@ -152,7 +152,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
       try {
         // internet connection available
         signupRequest.langCode = 'en';
-        signupRequest.email = 'hamzaiqa9@gmail.com';
         _signupRepository
             .signup(signupRequest: signupRequest)
             .then((value) async {

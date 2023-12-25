@@ -12,8 +12,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> with Utility {
   final HomeRepository _homeRepository = HomeRepository();
   UserData? userData;
-  final SharedPreferenceHelper _sharedPreferenceHelper =
-      SharedPreferenceHelper();
+
 
   HomeBloc() : super(HomeInitial()) {
     on<GetUserData>((event, emit) {
@@ -64,7 +63,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> with Utility {
     }
   }
 
-  Future<String> getUserName() async {
-    return await _sharedPreferenceHelper.getStringValue(key: 'userName');
-  }
+
 }

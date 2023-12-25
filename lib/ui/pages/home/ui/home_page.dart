@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
+import 'package:bid_express/ui/pages/home/ui/widgets/username_widget.dart';
 import 'package:bid_express/utils/ui_utility.dart';
+import 'package:bid_express/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,9 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with UiUtility, TickerProviderStateMixin {
+    with UiUtility, Utility, TickerProviderStateMixin {
   late HomeBloc _bloc;
-  late Future<String> future;
+  late Future<String> _future;
 
   late TabController _tabController;
   int _currentIndex = 0;
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    future = context.read<HomeBloc>().getUserName();
+    _future = getUserName();
   }
 
   @override
@@ -78,57 +80,7 @@ class _HomePageState extends State<HomePage>
                       ),
 
                       /// Username
-                      FutureBuilder<String>(
-                        future: future,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return const SizedBox.shrink();
-                          } else {
-                            return PositionedDirectional(
-                              top: 60,
-                              end: 25,
-                              child: SizedBox(
-                                width: .5.sw,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      /// Hi, username
-                                      AutoSizeText(
-                                        'Hi, ${snapshot.data}',
-                                        textAlign: TextAlign.start,
-                                        minFontSize: 10,
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                          fontSize: 24.sp,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-
-                                      4.verticalSpace,
-
-                                      /// Welcome back
-                                      AutoSizeText(
-                                        'Welcome back',
-                                        textAlign: TextAlign.start,
-                                        minFontSize: 8,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
+                      UserNameWidget(future: _future),
                     ],
                   ),
 
