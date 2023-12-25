@@ -24,78 +24,81 @@ class CountryCodeWidget extends StatelessWidget {
           end: BorderSide(width: 1.8, color: greyColor),
         ),
       ),
-      child: CountryCodePicker(
-        onChanged: onChanged,
-        initialSelection: countryCode.code,
-        dialogSize: Size(1.sw, 1.sh),
-        searchDecoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: 'code or country name',
-          hintMaxLines: 3,
-          errorMaxLines: 2,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 16.h,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(
-              color: greyColor,
-              width: 1,
-              style: BorderStyle.solid,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: CountryCodePicker(
+          onChanged: onChanged,
+          initialSelection: countryCode.code,
+          dialogSize: Size(1.sw, 1.sh),
+          searchDecoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'code or country name',
+            hintMaxLines: 3,
+            errorMaxLines: 2,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 16.h,
             ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(
-              color: greyColor,
-              width: 1,
-              style: BorderStyle.solid,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: const BorderSide(
+                color: greyColor,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
             ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(
-              color: greyColor,
-              width: 1,
-              style: BorderStyle.solid,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: const BorderSide(
+                color: greyColor,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
             ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(
-              color: Colors.red,
-              width: 1,
-              style: BorderStyle.solid,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: const BorderSide(
+                color: greyColor,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
             ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(
-              color: greyColor,
-              width: 1,
-              style: BorderStyle.solid,
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
             ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: const BorderSide(
+                color: greyColor,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
+            ),
+            counterText: '',
+            counter: const SizedBox(
+              width: 0,
+              height: 0,
+            ),
+            hintStyle: Theme.of(context)
+                .textTheme
+                .labelMedium
+                ?.copyWith(color: secondaryColor, fontSize: 11.sp),
+            errorStyle: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(color: Colors.red),
           ),
-          counterText: '',
-          counter: const SizedBox(
-            width: 0,
-            height: 0,
-          ),
-          hintStyle: Theme.of(context)
+          textStyle: Theme.of(context)
               .textTheme
               .labelMedium
-              ?.copyWith(color: secondaryColor, fontSize: 11.sp),
-          errorStyle: Theme.of(context)
-              .textTheme
-              .bodySmall
-              ?.copyWith(color: Colors.red),
+              ?.copyWith(color: textFieldColor),
         ),
-        textStyle: Theme.of(context)
-            .textTheme
-            .labelMedium
-            ?.copyWith(color: textFieldColor),
       ),
     );
   }
