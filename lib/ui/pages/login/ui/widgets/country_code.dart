@@ -33,7 +33,7 @@ class CountryCodeWidget extends StatelessWidget {
           searchDecoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
-            hintText: 'code or country name',
+            hintText: 'country code or name',
             hintMaxLines: 3,
             errorMaxLines: 2,
             contentPadding: EdgeInsets.symmetric(
