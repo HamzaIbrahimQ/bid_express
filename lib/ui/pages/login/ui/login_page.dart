@@ -127,15 +127,14 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
                             child: AppTextField(
                               controller: _mobileCont,
                               focusNode: _mobileFoc,
+                              autoValidateMode: AutovalidateMode.disabled,
                               title: 'mobileNumber'.tr(),
                               hint: 'enterMobileNumber'.tr(),
                               regex: mobileRegex,
                               isMobileNumber: true,
                               prefixWidget: CountryCodeWidget(
                                 countryCode: countryCode,
-                                onChanged: (val) {
-                                  countryCode = val;
-                                },
+                                onChanged: (val) => countryCode = val,
                                 hasPadding:
                                     !(_mobileFormKey.currentState?.validate() ??
                                         false),
@@ -241,6 +240,4 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
       ),
     );
   }
-
-
 }

@@ -48,6 +48,7 @@ class AppTextField extends StatelessWidget {
   final VoidCallback? onPasswordIconPressed;
   final List<TextInputFormatter>? inputFormatters;
   final Color? borderColor;
+  final AutovalidateMode? autoValidateMode;
 
   AppTextField({
     this.title,
@@ -92,6 +93,7 @@ class AppTextField extends StatelessWidget {
     this.onPasswordIconPressed,
     this.inputFormatters,
     this.borderColor,
+    this.autoValidateMode = AutovalidateMode.onUserInteraction
   });
 
   @override
@@ -117,7 +119,7 @@ class AppTextField extends StatelessWidget {
             StatefulBuilder(
               builder: (context, setState) {
                 return TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  autovalidateMode: autoValidateMode,
                   controller: controller,
                   onTapOutside: (v) {
                     if (closeOnTapOutside ?? false) {

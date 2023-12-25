@@ -33,7 +33,7 @@ class DontHaveAccount extends StatelessWidget with UiUtility {
                 style: TextStyle(fontSize: 12.sp),
                 children: [
                   TextSpan(
-                    text: 'dontHaveAccount'.tr(),
+                    text: 'dontHaveAccount'.tr() + ' ',
                     style: const TextStyle(
                       color: secondaryColor,
                     ),
