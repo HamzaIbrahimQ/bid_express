@@ -9,6 +9,7 @@ class RefreshTokenRequest {
 
   String? accessToken;
 
+  @JsonKey(name: 'RefreshToken')
   String? refreshToken;
 
   RefreshTokenRequest({

@@ -55,49 +55,47 @@ class _ProfilePageState extends State<ProfilePage> with UiUtility, Utility {
             alignment: Alignment.topCenter,
             child: Padding(
               padding: EdgeInsetsDirectional.only(top: 8.h),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6.r),
-                child: Image.asset(
-                  'assets/imgs/user.png',
-                  alignment: Alignment.center,
-                  height: .18.sh,
-                  // width: ,
-                  fit: BoxFit.cover,
-                ),
+              child: Column(
+                children: [
+                  /// Image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6.r),
+                    child: Image.asset(
+                      'assets/imgs/user.png',
+                      alignment: Alignment.center,
+                      height: .18.sh,
+                      // width: ,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+
+                  16.verticalSpace,
+
+                  /// Name
+                  FutureBuilder<String>(
+                    future: _future,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox.shrink();
+                      } else {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            snapshot.data ?? '',
+                            style: TextStyle(
+                              color: secondaryColor,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ),
-
-          /// User name
-          Align(
-            alignment: Alignment.topCenter,
-            child: FutureBuilder<String>(
-              future: _future,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox.shrink();
-                } else {
-                  return SizedBox(
-                    width: .5.sw,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.only(top: .21.sh),
-                        child: Text(
-                          snapshot.data ?? '',
-                          style: TextStyle(
-                            color: secondaryColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              },
-            ),
-          )
         ],
       ),
     );

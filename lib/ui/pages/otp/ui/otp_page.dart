@@ -92,6 +92,7 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
           if (state is SignupLoadingState) {
             LoadingView.shared.startLoading(context);
           }
+
           if (state is SignupSuccessState) {
             LoadingView.shared.stopLoading();
             context.read<LoginBloc>().loginRequest.mobileNumber =
@@ -102,6 +103,7 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
                 widget.signupRequest?.password;
             context.read<LoginBloc>().add(Login());
           }
+
           if (state is SignupErrorState) {
             LoadingView.shared.stopLoading();
             showErrorToast(context: context, msg: state.error);

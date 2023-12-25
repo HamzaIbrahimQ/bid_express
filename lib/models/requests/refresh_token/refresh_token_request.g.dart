@@ -10,7 +10,7 @@ RefreshTokenRequest _$RefreshTokenRequestFromJson(Map<String, dynamic> json) =>
     RefreshTokenRequest(
       langCode: json['langCode'] as String?,
       accessToken: json['accessToken'] as String?,
-      refreshToken: json['refreshToken'] as String?,
+      refreshToken: json['RefreshToken'] as String?,
     );
 
 Map<String, dynamic> _$RefreshTokenRequestToJson(
@@ -18,5 +18,5 @@ Map<String, dynamic> _$RefreshTokenRequestToJson(
     <String, dynamic>{
       'langCode': instance.langCode,
       'accessToken': instance.accessToken,
-      'refreshToken': instance.refreshToken,
+      'RefreshToken': instance.refreshToken,
     };
