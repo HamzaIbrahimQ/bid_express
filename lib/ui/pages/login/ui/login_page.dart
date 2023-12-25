@@ -134,7 +134,10 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
                               isMobileNumber: true,
                               prefixWidget: CountryCodeWidget(
                                 countryCode: countryCode,
-                                onChanged: (val) => countryCode = val,
+                                onChanged: (val) {
+                                  countryCode = val;
+                                  _bloc.loginRequest.mobileAreaCode = val.dialCode;
+                                } ,
                                 hasPadding:
                                     !(_mobileFormKey.currentState?.validate() ??
                                         false),
@@ -142,7 +145,7 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
                               onChange: (v) => setState(() {}),
                               inputType: TextInputType.number,
                               onSaved: (val) =>
-                                  _bloc.loginRequest.userName = val?.trim(),
+                                  _bloc.loginRequest.mobileNumber = val?.trim(),
                             ),
                           );
                         },

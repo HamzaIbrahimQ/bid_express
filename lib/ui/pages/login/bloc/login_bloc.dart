@@ -60,10 +60,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with Utility {
                 key: 'refreshToken',
                 value: value?.refreshToken,
               );
-              await _sharedPreferenceHelper.saveStringValue(
-                key: 'userName',
-                value: loginRequest.userName,
-              );
+              // await _sharedPreferenceHelper.saveStringValue(
+              //   key: 'userName',
+              //   value: loginRequest.userName,
+              // );
             } else {
               add(LoginErrorEvent(error: value?.errorMessage));
             }

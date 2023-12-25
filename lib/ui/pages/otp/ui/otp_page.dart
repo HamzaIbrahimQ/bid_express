@@ -94,8 +94,12 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
           }
           if (state is SignupSuccessState) {
             LoadingView.shared.stopLoading();
-            context.read<LoginBloc>().loginRequest.userName = widget.signupRequest?.userName;
-            context.read<LoginBloc>().loginRequest.password = widget.signupRequest?.password;
+            context.read<LoginBloc>().loginRequest.mobileNumber =
+                widget.signupRequest?.mobileNumber;
+            context.read<LoginBloc>().loginRequest.mobileAreaCode =
+                widget.signupRequest?.mobileAreaCode;
+            context.read<LoginBloc>().loginRequest.password =
+                widget.signupRequest?.password;
             context.read<LoginBloc>().add(Login());
           }
           if (state is SignupErrorState) {
