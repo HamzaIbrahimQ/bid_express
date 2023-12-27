@@ -135,34 +135,23 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                             /// Image
                             ClipRRect(
                               borderRadius: BorderRadius.circular(16.r),
-                              child: (_profileImg?.path.isNotEmpty ?? false)
-                                  ? FadeInImage(
-                                      width: 108.w,
-                                      height: 108.h,
-                                      fit: BoxFit.cover,
-                                      fadeInDuration:
-                                          const Duration(milliseconds: 500),
-                                      fadeOutDuration:
-                                          const Duration(milliseconds: 500),
-                                      image: FileImage(
+                              child: FadeInImage(
+                                width: 108.w,
+                                height: 108.h,
+                                fit: BoxFit.cover,
+                                fadeInDuration:
+                                    const Duration(milliseconds: 500),
+                                fadeOutDuration:
+                                    const Duration(milliseconds: 500),
+                                image: (_profileImg?.path.isNotEmpty ?? false)
+                                    ? FileImage(
                                         File(_profileImg?.path ?? ''),
-                                      ),
-                                      placeholder: const AssetImage(
-                                          'assets/imgs/user.png'),
-                                    )
-                                  : FadeInImage(
-                                      width: 108.w,
-                                      height: 108.h,
-                                      fit: BoxFit.cover,
-                                      fadeInDuration:
-                                          const Duration(milliseconds: 500),
-                                      fadeOutDuration:
-                                          const Duration(milliseconds: 500),
-                                      placeholder: const AssetImage(
-                                          'assets/imgs/user.png'),
-                                      image: const AssetImage(
-                                          'assets/imgs/user.png'),
-                                    ),
+                                      )
+                                    : const AssetImage('assets/imgs/user.png')
+                                        as ImageProvider<Object>,
+                                placeholder:
+                                    const AssetImage('assets/imgs/user.png'),
+                              ),
                             ),
 
                             /// Camera icon
