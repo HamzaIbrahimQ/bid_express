@@ -136,17 +136,23 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(16.r),
                               child: (_profileImg?.path.isNotEmpty ?? false)
-                                  ? Image.file(
-                                      File(_profileImg?.path ?? ''),
+                                  ? FadeInImage(
                                       width: 108.w,
                                       height: 108.h,
                                       fit: BoxFit.cover,
+                                      image: FileImage(
+                                        File(_profileImg?.path ?? ''),
+                                      ),
+                                      placeholder: const AssetImage(
+                                          'assets/imgs/user.png'),
                                     )
-                                  : Image.asset(
-                                      'assets/imgs/user.png',
+                                  : FadeInImage(
                                       width: 108.w,
                                       height: 108.h,
                                       fit: BoxFit.cover,
+                                      placeholder: const AssetImage(
+                                          'assets/imgs/user.png'),
+                                      image: const AssetImage('assets/imgs/user.png'),
                                     ),
                             ),
 
