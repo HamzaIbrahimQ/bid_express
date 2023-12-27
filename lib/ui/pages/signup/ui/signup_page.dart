@@ -140,6 +140,10 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                       width: 108.w,
                                       height: 108.h,
                                       fit: BoxFit.cover,
+                                      fadeInDuration:
+                                          const Duration(milliseconds: 500),
+                                      fadeOutDuration:
+                                          const Duration(milliseconds: 500),
                                       image: FileImage(
                                         File(_profileImg?.path ?? ''),
                                       ),
@@ -150,9 +154,14 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                       width: 108.w,
                                       height: 108.h,
                                       fit: BoxFit.cover,
+                                      fadeInDuration:
+                                          const Duration(milliseconds: 500),
+                                      fadeOutDuration:
+                                          const Duration(milliseconds: 500),
                                       placeholder: const AssetImage(
                                           'assets/imgs/user.png'),
-                                      image: const AssetImage('assets/imgs/user.png'),
+                                      image: const AssetImage(
+                                          'assets/imgs/user.png'),
                                     ),
                             ),
 
