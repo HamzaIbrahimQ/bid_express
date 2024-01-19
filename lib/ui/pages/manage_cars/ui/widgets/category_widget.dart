@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/responses/category/category_response.dart';
 import 'package:bid_express/models/responses/selected_category/selected_category.dart';
@@ -79,12 +80,16 @@ class CategoryWidget extends StatelessWidget with UiUtility {
 
             12.verticalSpace,
 
-            Text(
-              category.nameEn ?? '',
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold,
-                color: secondaryColor,
+            Expanded(
+              child: AutoSizeText(
+                category.nameEn ?? '',
+                textAlign: TextAlign.center,
+                minFontSize: 10,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                  color: secondaryColor,
+                ),
               ),
             ),
           ],
