@@ -22,11 +22,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MakeBidPage extends StatefulWidget {
- final BidModel bidModel;
-   const MakeBidPage({
-    super.key ,
-    required this.bidModel ,
+  final BidModel bidModel;
 
+  const MakeBidPage({
+    super.key,
+    required this.bidModel,
   });
 
   @override
@@ -34,7 +34,7 @@ class MakeBidPage extends StatefulWidget {
 }
 
 class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
-   final TextEditingController _detailsCont = TextEditingController();
+  final TextEditingController _detailsCont = TextEditingController();
   final TextEditingController _priceCont = TextEditingController();
 
   bool _isGenuine = false;
@@ -44,7 +44,8 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
 
   final List<PickedImageModel> _pickedImages = [];
 
-   String _warrantyValue ='';
+  String _warrantyValue = '';
+
   @override
   void dispose() {
     _priceCont.dispose();
@@ -54,433 +55,408 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
 
   @override
   Widget build(BuildContext context) {
-
-     return Scaffold(
-       appBar: getAppBar(
-         context: context,
-         hasBackIcon: true,
-         title: 'Make A Bid',
-         titleColor: Colors.white,
-         backArrowColor: Colors.white,
-         appBarColor: secondaryColor,
-       ),
-       backgroundColor: Colors.white,
-
-       body: Column(
-         children: [
-           /// Top image
-           Container(
-             padding: EdgeInsetsDirectional.only(
-               start: 22.w,
-               end: 16.w,
-               bottom: 16.h,
-             ),
-             width: 1.sw,
-             height: 92.h,
-             color: secondaryColor,
-             child: Row(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               crossAxisAlignment: CrossAxisAlignment.end,
-               children: [
-                 Column(
-                   mainAxisAlignment: MainAxisAlignment.end,
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: [
-                     RichText(
-                       text: TextSpan(
-                           text: 'order'.tr() + ' #',
-                           style: TextStyle(
-                             color: fadeTextColor,
-                             fontSize: 10.sp,
-                             fontWeight: FontWeight.w600,
-                             fontFamily: 'Montserrat',
-                           ),
-                           children: <TextSpan>[
-                             TextSpan(
-                               text: '${widget.bidModel.orderID}',
-                               style: TextStyle(
-                                   color: Colors.white,
-                                   fontSize: 10.sp,
-                                   fontFamily: 'Montserrat',
-                                   fontWeight: FontWeight.bold),
-                               // recognizer: TapGestureRecognizer()
-                               //   ..onTap = () {
-                               //     // navigate to desired screen
-                               //   }
-                             )
-                           ]),
-                     ),
-                     4.verticalSpace,
-                     Flexible(
-                       child: AutoSizeText(
-                         createTitleString(widget.bidModel.carParts ),
-                         maxLines: 2,
-                         minFontSize: 8,
-                         style: TextStyle(
-                             fontSize: 16.sp,
-                             fontFamily: 'Montserrat',
-                             fontWeight: FontWeight.bold,
-                             color: Colors.white),
-                       ),
-                     ),
-                     Flexible(
-                       child: AutoSizeText(
-                         '${widget.bidModel.carName} (${widget.bidModel.carYear})',
-                         maxLines: 1,
-                         minFontSize: 8,
-                         style: TextStyle(
-                             fontSize: 10.sp,
-                             fontFamily: 'Montserrat',
-                             fontWeight: FontWeight.bold,
-                             color: Colors.white),
-                       ),
-                     ),
-                   ],
-                 ),
-                 Container(
-                   alignment: Alignment.center,
-                   width: 90.w,
-                   height: 42.h,
-                   decoration: BoxDecoration(
-                     color: Colors.transparent,
-                     borderRadius: BorderRadius.all(Radius.circular(6.sp)) ,
-                   ),
-                   child: TextFormField(
-
-
-                     keyboardType: TextInputType.number,
-                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                         fontSize: 12.sp ,
-                         fontWeight: FontWeight.bold
-                     ),
-                     controller: _priceCont,
-                     decoration: InputDecoration(
-
-                       filled: true,
-                       fillColor: Colors.white,
-                        hintMaxLines: 1,
-
-                       contentPadding:
-                           EdgeInsets.symmetric(
-                             horizontal: 4.w,
-                             vertical:  4.h,
-                           ),
-                       border: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(  6),
-                         borderSide: const BorderSide(
-                           color:   greyColor,
-                           width: 1,
-                           style: BorderStyle.solid,
-                         ),
-                       ),
-                       enabledBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(  6),
-                         borderSide: const BorderSide(
-                           color:   greyColor,
-                           width: 1,
-                           style: BorderStyle.solid,
-                         ),
-                       ),
-                       focusedBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(  6),
-                         borderSide: const BorderSide(
-                           color:   greyColor,
-                           width: 1,
-                           style: BorderStyle.solid,
-                         ),
-                       ),
-                       errorBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(  6),
-                         borderSide: const BorderSide(
-                           color: Colors.red,
-                           width: 1.2,
-                           style: BorderStyle.solid,
-                         ),
-                       ),
-                       focusedErrorBorder: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(  6),
-                         borderSide: const BorderSide(
-                           color:   greyColor,
-                           width: 1.2,
-                           style: BorderStyle.solid,
-                         ),
-                       ),
-
-                       prefixText:'\$ ',
-                       prefixStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-                         fontSize: 12.sp ,
-                         fontWeight: FontWeight.bold
-                       ),
-                       counterText: '',
-                       counter: const SizedBox(
-                         width: 0,
-                         height: 0,
-                       ),
-                       hintStyle:
-                           Theme.of(context).textTheme.labelMedium?.copyWith(
-                               color:  secondaryColor,
-                               fontSize:   11.sp),
-                       errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                           color: Colors.red,
-                            ),
-
-                      ),
-
-                      maxLines: 1,
-                     minLines: 1,
-                     maxLength: 4,
-                     textInputAction: TextInputAction.done,
+    return Scaffold(
+      appBar: getAppBar(
+        context: context,
+        hasBackIcon: true,
+        title: 'Make A Bid',
+        titleColor: Colors.white,
+        backArrowColor: Colors.white,
+        appBarColor: secondaryColor,
+      ),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          /// Top image
+          Container(
+            padding: EdgeInsetsDirectional.only(
+              start: 22.w,
+              end: 16.w,
+              bottom: 16.h,
+            ),
+            width: 1.sw,
+            height: 92.h,
+            color: secondaryColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                          text: 'order'.tr() + ' #',
+                          style: TextStyle(
+                            color: fadeTextColor,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Montserrat',
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '${widget.bidModel.orderID}',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold),
+                              // recognizer: TapGestureRecognizer()
+                              //   ..onTap = () {
+                              //     // navigate to desired screen
+                              //   }
+                            )
+                          ]),
                     ),
-
-                 )
-               ],
-             ),
-           ),
-
-           /// Body widget
-           Expanded(child: SingleChildScrollView(
-             child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                 24.verticalSpace,
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 24.w),
-
-                   child: Text('partDescriptions'.tr(),
-                   style: TextStyle(
-                     fontFamily: 'Montserrat',
-                     color: secondaryColor,
-                     fontSize: 16.sp,
-                     fontWeight: FontWeight.bold,                 ),),
-                 ),
-                 /// Fields and tags
-                 Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 24.w),
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-
-                       20.verticalSpace,
-
-                       /// Genuine part
-                       StatefulBuilder(builder: (context, setState) {
-                         return CheckboxWithTitle(
-                           title: 'Genuine Part',
-                           value: _isGenuine,
-                           onChanged: (v) {
-                             setState(() {
-                               _isGenuine = v;
-                             });
-                           },
-                         );
-                       }),
-
-                       8.verticalSpace,
-
-                       /// New/Used part
-                       StatefulBuilder(
-                         builder: (context, setState) {
-                           return Column(
-                             children: [
-                               /// New part
-                               CheckboxWithTitle(
-                                 title: 'New Part',
-                                 value: _isNew,
-                                 onChanged: (v) {
-                                   setState(() {
-                                     _isUsed = false;
-                                     _isNew = v;
-                                   });
-                                 },
-                               ),
-
-                               8.verticalSpace,
-
-                               /// Used part
-                               CheckboxWithTitle(
-                                 title: 'Used Part',
-                                 value: _isUsed,
-                                 onChanged: (v) {
-                                   setState(() {
-                                     _isNew = false;
-                                     _isUsed = v;
-                                   });
-                                 },
-                               ),
-
-                               8.verticalSpace,
-
-                               /// Used part
-                               CheckboxWithTitle(
-                                 title: 'Include Service',
-                                 value: _isInclude,
-                                 onChanged: (v) {
-                                   setState(() {
-                                     _isInclude = v;
-                                   });
-                                 },
-                               ),
-                             ],
-                           );
-                         },
-                       ),
-
-
-
-                       8.verticalSpace,
-                       Text(
-                         'warranty'.tr(),
-                         maxLines: 1,
-                         style: TextStyle(
-                           fontSize: 10.sp,
-                           color: greyColor,
-                           fontWeight: FontWeight.w500,
-                         ),
-                       ),
-                       4.verticalSpace,
-
-                       DropDownMainWidget(functionOnTap: (String e){
-                         setState(() {
-                           _warrantyValue = e;
-                         });
-                       }, valueSelected: _warrantyValue,
-                       options: tData.warrantyDataList,),
-                       16.verticalSpace,
-                       /// More details text title
-                       Text(
-                         'partDescription'.tr(),
-                         maxLines: 1,
-                         style: TextStyle(
-                           fontSize: 10.sp,
-                           color: greyColor,
-                           fontWeight: FontWeight.w500,
-                         ),
-                       ),
-
-
-                       4.verticalSpace,
-
-                       /// More details text filed
-                       SizedBox(
-
-                         child: AppTextField(
-                           controller: _detailsCont,
-                           hint: 'partDescription'.tr(),
-                           hintTextColor: greyColor,
-                           maxLines: 8,
-                           minLines: 3,
-                           maxLength: 700,
-                           textInputAction: TextInputAction.done,
-                         ),
-                       ),
-
-                       24.verticalSpace,
-
-                       /// Add image
-                       Text(
-                         'Add Images',
-                         style: TextStyle(
-                           fontSize: 14.sp,
-                           color: secondaryColor,
-                           fontWeight: FontWeight.bold,
-                         ),
-                       ),
-                     ],
-                   ),
-                 ),
-
-                 16.verticalSpace,
-
-                 /// Images
-                 SizedBox(
-                   height: 105.h,
-                   child:SingleChildScrollView(
-                     scrollDirection: Axis.horizontal,
-                     child: Padding(
-                       padding: EdgeInsets.symmetric(horizontal: 24.w),
-                       child: Row(
-                         children: [
-                           /// Images list
-                           ListView.builder(
-                             scrollDirection: Axis.horizontal,
-                             itemCount: _pickedImages.length,
-                             padding: EdgeInsetsDirectional.only(end: 4.w),
-                             physics: const NeverScrollableScrollPhysics(),
-                             shrinkWrap: true,
-                             itemBuilder: (context, index) {
-                               return ImageWidget(
-                                 file: _pickedImages[index].file,
-                                 onCancel: () {
-                                   _pickedImages.removeAt(index);
-                                   setState(() {
-
-                                   });
-                                 },
-                               );
-                             },
-                           ),
-
-                           /// Add image
-                           Visibility(
-                             visible: _pickedImages.length <= 4,
-                             child: AddImageWidget(
-                               onTap: () =>
-                                   _showPickImageDialog(context: context),
-                             ),
-                           ),
-                         ],
-                       ),
-                     ),
-                   ),
-                 ),
-32.verticalSpace,
-                  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 24.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            width: 0.5.sw ,
-
-                            color: Colors.white,
-                            padding: EdgeInsets.symmetric(  vertical: 8.h),
-                            child: MainButton(
-                              title: 'Cancel',
-                              onTap: (){},
-                            ),
-                          ),
+                    4.verticalSpace,
+                    Flexible(
+                      child: AutoSizeText(
+                        createTitleString(widget.bidModel.carParts),
+                        maxLines: 2,
+                        minFontSize: 8,
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                    Flexible(
+                      child: AutoSizeText(
+                        '${widget.bidModel.carName} (${widget.bidModel.carYear})',
+                        maxLines: 1,
+                        minFontSize: 8,
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: 90.w,
+                  height: 42.h,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.all(Radius.circular(6.sp)),
+                  ),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        fontSize: 12.sp, fontWeight: FontWeight.bold),
+                    controller: _priceCont,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintMaxLines: 1,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 4.w,
+                        vertical: 4.h,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: const BorderSide(
+                          color: greyColor,
+                          width: 1,
+                          style: BorderStyle.solid,
                         ),
-
-                        const SizedBox(width: 12,),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.symmetric( vertical: 8.h),
-                            child: MainButton(
-                              title: 'Confirm',
-                              onTap: (){
-                                _navigateToSuccessPage();
-                              },
-                            ),
-                          ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: const BorderSide(
+                          color: greyColor,
+                          width: 1,
+                          style: BorderStyle.solid,
                         ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: const BorderSide(
+                          color: greyColor,
+                          width: 1,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1.2,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        borderSide: const BorderSide(
+                          color: greyColor,
+                          width: 1.2,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      prefixText: '\$ ',
+                      prefixStyle: Theme.of(context)
+                          .textTheme
+                          .labelMedium
+                          ?.copyWith(
+                              fontSize: 12.sp, fontWeight: FontWeight.bold),
+                      counterText: '',
+                      counter: const SizedBox(
+                        width: 0,
+                        height: 0,
+                      ),
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .labelMedium
+                          ?.copyWith(color: secondaryColor, fontSize: 11.sp),
+                      errorStyle:
+                          Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Colors.red,
+                              ),
+                    ),
+                    maxLines: 1,
+                    minLines: 1,
+                    maxLength: 4,
+                    textInputAction: TextInputAction.done,
+                  ),
+                )
+              ],
+            ),
+          ),
 
-                      ],
+          /// Body widget
+          Expanded(
+              child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                24.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Text(
+                    'partDescriptions'.tr(),
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: secondaryColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-               ],
-             ),
-           )),
-         ],
-       ),
+                ),
 
-     );
+                /// Fields and tags
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      16.verticalSpace,
+
+                      /// Genuine part
+                      StatefulBuilder(builder: (context, setState) {
+                        return CheckboxWithTitle(
+                          title: 'Genuine Part',
+                          value: _isGenuine,
+                          onChanged: (v) {
+                            setState(() {
+                              _isGenuine = v;
+                            });
+                          },
+                        );
+                      }),
+
+                      4.verticalSpace,
+
+                      /// New/Used part
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return Column(
+                            children: [
+                              /// New part
+                              CheckboxWithTitle(
+                                title: 'New Part',
+                                value: _isNew,
+                                onChanged: (v) {
+                                  setState(() {
+                                    _isUsed = false;
+                                    _isNew = v;
+                                  });
+                                },
+                              ),
+
+                              4.verticalSpace,
+
+                              /// Used part
+                              CheckboxWithTitle(
+                                title: 'Used Part',
+                                value: _isUsed,
+                                onChanged: (v) {
+                                  setState(() {
+                                    _isNew = false;
+                                    _isUsed = v;
+                                  });
+                                },
+                              ),
+
+                              4.verticalSpace,
+
+                              /// Used part
+                              CheckboxWithTitle(
+                                title: 'Include Service',
+                                value: _isInclude,
+                                onChanged: (v) {
+                                  setState(() {
+                                    _isInclude = v;
+                                  });
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+
+                      8.verticalSpace,
+                      Text(
+                        'warranty'.tr(),
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          color: greyColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      4.verticalSpace,
+
+                      DropDownMainWidget(
+                        functionOnTap: (String e) {
+                          setState(() {
+                            _warrantyValue = e;
+                          });
+                        },
+                        valueSelected: _warrantyValue,
+                        options: tData.warrantyDataList,
+                      ),
+                      24.verticalSpace,
+
+                      /// More details text filed
+                      SizedBox(
+                        child: AppTextField(
+                          controller: _detailsCont,
+                          title: 'partDescription'.tr(),
+                          hint: 'partDescription'.tr(),
+                          hintTextColor: greyColor,
+                          maxLines: 8,
+                          minLines: 3,
+                          maxLength: 700,
+                          textInputAction: TextInputAction.done,
+                        ),
+                      ),
+
+                      24.verticalSpace,
+
+                      /// Add image
+                      Text(
+                        'Add Images',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: secondaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                16.verticalSpace,
+
+                /// Images
+                SizedBox(
+                  height: 105.h,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: Row(
+                        children: [
+                          /// Images list
+                          ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _pickedImages.length,
+                            padding: EdgeInsetsDirectional.only(end: 4.w),
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return ImageWidget(
+                                file: _pickedImages[index].file,
+                                onCancel: () {
+                                  _pickedImages.removeAt(index);
+                                  setState(() {});
+                                },
+                              );
+                            },
+                          ),
+
+                          /// Add image
+                          Visibility(
+                            visible: _pickedImages.length <= 4,
+                            child: AddImageWidget(
+                              onTap: () =>
+                                  _showPickImageDialog(context: context),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                32.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          width: 0.5.sw,
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 8.h),
+                          child: MainButton(
+                            title: 'Cancel',
+                            onTap: () {},
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 8.h),
+                          child: MainButton(
+                            title: 'Confirm',
+                            onTap: () {
+                              _navigateToSuccessPage();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )),
+        ],
+      ),
+    );
   }
-
 
   void _showPickImageDialog({required BuildContext context}) {
     showImageSourceDialog(
@@ -505,14 +481,11 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
         index: _pickedImages.length,
         file: File(pickedFile?.path ?? ''),
       ));
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 
   void _navigateToSuccessPage() {
     navigate(context: context, page: SuccessPage());
   }
-
- }
+}

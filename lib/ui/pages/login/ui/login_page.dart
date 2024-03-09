@@ -9,6 +9,7 @@ import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/country_code.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/dont_have_account.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/forgot_password.dart';
+import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -222,25 +223,26 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
   }
 
   void _callLoginApi() {
+    _bloc.loginRequest.mobileAreaCode = countryCode.dialCode;
     _bloc.add(Login());
   }
 
   void _goToHomePage() {
-    // navigate(
-    //   context: context,
-    //   isFade: true,
-    //   clearPagesStack: true,
-    //   page: const NavBar(),
-    // );
-
     navigate(
       context: context,
       isFade: true,
       clearPagesStack: true,
-      page: BlocProvider(
-        create: (context) => AddBrandsBloc()..add(GetBrands()),
-        child: const AddBrandsPage(),
-      ),
+      page: const NavBar(),
     );
+
+    // navigate(
+    //   context: context,
+    //   isFade: true,
+    //   clearPagesStack: true,
+    //   page: BlocProvider(
+    //     create: (context) => AddBrandsBloc()..add(GetBrands()),
+    //     child: const AddBrandsPage(),
+    //   ),
+    // );
   }
 }
