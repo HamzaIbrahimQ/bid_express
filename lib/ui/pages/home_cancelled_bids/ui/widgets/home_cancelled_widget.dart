@@ -227,12 +227,11 @@ class _BidCancelledWidgetState extends State<BidCancelledWidget> with UiUtility 
                 },
                 child: Container(
                   alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(6.sp)),
                     color: primaryColor,
                   ),
-                  width: 74.w,
-                  height: 24.h,
                   child: Text(
                     'reason'.tr(),
                     style: TextStyle(color: Colors.white, fontSize: 12.sp),

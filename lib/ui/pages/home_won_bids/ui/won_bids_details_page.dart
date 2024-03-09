@@ -156,13 +156,13 @@ class _WonBidsDetailsPageState extends State<WonBidsDetailsPage>
                       RateInfoProfileWidget(
                         profileModel:
                         ProfileModel(imaPath: 'https://picsum.photos/200' ,
-                        fName: 'Hamza' , lName:  'Qabara' ,
+                        fName: 'User' , lName:  'Name' ,
                         phoneNumber: '962799867585'),
                       ),
 
                       24.verticalSpace,
                       OrderAtWidget(buyerString: 'Adam', carString: widget.wonBidModel.carName, carYear: widget.wonBidModel.carYear, deliveryString: 'Amman - Jordan', orderAtDate: widget.wonBidModel.timaDate),
-                      SellerConfirmedAtWidget(isRated: false, timeConfirmed: widget.wonBidModel.timaDate, locationSeller: 'Amman Jordan', price: widget.wonBidModel.price, sellerFName: 'Hamza', sellerLName: 'Qabara'),
+                      SellerConfirmedAtWidget(isRated: false, timeConfirmed: widget.wonBidModel.timaDate, locationSeller: 'Amman Jordan', price: widget.wonBidModel.price, sellerFName: 'User', sellerLName: 'Name'),
                       OrderRatedWidget(isRated: false, timeRated: widget.wonBidModel.timaDate),
                     ],
                   ),
