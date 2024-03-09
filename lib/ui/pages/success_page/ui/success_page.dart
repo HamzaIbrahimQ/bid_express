@@ -46,9 +46,7 @@ class _SuccessPageState extends State<SuccessPage> with UiUtility , Utility{
           ) , 
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: 20.w , vertical: 20.h),
-            child: MainButton(title: 'Done', onTap: () {
-
-            }),
+            child: MainButton(title: 'Done', onTap: () {}),
           )
         ],
       ),
