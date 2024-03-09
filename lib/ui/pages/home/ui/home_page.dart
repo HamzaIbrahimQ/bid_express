@@ -3,6 +3,10 @@ import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/home/ui/widgets/username_widget.dart';
+import 'package:bid_express/ui/pages/home_bids/ui/home_bids_page.dart';
+import 'package:bid_express/ui/pages/home_cancelled_bids/ui/home_cancelled_bids_page.dart';
+import 'package:bid_express/ui/pages/home_history/ui/home_history_page.dart';
+import 'package:bid_express/ui/pages/home_won_bids/ui/home_won_bids_page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:flutter/material.dart';
@@ -173,10 +177,12 @@ class _HomePageState extends State<HomePage>
                               child: TabBarView(
                                 controller: _tabController,
                                 children: const [
-                                  Center(child: Text('Coming soon')),
-                                  Center(child: Text('Coming soon')),
-                                  Center(child: Text('Coming soon')),
-                                  Center(child: Text('Coming soon')),
+                                  /// all pages are in separated directories
+                                  /// under level of pages directory
+                                 HomeBidsPage(),
+                                 HomeWonBidsPage(),
+                                  HomeCancelledBidsPage(),
+                                  HomBidsHistoryPage(),
                                 ],
                               ),
                             ),

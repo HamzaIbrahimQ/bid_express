@@ -43,6 +43,9 @@ dependencies:
   easy_localization:
   isar:
   isar_flutter_libs:
+  shimmer:
+  dotted_border:
+  flutter_animated_dialog:
 
 
 dev_dependencies:

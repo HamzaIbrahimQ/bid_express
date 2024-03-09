@@ -1,10 +1,12 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:bid_express/components/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 
 mixin UiUtility {
@@ -217,5 +219,92 @@ mixin UiUtility {
       context.setLocale(const Locale('en', 'US'));
     }
   }
+  List<Widget> createStarsRate(double startRate){
+    final   int startInt = startRate.ceil();
+    List<Widget> starsWidgets = [];
+    for(int x= 0 ;x< startInt ; x++){
+      if(starsWidgets.length<5){
+        starsWidgets.add(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 1),
+              child: Icon(Icons.star ,
+                size: 12.sp ,
+                color: const Color(0xffF5B510),),
+            )
+        );
+      }
+    }
+    while(starsWidgets.length<5){
+      starsWidgets.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 1),
+          child: Icon(
+              Icons.star_border_purple500_sharp ,
+              color: const Color(0xFFF5B510),
+              size: 12.sp),
+        ) ,
 
+      );
+
+    }
+    print('start length is: ${starsWidgets.length}');
+    return starsWidgets;
+  }
+  String createTitleString(List<String?> carParts){
+    String carPartsString = '';
+
+    for(int x= 0; x< carParts.length ; x++){
+      carPartsString = carPartsString +(carParts[x]??'');
+      if(x != carParts.length -1 ){
+        carPartsString = carPartsString+' / ';
+      }
+    }
+    return carPartsString;
+  }
+
+  Future showImageSourceDialog({
+    required BuildContext context,
+    required Function onCamera,
+    required Function onGallery,
+    ImageSource? source,
+  }) async {
+    showAdaptiveDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CupertinoActionSheetAction(
+              child: Text(
+                'Gallery',
+                style: TextStyle(
+                  color: secondaryColor,
+                  fontSize: 14.sp,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                onGallery();
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: Text(
+                'Camera',
+                style: TextStyle(
+                  color: secondaryColor,
+                  fontSize: 14.sp,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                onCamera();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

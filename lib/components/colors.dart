@@ -46,3 +46,5 @@ const redColor = Color(0xFFFF003B);
 /// #08EDC6
 const greenColor = Color(0XFF08EDC6);
 
+/// #A3AAB8
+const fadeTextColor = Color(0xFFA3AAB8);

@@ -38,5 +38,13 @@
   "manageCars": "Manage Cars",
   "changePassword": "Change Password",
   "contactAdministrator": "Contact Administrator",
-  "logout": "Logout"
+  "logout": "Logout",
+  "ignore": "Ignore this part" ,
+  "order": "Order",
+  "delete": "Delete",
+  "reason": "Reason",
+  "partDescriptions": "Part Description",
+  "warranty": "Warranty",
+  "partDescription": "Part Description"
+
 }
