@@ -1,4 +1,3 @@
-
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/bids_models/history_bid_model.dart';
 import 'package:bid_express/models/data_models/bids_models/won_bid_model.dart';
@@ -16,22 +15,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class WonBidsDetailsPage extends StatefulWidget {
   final WonBidModel wonBidModel;
 
-
-  const WonBidsDetailsPage({super.key, required this.wonBidModel ,
+  const WonBidsDetailsPage({
+    super.key,
+    required this.wonBidModel,
   });
 
   @override
-  State<WonBidsDetailsPage> createState() =>
-      _WonBidsDetailsPageState();
+  State<WonBidsDetailsPage> createState() => _WonBidsDetailsPageState();
 }
 
 class _WonBidsDetailsPageState extends State<WonBidsDetailsPage>
     with Utility, UiUtility {
-
-
   List<int> starsList = [0, 1, 2, 3, 4];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +73,7 @@ class _WonBidsDetailsPageState extends State<WonBidsDetailsPage>
                               ),
                               children: <TextSpan>[
                                 TextSpan(
-                                  text:
-
-                                  '${widget.wonBidModel?.orderID ??''}',
+                                  text: '${widget.wonBidModel?.orderID ?? ''}',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 10.sp,
@@ -95,7 +88,7 @@ class _WonBidsDetailsPageState extends State<WonBidsDetailsPage>
                         ),
                         4.verticalSpace,
                         Text(
-                          createTitleString(widget.wonBidModel.carParts ),
+                          createTitleString(widget.wonBidModel.carParts),
                           style: TextStyle(
                               fontSize: 16.sp,
                               fontFamily: 'Montserrat',
@@ -131,10 +124,11 @@ class _WonBidsDetailsPageState extends State<WonBidsDetailsPage>
                         Text(
                           ' \$ ${widget.wonBidModel.price.toStringAsFixed(2)}',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp),
+                            color: Colors.white,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
                         ),
                       ],
                     )
@@ -154,16 +148,29 @@ class _WonBidsDetailsPageState extends State<WonBidsDetailsPage>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       RateInfoProfileWidget(
-                        profileModel:
-                        ProfileModel(imaPath: 'https://picsum.photos/200' ,
-                        fName: 'Hamza' , lName:  'Qabara' ,
-                        phoneNumber: '962799867585'),
+                        profileModel: ProfileModel(
+                            imaPath: 'https://picsum.photos/200',
+                            fName: 'User',
+                            lName: 'Name',
+                            phoneNumber: '962799867585'),
                       ),
-
                       24.verticalSpace,
-                      OrderAtWidget(buyerString: 'Adam', carString: widget.wonBidModel.carName, carYear: widget.wonBidModel.carYear, deliveryString: 'Amman - Jordan', orderAtDate: widget.wonBidModel.timaDate),
-                      SellerConfirmedAtWidget(isRated: false, timeConfirmed: widget.wonBidModel.timaDate, locationSeller: 'Amman Jordan', price: widget.wonBidModel.price, sellerFName: 'Hamza', sellerLName: 'Qabara'),
-                      OrderRatedWidget(isRated: false, timeRated: widget.wonBidModel.timaDate),
+                      OrderAtWidget(
+                          buyerString: 'Adam',
+                          carString: widget.wonBidModel.carName,
+                          carYear: widget.wonBidModel.carYear,
+                          deliveryString: 'Amman - Jordan',
+                          orderAtDate: widget.wonBidModel.timaDate),
+                      SellerConfirmedAtWidget(
+                          isRated: false,
+                          timeConfirmed: widget.wonBidModel.timaDate,
+                          locationSeller: 'Amman Jordan',
+                          price: widget.wonBidModel.price,
+                          sellerFName: 'User',
+                          sellerLName: 'Name'),
+                      OrderRatedWidget(
+                          isRated: false,
+                          timeRated: widget.wonBidModel.timaDate),
                     ],
                   ),
                 )),

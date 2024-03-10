@@ -189,7 +189,7 @@ class _HistoryBidsDetailsPageState extends State<HistoryBidsDetailsPage>
 
                       24.verticalSpace,
                       OrderAtWidget(buyerString: 'Adam', carString: widget.historyModel.carName, carYear: widget.historyModel.carYear, deliveryString: 'Amman - Jordan', orderAtDate: widget.historyModel.timeDate),
-                      SellerConfirmedAtWidget(isRated: true, timeConfirmed: widget.historyModel.timeDate, locationSeller: 'Amman Jordan', price: widget.historyModel.price, sellerFName: 'Hamza', sellerLName: 'Qabara'),
+                      SellerConfirmedAtWidget(isRated: true, timeConfirmed: widget.historyModel.timeDate, locationSeller: 'Amman Jordan', price: widget.historyModel.price, sellerFName: 'User', sellerLName: 'Name'),
                       OrderRatedWidget(isRated: true, timeRated: widget.historyModel.timeDate),
                     ],
                   ),

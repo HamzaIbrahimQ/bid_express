@@ -18,30 +18,30 @@ class HomeBidsPage extends StatefulWidget {
 
 class _HomeBidsPageState extends State<HomeBidsPage>
     with UiUtility, Utility, TickerProviderStateMixin {
-
   String dropDownValue = '';
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           /// Bg image and username
           24.verticalSpace,
           Padding(
-            padding:  EdgeInsets.symmetric(
-              horizontal: 24.w
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: DropDownMainWidget(
+              hint: 'Date Range',
+              functionOnTap: (e) {
+                setState(() {
+                  dropDownValue = e;
+                });
+              },
+              valueSelected: dropDownValue,
+              options: tData.rangeDataList,
             ),
-            child: DropDownMainWidget(functionOnTap: (e){
-              setState(() {
-                dropDownValue = e;
-              });
-            }, valueSelected: dropDownValue ,
-              options: tData.rangeDataList,),
           ),
+
           /// Dashboard tabs
           24.verticalSpace,
 
@@ -51,15 +51,13 @@ class _HomeBidsPageState extends State<HomeBidsPage>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: tData.homeBids.map((e) =>
-                BidWidget(bidModel: e)).toList(),
+                children:
+                    tData.homeBids.map((e) => BidWidget(bidModel: e)).toList(),
               ),
             ),
           ),
         ],
       ),
-    ) ;
+    );
   }
-
-
 }
