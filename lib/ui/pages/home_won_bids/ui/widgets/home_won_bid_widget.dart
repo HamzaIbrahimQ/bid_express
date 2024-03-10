@@ -1,16 +1,14 @@
 
 import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
-import 'package:bid_express/models/data_models/bids_models/won_bid_model.dart';
+ import 'package:bid_express/models/data_models/bids_models/won_bid_model.dart';
 import 'package:bid_express/ui/pages/home_won_bids/ui/won_bids_details_page.dart';
 import 'package:bid_express/ui/widgets/cached_image.dart';
-import 'package:bid_express/ui/widgets/popup_menu_widget.dart';
-import 'package:bid_express/utils/ui_utility.dart';
+ import 'package:bid_express/utils/ui_utility.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BidWonWidget extends StatefulWidget {
   final WonBidModel wonBidModel;
@@ -225,8 +223,7 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                       fontWeight: FontWeight.bold,
                     ),
                     ) ,
-                    4.verticalSpace,
-                    Text(
+                     Text(
                       'Phone: ${widget.wonBidModel.phoneNumber}'
  ,style: TextStyle(
                       fontFamily: 'Montserrat',
@@ -238,8 +235,13 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                   ],
                 ) ,
                 Expanded(child: SizedBox(height: 1,)) ,
-                SvgPicture.asset('assets/icons/call.svg' ,
-                width:22.w ,height: 22.w,)
+                InkWell(
+                  child: SvgPicture.asset('assets/icons/call.svg' ,
+                  width:22.w ,height: 22.w,),
+                  onTap: ()async{
+                   await  _call(widget.wonBidModel.phoneNumber);
+                  },
+                )
               ],
             ),
           )
@@ -256,5 +258,12 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
         duration: const Duration(milliseconds: 300));
   }
 
+  Future<void> _call(String number) async {
+    if (await canLaunchUrl(Uri.parse('tel://$number'))) {
+      await launchUrl(Uri.parse('tel://$number'));
+    } else {
+      throw 'Could not launch ${Uri.parse('tel://$number')}';
+    }
 
+  }
 }

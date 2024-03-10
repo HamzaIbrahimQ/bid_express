@@ -46,7 +46,7 @@ dependencies:
   shimmer:
   dotted_border:
   flutter_animated_dialog:
-
+  url_launcher:
 
 dev_dependencies:
   build_runner:

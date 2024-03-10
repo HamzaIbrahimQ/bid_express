@@ -6,7 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class PopupMenuWidget extends StatelessWidget {
   final String firstActionTitle;
+  final String firstSVG;
   final String secondActionTitle;
+  final String secondSVG;
   final VoidCallback firstAction;
   final VoidCallback secondAction;
 
@@ -15,6 +17,8 @@ class PopupMenuWidget extends StatelessWidget {
     required this.secondActionTitle,
     required this.firstAction,
     required this.secondAction,
+    required this.firstSVG,
+    required this.secondSVG,
   });
 
   @override
@@ -36,7 +40,7 @@ class PopupMenuWidget extends StatelessWidget {
               children: [
                 /// Edit icon
                 SvgPicture.asset(
-                  'assets/icons/ignore.svg',
+                 firstSVG,
                   width: 22.w,
                   height: 22.h,
                   fit: BoxFit.cover,
@@ -65,7 +69,7 @@ class PopupMenuWidget extends StatelessWidget {
               children: [
                 /// Delete icon
                 SvgPicture.asset(
-                  'assets/icons/delete.svg',
+                 secondSVG,
                   width: 18.w,
                   height: 22.h,
                   fit: BoxFit.cover,
