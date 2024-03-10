@@ -21,9 +21,6 @@ class AddressesPage extends StatefulWidget {
 }
 
 class _AddressesPageState extends State<AddressesPage> with UiUtility {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +41,9 @@ class _AddressesPageState extends State<AddressesPage> with UiUtility {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: tData.addresses.map((e) => AddressWidget(address: e)).toList(),
+                children: tData.addresses
+                    .map((e) => AddressWidget(address: e))
+                    .toList(),
               ),
               16.verticalSpace,
               SizedBox(
@@ -54,7 +53,7 @@ class _AddressesPageState extends State<AddressesPage> with UiUtility {
                   splashColor: primaryColor.withOpacity(.05),
                   highlightColor: primaryColor.withOpacity(.05),
                   borderRadius: BorderRadius.circular(6.r),
-                  onTap: (){
+                  onTap: () {
                     _goToNewAddress(context);
                   },
                   child: DottedBorder(
@@ -64,30 +63,31 @@ class _AddressesPageState extends State<AddressesPage> with UiUtility {
                     color: const Color(0xFF0057B8),
                     child: Container(
                       alignment: Alignment.center,
-                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: [
-                           SvgPicture.asset(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
                             'assets/icons/add_plus.svg',
                             width: 20.w,
                             height: 20.h,
                             fit: BoxFit.cover,
-                                                 ),
-                           12.horizontalSpace,
-                           Text('newAddress'.tr() ,
-                           style: TextStyle(
-                             color: const Color(0xFF0057B8) ,
-                             fontSize: 12.sp ,
-                             fontWeight: FontWeight.normal ,
-                             fontFamily: 'Montserrat'
-                           ),)
-                         ],
-                       ),
+                          ),
+                          12.horizontalSpace,
+                          Text(
+                            'newAddress'.tr(),
+                            style: TextStyle(
+                                color: const Color(0xFF0057B8),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Montserrat'),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ) ,
+              ),
               16.verticalSpace
             ],
           ),
@@ -96,14 +96,10 @@ class _AddressesPageState extends State<AddressesPage> with UiUtility {
     );
   }
 
-  void _goToNewAddress( BuildContext context ) {
-
+  void _goToNewAddress(BuildContext context) {
     navigate(
-    context: context,
-    page:  const AddAddressPage(),
-    duration: const Duration(milliseconds: 300));
-    }
+        context: context,
+        page: const AddAddressPage(),
+        duration: const Duration(milliseconds: 300));
+  }
 }
-
-
-

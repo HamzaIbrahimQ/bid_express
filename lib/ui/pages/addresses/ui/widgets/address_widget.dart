@@ -25,7 +25,7 @@ class _AddressWidgetState extends State<AddressWidget> with UiUtility {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 325.w,
+      // width: 325.w,
       margin: EdgeInsets.only(
         bottom: 16.h,
         // right: 24.w , left: 24.w
@@ -104,9 +104,7 @@ class _AddressWidgetState extends State<AddressWidget> with UiUtility {
               firstAction: () {
                 _navigateToEditAddressPage(context, widget.address);
               },
-              secondAction: () {
-                Navigator.pop(context);
-              },
+              secondAction: () {},
             ),
           ),
         ],
@@ -116,8 +114,9 @@ class _AddressWidgetState extends State<AddressWidget> with UiUtility {
 
   void _navigateToEditAddressPage(BuildContext context, Address address) {
     navigate(
-        context: context,
-        page: EditAddressPage(address: address),
-        duration: const Duration(milliseconds: 300));
+      context: context,
+      duration: const Duration(milliseconds: 300),
+      page: EditAddressPage(address: address),
+    );
   }
 }

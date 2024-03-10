@@ -40,10 +40,10 @@ class ProfileItems extends StatelessWidget with UiUtility {
               ),
 
               /// Cars manage
-              ProfileItem(
-                title: 'manageCars'.tr(),
-                onTap: () {},
-              ),
+              // ProfileItem(
+              //   title: 'manageCars'.tr(),
+              //   onTap: () {},
+              // ),
 
               /// Change pass
               ProfileItem(
@@ -103,10 +103,6 @@ class ProfileItems extends StatelessWidget with UiUtility {
   }
 
   void _goToAddresses(BuildContext context) {
-    navigate(
-      context: context,
-      isFromBottom: true,
-      page: const AddressesPage(),
-    );
+    navigate(context: context, page: const AddressesPage());
   }
 }

@@ -1,12 +1,11 @@
-
 import 'package:bid_express/components/colors.dart';
- import 'package:bid_express/models/data_models/bids_models/won_bid_model.dart';
+import 'package:bid_express/models/data_models/bids_models/won_bid_model.dart';
 import 'package:bid_express/ui/pages/home_won_bids/ui/won_bids_details_page.dart';
 import 'package:bid_express/ui/widgets/cached_image.dart';
- import 'package:bid_express/utils/ui_utility.dart';
+import 'package:bid_express/utils/ui_utility.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
- import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,11 +23,7 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
   Widget build(BuildContext context) {
     return Container(
       width: 325.w,
-      margin: EdgeInsets.only(
-          right: 24.w , left: 24.w ,
-        bottom: 16.h
-      ),
-
+      margin: EdgeInsets.only(right: 24.w, left: 24.w, bottom: 16.h),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -56,14 +51,10 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
             blurRadius: 5,
           ),
         ],
-
-        color:
-        Colors.white,
+        color: Colors.white,
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(6.r) , topRight: Radius.circular(6.r)
-        ),
+            topLeft: Radius.circular(6.r), topRight: Radius.circular(6.r)),
       ),
-
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,8 +62,7 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
           InkWell(
             onTap: () => _navigateToBidWonPage(context, widget.wonBidModel),
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(6.r) , topRight: Radius.circular(6.r)
-            ),
+                topLeft: Radius.circular(6.r), topRight: Radius.circular(6.r)),
             overlayColor: const MaterialStatePropertyAll(Colors.transparent),
             child: Container(
               width: 325.w,
@@ -86,11 +76,10 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                 bottom: 13.h,
               ),
               decoration: BoxDecoration(
-                color:
-                Colors.white,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(6.r) , topRight: Radius.circular(6.r)
-                ),
+                    topLeft: Radius.circular(6.r),
+                    topRight: Radius.circular(6.r)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,53 +91,55 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        12.verticalSpace,
-                        RichText(
-                          text: TextSpan(
-                              text: 'order'.tr() + ' #',
-                              style: TextStyle(
-                                color: fadeTextColor,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Montserrat',
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: '${widget.wonBidModel.orderID}',
+                            12.verticalSpace,
+                            RichText(
+                              text: TextSpan(
+                                  text: 'order'.tr() + ' #',
                                   style: TextStyle(
-                                      color: blackColor,
-                                      fontSize: 10.sp,
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.bold),
-                                  // recognizer: TapGestureRecognizer()
-                                  //   ..onTap = () {
-                                  //     // navigate to desired screen
-                                  //   }
-                                )
-                              ]),
-                        ),
-                        6.verticalSpace,
-                      ] +
-                          (widget.wonBidModel.carParts
-                              .map(
-                                (e) => Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  e ?? '',
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.bold,
-                                      color: blackColor),
-                                ),
-                                2.verticalSpace
-                              ],
+                                    color: fadeTextColor,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: '${widget.wonBidModel.orderID}',
+                                      style: TextStyle(
+                                          color: blackColor,
+                                          fontSize: 10.sp,
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold),
+                                      // recognizer: TapGestureRecognizer()
+                                      //   ..onTap = () {
+                                      //     // navigate to desired screen
+                                      //   }
+                                    )
+                                  ]),
                             ),
-                          )
-                              .toList() ??
+                            6.verticalSpace,
+                          ] +
+                          (widget.wonBidModel.carParts
+                                  .map(
+                                    (e) => Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          e ?? '',
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.bold,
+                                              color: blackColor),
+                                        ),
+                                        2.verticalSpace
+                                      ],
+                                    ),
+                                  )
+                                  .toList() ??
                               []) +
                           <Widget>[
                             Text(
@@ -178,7 +169,8 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                             color: greyColor,
                             fontWeight: FontWeight.w500),
                       ),
-                      (16 + widget.wonBidModel.carParts.length*6).verticalSpace,
+                      (16 + widget.wonBidModel.carParts.length * 6)
+                          .verticalSpace,
                       Text(
                         ' \$ 0${widget.wonBidModel.price.toStringAsFixed(0)}',
                         style: TextStyle(
@@ -189,58 +181,63 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),
           ),
           Container(
-
-            padding: EdgeInsetsDirectional.symmetric(horizontal: 16.w,
-            vertical: 8.h),
+            padding: EdgeInsetsDirectional.symmetric(
+                horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(6.r) , bottomLeft: Radius.circular(6.r)
-                ),
-                color: primaryColor
-            ),
+                    bottomRight: Radius.circular(6.r),
+                    bottomLeft: Radius.circular(6.r)),
+                color: primaryColor),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CachedImageWidget(height: 48.w, width: 48.w, imgPath: widget.wonBidModel.image) ,
-                12.horizontalSpace ,
+                CachedImageWidget(
+                    height: 48.w,
+                    width: 48.w,
+                    imgPath: widget.wonBidModel.image),
+                12.horizontalSpace,
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.wonBidModel.name
- ,style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
+                      widget.wonBidModel.name,
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    ) ,
-                     Text(
-                      'Phone: ${widget.wonBidModel.phoneNumber}'
- ,style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w400,
+                    Text(
+                      'Phone: ${widget.wonBidModel.phoneNumber}',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                    ) ,
                   ],
-                ) ,
-                Expanded(child: SizedBox(height: 1,)) ,
+                ),
+                const Expanded(
+                  child: SizedBox(
+                    height: 1,
+                  ),
+                ),
                 InkWell(
-                  child: SvgPicture.asset('assets/icons/call.svg' ,
-                  width:22.w ,height: 22.w,),
-                  onTap: ()async{
-                   await  _call(widget.wonBidModel.phoneNumber);
-                  },
+                  child: SvgPicture.asset(
+                    'assets/icons/call.svg',
+                    width: 22.w,
+                    height: 22.w,
+                  ),
+                  onTap: () => _call('00962772127805'),
                 )
               ],
             ),
@@ -250,8 +247,7 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
     );
   }
 
-  void _navigateToBidWonPage(
-      BuildContext context, WonBidModel bidModel) {
+  void _navigateToBidWonPage(BuildContext context, WonBidModel bidModel) {
     navigate(
         context: context,
         page: WonBidsDetailsPage(wonBidModel: bidModel),
@@ -264,6 +260,5 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
     } else {
       throw 'Could not launch ${Uri.parse('tel://$number')}';
     }
-
   }
 }

@@ -223,7 +223,7 @@ class TemporaryData {
 
     Address(id: '96385214' ,
         coordinates: '5698745.2156 , 52156325.52' ,
-        name: 'Family' ,
+        name: 'Address' ,
         city: 'Karak' ,
         area: 'Area 1 ' ,
         street: 'Saad Al,Majali Shaheed Street' ,
