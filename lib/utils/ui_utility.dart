@@ -74,7 +74,7 @@ mixin UiUtility {
     bool? isFromBottom,
     bool? clearPagesStack,
     Duration? duration,
-     Function(dynamic value)? then,
+    Function(dynamic value)? then,
   }) {
     if (isReplacement ?? false) {
       Navigator.pushReplacement(
@@ -211,7 +211,6 @@ mixin UiUtility {
     ).show(context);
   }
 
-
   void changeLang(BuildContext context) {
     if (context.locale.languageCode == 'en') {
       context.setLocale(const Locale('ar', 'JO'));
@@ -219,44 +218,42 @@ mixin UiUtility {
       context.setLocale(const Locale('en', 'US'));
     }
   }
-  List<Widget> createStarsRate(double startRate){
-    final   int startInt = startRate.ceil();
+
+  List<Widget> createStarsRate(double startRate) {
+    final int startInt = startRate.ceil();
     List<Widget> starsWidgets = [];
-    for(int x= 0 ;x< startInt ; x++){
-      if(starsWidgets.length<5){
-        starsWidgets.add(
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 1),
-              child: Icon(Icons.star ,
-                size: 12.sp ,
-                color: const Color(0xffF5B510),),
-            )
-        );
+    for (int x = 0; x < startInt; x++) {
+      if (starsWidgets.length < 5) {
+        starsWidgets.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 1),
+          child: Icon(
+            Icons.star,
+            size: 12.sp,
+            color: const Color(0xffF5B510),
+          ),
+        ));
       }
     }
-    while(starsWidgets.length<5){
+    while (starsWidgets.length < 5) {
       starsWidgets.add(
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 1),
-          child: Icon(
-              Icons.star_border_purple500_sharp ,
-              color: const Color(0xFFF5B510),
-              size: 12.sp),
-        ) ,
-
+          child: Icon(Icons.star_border_purple500_sharp,
+              color: const Color(0xFFF5B510), size: 12.sp),
+        ),
       );
-
     }
     print('start length is: ${starsWidgets.length}');
     return starsWidgets;
   }
-  String createTitleString(List<String?> carParts){
+
+  String createTitleString(List<String?> carParts) {
     String carPartsString = '';
 
-    for(int x= 0; x< carParts.length ; x++){
-      carPartsString = carPartsString +(carParts[x]??'');
-      if(x != carParts.length -1 ){
-        carPartsString = carPartsString+' / ';
+    for (int x = 0; x < carParts.length; x++) {
+      carPartsString = carPartsString + (carParts[x] ?? '');
+      if (x != carParts.length - 1) {
+        carPartsString = carPartsString + ' / ';
       }
     }
     return carPartsString;

@@ -1,7 +1,8 @@
 import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/utils/temporary_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+
 class DropDownMainWidget extends StatelessWidget {
   String valueSelected ;
   Function functionOnTap ;

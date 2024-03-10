@@ -23,10 +23,10 @@ import 'package:image_picker/image_picker.dart';
 
 class MakeBidPage extends StatefulWidget {
  final BidModel bidModel;
-   const MakeBidPage({
-    super.key ,
-    required this.bidModel ,
 
+   const MakeBidPage({
+    super.key,
+    required this.bidModel,
   });
 
   @override

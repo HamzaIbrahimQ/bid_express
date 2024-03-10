@@ -7,14 +7,15 @@ class CachedImageWidget extends StatelessWidget {
  final double width;
  final double height;
  final String imgPath;
+
   const CachedImageWidget({super.key ,
   required this.height ,
   required this.width ,
-  required this.imgPath});
+  required this.imgPath,});
 
   @override
   Widget build(BuildContext context) {
-    return     SizedBox(
+    return SizedBox(
       width: width,
       height: height,
       child: CachedNetworkImage(imageUrl: imgPath ,
