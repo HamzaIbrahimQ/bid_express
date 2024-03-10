@@ -1,6 +1,7 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:bid_express/ui/pages/addresses/ui/add_address.dart';
+import 'package:bid_express/ui/pages/addresses/ui/addresses_page.dart';
 import 'package:bid_express/ui/pages/change_password/bloc/change_password_bloc.dart';
 import 'package:bid_express/ui/pages/change_password/ui/chnage_password.dart';
 import 'package:bid_express/ui/pages/home/ui/home_page.dart';
@@ -35,7 +36,7 @@ class ProfileItems extends StatelessWidget with UiUtility {
               /// Address
               ProfileItem(
                 title: 'myAddresses'.tr(),
-                onTap: () => _goToAddAddresses(context),
+                onTap: () => _goToAddresses(context),
               ),
 
               /// Cars manage
@@ -101,14 +102,11 @@ class ProfileItems extends StatelessWidget with UiUtility {
     );
   }
 
-  void _goToAddAddresses(BuildContext context) {
+  void _goToAddresses(BuildContext context) {
     navigate(
       context: context,
       isFromBottom: true,
-      page: BlocProvider(
-        create: (context) => ChangePasswordBloc(),
-        child: const AddAddressPage(),
-      ),
+      page: const AddressesPage(),
     );
   }
 }

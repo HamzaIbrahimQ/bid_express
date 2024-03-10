@@ -1,3 +1,4 @@
+import 'package:bid_express/models/data_models/address/address.dart';
 import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
 import 'package:bid_express/models/data_models/bids_models/cancelled_bid_model.dart';
 import 'package:bid_express/models/data_models/bids_models/history_bid_model.dart';
@@ -149,7 +150,7 @@ class TemporaryData {
       carYear: '2008',
       price: 150,
       name: 'Ahmad',
-      phoneNumber: '0780780780',
+      phoneNumber: '+962780780780',
       image: 'https://picsum.photos/200',
         timaDate: DateTime(2023 , 11 , 8 , 3 , 30)
 
@@ -164,7 +165,7 @@ class TemporaryData {
       carYear: '2016',
       price: 140,
       name: 'Anas',
-      phoneNumber: '0790790794',
+      phoneNumber: '+962790790794',
       image: 'https://picsum.photos/200',
         timaDate: DateTime(2024 , 1 , 5 , 12 , 30)
 
@@ -174,7 +175,7 @@ class TemporaryData {
         carParts: ['Wipers'],
         carName: 'Nissan Lief',
         carYear: '2012' ,
-      price: 200 , name: 'Adam', phoneNumber: '0770770771' ,
+      price: 200 , name: 'Adam', phoneNumber: '+962770770771' ,
       image: 'https://picsum.photos/200',
         timaDate: DateTime(2023 , 11 , 20 , 6 , 30)
 
@@ -184,7 +185,7 @@ class TemporaryData {
         carParts: ['Break Pads', 'Wipers'],
         carName: 'Mercedes Benz',
         carYear: '2018' ,
-      price: 250 , name: 'Noor', phoneNumber: '0780780788' ,
+      price: 250 , name: 'Noor', phoneNumber: '+962780780788' ,
       image: 'https://picsum.photos/200',
         timaDate: DateTime(2023 , 12 , 16 , 3 , 30)
 
@@ -194,11 +195,58 @@ class TemporaryData {
         carParts: ['Wipers'],
         carName: 'Toyota Corolla',
         carYear: '2010' ,
-      price: 225 , name: 'Labeeb', phoneNumber: '077855216' ,
+      price: 225 , name: 'Labeeb', phoneNumber: '+96277855216' ,
       image: 'https://picsum.photos/200',
         timaDate: DateTime(2024 , 2 , 5 , 4 , 30)
 
     ),
+  ];
+
+  List<Address> addresses = [
+    Address(id: '1655313' ,
+    coordinates: '5215621.2156 , 52156325.52' ,
+      name: 'Home' ,
+      city: 'Amman' ,
+      area: 'Area 1 ' ,
+      street: 'salman alfarisy Street' ,
+      building: 'building'
+    ) ,
+
+    Address(id: '541354312' ,
+        coordinates: '96512.2156 , 6321585.52' ,
+        name: 'Work' ,
+        city: 'Zarqa' ,
+        area: 'Area 1 ' ,
+        street: 'Al Munawwarah Street' ,
+        building: 'building'
+    ) ,
+
+    Address(id: '96385214' ,
+        coordinates: '5698745.2156 , 52156325.52' ,
+        name: 'Family' ,
+        city: 'Karak' ,
+        area: 'Area 1 ' ,
+        street: 'Saad Al,Majali Shaheed Street' ,
+        building: 'building'
+    ) ,
+
+    Address(id: '649851325' ,
+        coordinates: '985425685.85 , 985458525.52' ,
+        name: 'Home 2 ' ,
+        city: 'Amman' ,
+        area: 'Area 1 ' ,
+        street: 'Hamza Al Qabareh Street' ,
+        building: 'building'
+    ) ,
+
+    Address(id: '65485236' ,
+        coordinates: '542536321.2156 , 85888.52' ,
+        name: 'Work 2' ,
+        city: 'Zarqa' ,
+        area: 'Area 1 ' ,
+        street: 'Ahmad Al Mohammady Street' ,
+        building: 'building'
+    ) ,
   ];
 }
 

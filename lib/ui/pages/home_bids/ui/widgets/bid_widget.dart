@@ -142,6 +142,8 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
               child: PopupMenuWidget(
                 firstActionTitle: 'ignore'.tr(),
                 secondActionTitle: 'delete'.tr(),
+                  firstSVG:   'assets/icons/ignore.svg',
+                  secondSVG:   'assets/icons/delete.svg',
                   firstAction: (){
                     showAnimatedDialog(
                         context: context,
