@@ -22,9 +22,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MakeBidPage extends StatefulWidget {
- final BidModel bidModel;
+  final BidModel bidModel;
 
-   const MakeBidPage({
+  const MakeBidPage({
     super.key,
     required this.bidModel,
   });
@@ -128,10 +128,11 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                         maxLines: 1,
                         minFontSize: 8,
                         style: TextStyle(
-                            fontSize: 10.sp,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 10.sp,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -145,18 +146,16 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                     borderRadius: BorderRadius.all(Radius.circular(6.sp)),
                   ),
                   child: TextFormField(
+                    controller: _priceCont,
                     keyboardType: TextInputType.number,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         fontSize: 12.sp, fontWeight: FontWeight.bold),
-                    controller: _priceCont,
                     decoration: InputDecoration(
+                      hintText: '0.00',
                       filled: true,
                       fillColor: Colors.white,
-                      hintMaxLines: 1,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 4.w,
-                        vertical: 4.h,
-                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6),
                         borderSide: const BorderSide(
@@ -197,21 +196,28 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                           style: BorderStyle.solid,
                         ),
                       ),
-                      prefixText: '\$ ',
-                      prefixStyle: Theme.of(context)
-                          .textTheme
-                          .labelMedium
-                          ?.copyWith(
-                              fontSize: 12.sp, fontWeight: FontWeight.bold),
+                      prefixIconConstraints: BoxConstraints(maxHeight: 36.h),
+                      prefixIcon: Padding(
+                        padding: EdgeInsetsDirectional.only(start: 2.w),
+                        child: Text(
+                          '\$ ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(
+                                  fontSize: 12.sp, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       counterText: '',
                       counter: const SizedBox(
                         width: 0,
                         height: 0,
                       ),
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .labelMedium
-                          ?.copyWith(color: secondaryColor, fontSize: 11.sp),
+                      hintStyle:
+                          Theme.of(context).textTheme.labelMedium?.copyWith(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                       errorStyle:
                           Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: Colors.red,
@@ -219,7 +225,7 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                     ),
                     maxLines: 1,
                     minLines: 1,
-                    maxLength: 4,
+                    maxLength: 7,
                     textInputAction: TextInputAction.done,
                   ),
                 )
@@ -331,13 +337,14 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                       4.verticalSpace,
 
                       DropDownMainWidget(
-                        functionOnTap: (String e) {
+                        valueSelected: _warrantyValue,
+                        options: tData.warrantyDataList,
+                        height: .32.sh,
+                        onTap: (String e) {
                           setState(() {
                             _warrantyValue = e;
                           });
                         },
-                        valueSelected: _warrantyValue,
-                        options: tData.warrantyDataList,
                       ),
                       24.verticalSpace,
 

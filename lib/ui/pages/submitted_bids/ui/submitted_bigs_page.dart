@@ -1,22 +1,23 @@
-import 'package:bid_express/components/colors.dart';
-import 'package:bid_express/components/progress_hud.dart';
-import 'package:bid_express/ui/pages/home/ui/widgets/username_widget.dart';
-import 'package:bid_express/ui/pages/home_won_bids/ui/widgets/home_won_bid_widget.dart';
+import 'package:bid_express/ui/pages/home_bids/ui/widgets/bid_widget.dart';
 import 'package:bid_express/ui/widgets/drop_down_range_home.dart';
 import 'package:bid_express/utils/temporary_data.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:bid_express/utils/utility.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeWonBidsPage extends StatefulWidget {
-  const HomeWonBidsPage({Key? key}) : super(key: key);
+import 'widgets/submitted_bid_widget.dart';
+
+
+class SubmittedBidsPage extends StatefulWidget {
+  const SubmittedBidsPage({Key? key}) : super(key: key);
 
   @override
-  State<HomeWonBidsPage> createState() => _HomeWonBidsPageState();
+  State<SubmittedBidsPage> createState() => _SubmittedBidsPageState();
 }
 
-class _HomeWonBidsPageState extends State<HomeWonBidsPage>
+class _SubmittedBidsPageState extends State<SubmittedBidsPage>
     with UiUtility, Utility, TickerProviderStateMixin {
   String dropDownValue = '';
 
@@ -42,17 +43,15 @@ class _HomeWonBidsPageState extends State<HomeWonBidsPage>
             ),
           ),
 
-          /// Dashboard tabs
-          24.verticalSpace,
+          16.verticalSpace,
 
-
-          /// Won bids list
+          /// Bids list
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 6.h),
-              itemCount: tData.homeWonBids.length,
+              itemCount: tData.homeBids.length,
               itemBuilder: (context, index) {
-                return BidWonWidget(wonBidModel: tData.homeWonBids[index]);
+                return SubmittedBidWidget(bidModel: tData.homeBids[index]);
               },
             ),
           ),

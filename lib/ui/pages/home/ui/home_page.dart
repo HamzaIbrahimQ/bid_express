@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
@@ -7,6 +6,7 @@ import 'package:bid_express/ui/pages/home_bids/ui/home_bids_page.dart';
 import 'package:bid_express/ui/pages/home_cancelled_bids/ui/home_cancelled_bids_page.dart';
 import 'package:bid_express/ui/pages/home_history/ui/home_history_page.dart';
 import 'package:bid_express/ui/pages/home_won_bids/ui/home_won_bids_page.dart';
+import 'package:bid_express/ui/pages/submitted_bids/ui/submitted_bigs_page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _future = getUserName();
   }
 
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage>
         },
         builder: (context, state) {
           return DefaultTabController(
-            length: 4,
+            length: 5,
             child: Scaffold(
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -109,8 +109,8 @@ class _HomePageState extends State<HomePage>
                               indicatorWeight: 4,
                               tabAlignment: TabAlignment.center,
                               labelPadding: EdgeInsetsDirectional.only(
-                                start: 22.w,
-                                end: 22.w,
+                                start: 12.w,
+                                end: 12.w,
                                 bottom: 4.h,
                               ),
                               indicatorColor: const Color(0XFF0057B8),
@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage>
                                   ),
                                 ),
                                 Text(
-                                  'Won Bids',
+                                  'Submitted bids',
                                   style: TextStyle(
                                     color: secondaryColor,
                                     fontSize: 12.sp,
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage>
                                   ),
                                 ),
                                 Text(
-                                  'Cancelled',
+                                  'Won Bids',
                                   style: TextStyle(
                                     color: secondaryColor,
                                     fontSize: 12.sp,
@@ -154,11 +154,21 @@ class _HomePageState extends State<HomePage>
                                   ),
                                 ),
                                 Text(
-                                  'History',
+                                  'Cancelled',
                                   style: TextStyle(
                                     color: secondaryColor,
                                     fontSize: 12.sp,
                                     fontWeight: _currentIndex == 3
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
+                                ),
+                                Text(
+                                  'History',
+                                  style: TextStyle(
+                                    color: secondaryColor,
+                                    fontSize: 12.sp,
+                                    fontWeight: _currentIndex == 4
                                         ? FontWeight.bold
                                         : FontWeight.normal,
                                   ),
@@ -177,10 +187,9 @@ class _HomePageState extends State<HomePage>
                               child: TabBarView(
                                 controller: _tabController,
                                 children: const [
-                                  /// all pages are in separated directories
-                                  /// under level of pages directory
-                                 HomeBidsPage(),
-                                 HomeWonBidsPage(),
+                                  HomeBidsPage(),
+                                  SubmittedBidsPage(),
+                                  HomeWonBidsPage(),
                                   HomeCancelledBidsPage(),
                                   HomBidsHistoryPage(),
                                 ],

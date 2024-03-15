@@ -22,45 +22,40 @@ class _HomeBidsPageState extends State<HomBidsHistoryPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          /// Bg image and username
-          24.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: DropDownMainWidget(
-              hint: 'Date Range',
-              functionOnTap: (e) {
-                setState(() {
-                  dropDownValue = e;
-                });
-              },
-              valueSelected: dropDownValue,
-              options: tData.rangeDataList,
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        /// Bg image and username
+        24.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: DropDownMainWidget(
+            hint: 'Date Range',
+            onTap: (e) {
+              setState(() {
+                dropDownValue = e;
+              });
+            },
+            valueSelected: dropDownValue,
+            options: tData.rangeDataList,
           ),
+        ),
 
-          /// Dashboard tabs
-          24.verticalSpace,
+        /// Dashboard tabs
+        24.verticalSpace,
 
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: tData.homeHisytoyrBids
-                    .map((e) => BidHistoryWidget(
-                          historyOrderModel: e,
-                        ))
-                    .toList(),
-              ),
-            ),
+        /// Bids list
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsetsDirectional.only(top: 6.h, start: 24.w, end: 24.w),
+            itemCount: tData.homeHisytoyrBids.length,
+            itemBuilder: (context, index) {
+              return BidHistoryWidget(historyOrderModel: tData.homeHisytoyrBids[index]);
+            },
           ),
-        ],
-      ),
+        ),
+
+      ],
     );
   }
 }

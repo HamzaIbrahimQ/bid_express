@@ -6,6 +6,7 @@ import 'package:bid_express/models/responses/login/login_response.dart';
 import 'package:bid_express/models/responses/part/part_response.dart';
 import 'package:bid_express/models/responses/part_addition/part_addition_response.dart';
 import 'package:bid_express/models/responses/response_errors/response_errors.dart';
+import 'package:bid_express/models/responses/selected_category/selected_category.dart';
 import 'package:bid_express/models/responses/signup/signup_response.dart';
 import 'package:bid_express/models/responses/user/user_data_model.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -90,6 +91,10 @@ class MainResponse<T> {
     } else if (json.containsKey('data') && T == List<CarModelResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CarModelResponse.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }else if (json.containsKey('data') && T == List<SelectedCategory>) {
+      mainResponse.data = (json['data'] as List<dynamic>)
+          .map((e) => SelectedCategory.fromJson(e as Map<String, dynamic>))
           .toList();
     } else {
       mainResponse.data = json['data'] ?? {};

@@ -2,41 +2,38 @@ import 'package:bid_express/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-
 class DropDownMainWidget extends StatelessWidget {
   String valueSelected;
 
-  Function functionOnTap;
+  Function onTap;
 
   List<String> options;
   final String? hint;
 
+  final double? height;
+
   DropDownMainWidget({
     super.key,
-    required this.functionOnTap,
+    required this.onTap,
     required this.valueSelected,
     required this.options,
     this.hint,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8.0),
-        ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.r)),
       ),
-      // padd// ing: EdgeInsets.zero,
       color: Colors.white,
       iconColor: Colors.white,
       surfaceTintColor: Colors.white,
       constraints: BoxConstraints.expand(
         width: 1.sw - 48.w,
-        height: 140.h,
+        height: height?? .26.sh,
       ),
-
       position: PopupMenuPosition.under,
       child: Container(
         padding:
@@ -64,7 +61,6 @@ class DropDownMainWidget extends StatelessWidget {
           ],
         ),
       ),
-
       itemBuilder: (BuildContext context) {
         return options
             .map((e) => PopupMenuItem(
@@ -77,7 +73,7 @@ class DropDownMainWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  onTap: () => functionOnTap(e),
+                  onTap: () => onTap(e),
                 ))
             .toList();
       },

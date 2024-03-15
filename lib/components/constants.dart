@@ -18,6 +18,9 @@ final RegExp businessNameRegex = RegExp(r'^[a-zA-Z0-9\u0600-\u06FF,،:() ]+$');
 final RegExp cityNameRegex =
     RegExp(r'^[a-zA-Z\u0621-\u064A،,][a-zA-Z\u0621-\u064A،, ]*$');
 
+final RegExp hyperlinkRegex = RegExp(r'https?://\S+');
+
+
 final LatLngBounds jordanBounds = LatLngBounds(
   southwest: const LatLng(29.0000, 34.0000),
   northeast: const LatLng(33.5000, 39.3000),

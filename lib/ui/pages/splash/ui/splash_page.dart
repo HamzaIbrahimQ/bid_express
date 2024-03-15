@@ -60,7 +60,10 @@ class SplashPage extends StatelessWidget with UiUtility {
           //     ? const BottomNavBar()
           //     :
           accessToken.isNotEmpty
-              ? const NavBar()
+              ? BlocProvider(
+                  create: (context) => HomeBloc()..add(GetUserData()),
+                  child: const NavBar(),
+                )
               : BlocProvider(
                   create: (context) => LoginBloc(),
                   child: const LoginPage(),

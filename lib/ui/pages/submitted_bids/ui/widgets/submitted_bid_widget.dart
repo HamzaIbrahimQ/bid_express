@@ -10,16 +10,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timeago/timeago.dart' as time_ago;
 
-class BidWidget extends StatefulWidget {
+class SubmittedBidWidget extends StatefulWidget {
   final BidModel bidModel;
 
-  const BidWidget({super.key, required this.bidModel});
+  const SubmittedBidWidget({super.key, required this.bidModel});
 
   @override
-  State<BidWidget> createState() => _BidWidgetState();
+  State<SubmittedBidWidget> createState() => _SubmittedBidWidgetState();
 }
 
-class _BidWidgetState extends State<BidWidget> with UiUtility {
+class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -68,7 +68,6 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
 
             /// Order id and time ago
             Row(
@@ -162,37 +161,6 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
                                     .toList()),
                       ),
 
-                      /// Ignore
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        tooltip: 'Hide this part from the list',
-                        style: const ButtonStyle(
-                            overlayColor:
-                                MaterialStatePropertyAll(Colors.transparent)),
-                        icon: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            /// Icon
-                            SvgPicture.asset(
-                              'assets/icons/ignore.svg',
-                              fit: BoxFit.cover,
-                            ),
-
-                            6.verticalSpace,
-
-                            /// Label
-                            Text(
-                              'Ignore this part',
-                              style: TextStyle(
-                                fontSize: 9.sp,
-                                color: secondaryColor,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onPressed: () {},
-                      ),
                     ],
                   ),
                 ),

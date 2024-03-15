@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
@@ -10,7 +11,7 @@ import 'package:bid_express/ui/pages/login/ui/widgets/country_code.dart';
 import 'package:bid_express/ui/pages/otp/ui/otp_page.dart';
 import 'package:bid_express/ui/pages/select_location/cubit/select_location_cubit.dart';
 import 'package:bid_express/ui/pages/signup/bloc/signup_bloc.dart';
-import 'package:bid_express/ui/pages/signup/ui/widgets/address_title.dart';
+import 'package:bid_express/ui/pages/signup/ui/widgets/section_title.dart';
 import 'package:bid_express/ui/pages/signup/ui/widgets/set_location_on_map.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -46,6 +47,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   final TextEditingController _confirmPassCont = TextEditingController();
   final FocusNode _confirmPassFoc = FocusNode();
 
+  final TextEditingController _siteLinkCont = TextEditingController();
+  final FocusNode _siteLinkFoc = FocusNode();
+
   final TextEditingController _addressNameCont = TextEditingController();
   final FocusNode _addressNameFoc = FocusNode();
 
@@ -61,6 +65,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   final TextEditingController _buildingCont = TextEditingController();
   final FocusNode _buildingFoc = FocusNode();
 
+  final TextEditingController _facebookAccountCont = TextEditingController();
+  final FocusNode _facebookAccountFoc = FocusNode();
+
   late SignupBloc _bloc;
   late SelectLocationCubit _locationCubit;
 
@@ -74,7 +81,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     if (kDebugMode) {
       _businessNameCont.text = 'xyz' +
           '${DateTime.now().hour.toString()}${DateTime.now().minute.toString()}${DateTime.now().second.toString()}';
-      _mobileCont.text = '789123';
+      _mobileCont.text = generateRandomNumber();
       _passCont.text = 'Aa@11111';
       _confirmPassCont.text = 'Aa@11111';
       _streetCont.text = 'شارع مكه المكرمه';
@@ -91,6 +98,9 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     _passFoc.dispose();
     _confirmPassCont.dispose();
     _confirmPassFoc.dispose();
+    _siteLinkCont.dispose();
+    _siteLinkFoc.dispose();
+
     _addressNameCont.dispose();
     _addressNameFoc.dispose();
     _cityCont.dispose();
@@ -101,6 +111,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     _streetFoc.dispose();
     _buildingCont.dispose();
     _buildingFoc.dispose();
+    _facebookAccountCont.dispose();
+    _facebookAccountFoc.dispose();
     super.dispose();
   }
 
@@ -382,8 +394,27 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                           },
                         ),
 
+                        /// Site link title
+                        const SectionTitle(title: 'Site link'),
+
+                        12.verticalSpace,
+
+                        /// Site link field
+                        AppTextField(
+                          controller: _siteLinkCont,
+                          focusNode: _siteLinkFoc,
+                          title: 'Site link',
+                          hint: 'website/Social media account..',
+                          isRequired: false,
+                          inputType: TextInputType.url,
+                          regex: hyperlinkRegex,
+                          onSubmit: (v) => _addressNameFoc.requestFocus(),
+                          onSaved: (val) =>
+                              _bloc.signupRequest.siteUrl = val?.trim(),
+                        ),
+
                         /// Location title
-                        const AddressTitle(),
+                        const SectionTitle(),
 
                         /// Set location on map
                         SetLocationOnMap(
@@ -473,6 +504,21 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                   textInputAction: TextInputAction.done,
                                   onSaved: (val) => {},
                                 ),
+
+                                6.verticalSpace,
+
+                                /// Facebook account field
+                                AppTextField(
+                                  controller: _facebookAccountCont,
+                                  focusNode: _facebookAccountFoc,
+                                  title: 'Facebook page link',
+                                  hint: 'Facebook page link',
+                                  isRequired: false,
+                                  inputType: TextInputType.name,
+                                  regex: businessNameRegex,
+                                  textInputAction: TextInputAction.done,
+                                  onSaved: (val) => {},
+                                ),
                               ],
                             );
                           },
@@ -556,10 +602,10 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     }
     _bloc.signupRequest.latitude = double.tryParse(data.lat ?? '');
     _bloc.signupRequest.longitude = double.tryParse(data.long ?? '');
-    _updateFields();
+    _updateLocationFields();
   }
 
-  void _updateFields() {
+  void _updateLocationFields() {
     _bloc.add(UpdateLocationFields());
   }
 
@@ -624,5 +670,18 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
         _profileImg = pickedFile;
       });
     }
+  }
+
+
+  String generateRandomNumber() {
+    final Random random = Random();
+    String numberString = '';
+
+    for (int i = 0; i < 6; i++) {
+      final int digit = random.nextInt(10);
+      numberString += digit.toString();
+    }
+
+    return numberString;
   }
 }

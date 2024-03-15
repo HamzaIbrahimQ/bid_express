@@ -44,9 +44,9 @@ class AppTheme {
         ),
       ),
 
-      splashColor: primaryColor.withOpacity(.3),
-      focusColor: primaryColor.withOpacity(.3),
-      highlightColor: primaryColor.withOpacity(.3),
+      splashColor: primaryColor.withOpacity(.1),
+      focusColor: primaryColor.withOpacity(.1),
+      highlightColor: primaryColor.withOpacity(.1),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
           textStyle: MaterialStateProperty.all(

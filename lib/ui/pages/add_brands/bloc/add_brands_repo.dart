@@ -75,6 +75,7 @@ class GetBrandsRepository extends BaseRepository {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${_refreshedToken ?? _token}',
+      'langCode': 'en',
     };
 
     try {
@@ -89,7 +90,7 @@ class GetBrandsRepository extends BaseRepository {
         _refreshedToken = _refreshTokenResponse?.accessToken ?? '';
         return addBrands(addBrandsRequest: addBrandsRequest);
       } else {
-        log(response.request.toString() +
+        log(json.encode(addBrandsRequest.toJson()) + '\n'+  response.request.toString() +
             '\n' +
             response.statusCode.toString() +
             '\n' +

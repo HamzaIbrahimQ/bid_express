@@ -3,8 +3,7 @@ import 'package:bid_express/components/constants.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/components/text_field.dart';
-import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
-import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
+import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/country_code.dart';
 import 'package:bid_express/ui/pages/login/ui/widgets/dont_have_account.dart';
@@ -44,7 +43,7 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
   void initState() {
     super.initState();
     if (kDebugMode) {
-      _mobileCont.text = '7721235';
+      _mobileCont.text = '123123';
       _passCont.text = 'Aa@11111';
     }
   }
@@ -232,7 +231,10 @@ class _LoginPageState extends State<LoginPage> with UiUtility {
       context: context,
       isFade: true,
       clearPagesStack: true,
-      page: const NavBar(),
+      page: BlocProvider(
+        create: (context) => HomeBloc()..add(GetUserData()),
+        child: const NavBar(),
+      )
     );
 
     // navigate(

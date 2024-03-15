@@ -4,7 +4,7 @@ import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/ui/pages/addresses/ui/add_address.dart';
 import 'package:bid_express/ui/pages/addresses/ui/widgets/address_widget.dart';
-import 'package:bid_express/ui/pages/signup/ui/widgets/address_title.dart';
+import 'package:bid_express/ui/pages/signup/ui/widgets/section_title.dart';
 import 'package:bid_express/utils/temporary_data.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:dotted_border/dotted_border.dart';

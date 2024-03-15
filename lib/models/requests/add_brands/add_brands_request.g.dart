@@ -8,6 +8,7 @@ part of 'add_brands_request.dart';
 
 AddBrandsRequest _$AddBrandsRequestFromJson(Map<String, dynamic> json) =>
     AddBrandsRequest(
+      langCode: json['langCode'] as String,
       sellerCreateBrand: (json['sellerCreateBrand'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
@@ -17,6 +18,7 @@ AddBrandsRequest _$AddBrandsRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AddBrandsRequestToJson(AddBrandsRequest instance) =>
     <String, dynamic>{
+      'langCode': instance.langCode,
       'sellerCreateBrand': instance.sellerCreateBrand,
     };
 

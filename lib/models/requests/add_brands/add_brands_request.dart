@@ -4,9 +4,10 @@ part 'add_brands_request.g.dart';
 
 @JsonSerializable()
 class AddBrandsRequest {
+  final String langCode;
   List<AddBrandRequest?>? sellerCreateBrand;
 
-  AddBrandsRequest({this.sellerCreateBrand});
+  AddBrandsRequest({required this.langCode, this.sellerCreateBrand});
 
   factory AddBrandsRequest.fromJson(Map<String, dynamic> json) =>
       _$AddBrandsRequestFromJson(json);

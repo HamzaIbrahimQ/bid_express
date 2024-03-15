@@ -4,6 +4,7 @@ import 'package:bid_express/ui/pages/home_won_bids/ui/won_bids_details_page.dart
 import 'package:bid_express/ui/widgets/cached_image.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,8 +23,7 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 325.w,
-      margin: EdgeInsets.only(right: 24.w, left: 24.w, bottom: 16.h),
+      margin: EdgeInsetsDirectional.only(end: 24.w, start: 24.w, bottom: 16.h),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -56,135 +56,150 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
             topLeft: Radius.circular(6.r), topRight: Radius.circular(6.r)),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () => _navigateToBidWonPage(context, widget.wonBidModel),
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(6.r), topRight: Radius.circular(6.r)),
-            overlayColor: const MaterialStatePropertyAll(Colors.transparent),
-            child: Container(
-              width: 325.w,
-              // margin: EdgeInsets.only(bottom: 16.h  ,
-              //     right: 24.w , left: 24.w
-              // ),
-              padding: EdgeInsetsDirectional.only(
-                start: 16.w,
-                end: 14.w,
-                top: 6.h,
-                bottom: 13.h,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(6.r),
-                    topRight: Radius.circular(6.r)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                            12.verticalSpace,
-                            RichText(
-                              text: TextSpan(
-                                  text: 'order'.tr() + ' #',
-                                  style: TextStyle(
-                                    color: fadeTextColor,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Montserrat',
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '${widget.wonBidModel.orderID}',
-                                      style: TextStyle(
-                                          color: blackColor,
-                                          fontSize: 10.sp,
-                                          fontFamily: 'Montserrat',
-                                          fontWeight: FontWeight.bold),
-                                      // recognizer: TapGestureRecognizer()
-                                      //   ..onTap = () {
-                                      //     // navigate to desired screen
-                                      //   }
-                                    )
-                                  ]),
-                            ),
-                            6.verticalSpace,
-                          ] +
-                          (widget.wonBidModel.carParts
-                                  .map(
-                                    (e) => Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          e ?? '',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.bold,
-                                              color: blackColor),
-                                        ),
-                                        2.verticalSpace
-                                      ],
-                                    ),
-                                  )
-                                  .toList() ??
-                              []) +
-                          <Widget>[
-                            Text(
-                              '${widget.wonBidModel.carName} (${widget.wonBidModel.carYear})',
-                              maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: blackColor),
-                            ),
-                          ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      12.verticalSpace,
-                      Text(
-                        '${DateFormat('MMM d,yyyy').format(widget.wonBidModel.timaDate)}' +
-                            '  ' +
-                            '${DateFormat.jm().format(widget.wonBidModel.timaDate)}',
+          /// Bid content
+          Padding(
+            padding: EdgeInsetsDirectional.only(top: 10.h, start: 6.w, end: 6.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// Order id and date
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /// Order id
+                    RichText(
+                      text: TextSpan(
+                        text: 'order'.tr() + ' #',
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 10.sp,
-                            color: greyColor,
-                            fontWeight: FontWeight.w500),
+                          color: fadeTextColor,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Montserrat',
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: '${widget.wonBidModel.orderID}',
+                            style: TextStyle(
+                                color: blackColor,
+                                fontSize: 10.sp,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
-                      (16 + widget.wonBidModel.carParts.length * 6)
-                          .verticalSpace,
-                      Text(
-                        ' \$ 0${widget.wonBidModel.price.toStringAsFixed(0)}',
-                        style: TextStyle(
-                            color: const Color(0xFF2D3D5E),
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.sp),
+                    ),
+
+                    /// date
+                    Text(
+                      '${DateFormat('MMM d,yyyy').format(widget.wonBidModel.timaDate)}' +
+                          '  ' +
+                          '${DateFormat.jm().format(widget.wonBidModel.timaDate)}',
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 10.sp,
+                          color: greyColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+
+                6.verticalSpace,
+
+                /// Bid content
+                InkWell(
+                  onTap: () =>
+                      _navigateToBidWonPage(context, widget.wonBidModel),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(6.r),
+                    topRight: Radius.circular(6.r),
+                  ),
+                  overlayColor:
+                      const MaterialStatePropertyAll(Colors.transparent),
+                  child: Row(
+                    children: [
+                      /// Brand image
+                      SvgPicture.asset(
+                        'assets/icons/toyota.svg',
+                        fit: BoxFit.cover,
+                        colorFilter: const ColorFilter.mode(
+                          secondaryColor,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+
+
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsetsDirectional.only(start: 12.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(6.r),
+                              topRight: Radius.circular(6.r),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: widget.wonBidModel.carParts
+                                .map(
+                                  (e) => Padding(
+                                    padding:
+                                        EdgeInsetsDirectional.only(bottom: 2.h),
+                                    child: Text(
+                                      e ?? '',
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold,
+                                          color: blackColor),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                6.verticalSpace,
+
+                /// Car info and price
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /// Car info
+                    Text(
+                      '${widget.wonBidModel.carName} (${widget.wonBidModel.carYear})',
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: fadeTextColor,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+
+                    /// price
+                    Text(
+                      ' \$${widget.wonBidModel.price.toStringAsFixed(0)}',
+                      style: TextStyle(
+                          color: const Color(0xFF2D3D5E),
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.sp),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
+
+          /// Buyer profile
           Container(
             padding: EdgeInsetsDirectional.symmetric(
                 horizontal: 16.w, vertical: 8.h),
@@ -241,7 +256,7 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );

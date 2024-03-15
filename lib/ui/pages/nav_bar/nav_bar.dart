@@ -19,10 +19,7 @@ class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    BlocProvider(
-      create: (context) => HomeBloc()..add(GetUserData()),
-      child: const HomePage(),
-    ),
+    const HomePage(),
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeBloc()),

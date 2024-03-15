@@ -54,196 +54,193 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
           }
         },
         builder: (context, state) {
-          return DefaultTabController(
-            length: 4,
-            child: Scaffold(
-              body: Stack(
-                children: [
-                  /// Bg and body
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      /// Bg image and username
-                      Stack(
-                        children: [
-                          /// Bg
-                          Container(
-                            width: 1.sw,
-                            height: .2.sh,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  'assets/imgs/dashboard_bg.jpg',
-                                ),
+          return Scaffold(
+            body: Stack(
+              children: [
+                /// Bg and body
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    /// Bg image and username
+                    Stack(
+                      children: [
+                        /// Bg
+                        Container(
+                          width: 1.sw,
+                          height: .25.sh,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                'assets/imgs/dashboard_bg.jpg',
                               ),
                             ),
                           ),
-
-                          /// Username
-                          UserNameWidget(future: _future),
-                        ],
-                      ),
-
-                      124.verticalSpace,
-
-                      /// Model years and categories
-                      Expanded(
-                        child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
-                          listener: (context, state) {
-                            if (state is GetCategoriesLoadingState) {
-                              LoadingView.shared.startLoading(context);
-                            }
-
-                            if (state is GetCategoriesSuccessState) {
-                              LoadingView.shared.stopLoading();
-                              if (_bloc.cars.isNotEmpty) {
-                                _bloc.add(SelectBrand(
-                                    brandId: _bloc.cars.first.brandId ?? 0));
-                              }
-                            }
-
-                            if (state is GetCategoriesErrorState) {
-                              LoadingView.shared.stopLoading();
-                              showErrorToast(
-                                  context: context, msg: state.error);
-                            }
-
-                            if (state is GetCategoriesFailureState) {
-                              LoadingView.shared.stopLoading();
-                              showErrorToast(context: context);
-                            }
-
-                            if (state is GetSelectedCategoriesLoadingState) {
-                              LoadingView.shared.startLoading(context);
-                            }
-
-                            if (state is GetSelectedCategoriesSuccessState) {
-                              LoadingView.shared.stopLoading();
-                              //
-                            }
-
-                            if (state is GetSelectedCategoriesErrorState) {
-                              LoadingView.shared.stopLoading();
-                              showErrorToast(
-                                  context: context, msg: state.error);
-                            }
-
-                            if (state is GetSelectedCategoriesFailureState) {
-                              LoadingView.shared.stopLoading();
-                              showErrorToast(context: context);
-                            }
-                          },
-                          builder: (context, state) {
-                            return Column(
-                              children: [
-                                /// Fields
-                                /// TODO: add years fields
-                                const SizedBox.shrink(),
-
-                                /// Categories
-                                Expanded(
-                                  child: GridView.builder(
-                                    // shrinkWrap: true,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 24.w,
-                                      vertical: 6.h,
-                                    ),
-                                    itemCount: _bloc.categories.length,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 1.0,
-                                      mainAxisSpacing: 16.h,
-                                      crossAxisSpacing: 16.w,
-                                    ),
-                                    itemBuilder: (context, index) {
-                                      return CategoryWidget(
-                                        category: _bloc.categories[index],
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
                         ),
-                      ),
-                    ],
-                  ),
 
-                  16.verticalSpace,
+                        /// Username
+                        UserNameWidget(future: _future),
+                      ],
+                    ),
 
-                  /// Brands and models
-                  Positioned(
-                    top: 115,
-                    child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
-                      listener: (context, state) {
-                        if (state is UpdateSelectedBrandState) {
-                          _bloc.add(SelectModel(
-                              modelId: _getSelectedBrand()
-                                      ?.sellerCarModels
-                                      ?.first
-                                      ?.carModelId ??
-                                  0));
-                        }
-                      },
-                      builder: (context, state) {
-                        return Column(
-                          children: [
-                            /// Brands
-                            SizedBox(
-                              width: 1.sw,
-                              height: .12.sh,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: _bloc.cars.length,
-                                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                                itemBuilder: (context, index) {
-                                  return SellerBrandWidget(
-                                    brand: _bloc.cars[index],
-                                  );
-                                },
-                              ),
-                            ),
+                    124.verticalSpace,
 
-                            16.verticalSpace,
+                    /// Model years and categories
+                    Expanded(
+                      child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
+                        listener: (context, state) {
+                          if (state is GetCategoriesLoadingState) {
+                            LoadingView.shared.startLoading(context);
+                          }
 
-                            /// Models
-                            BlocConsumer<ManageCarsBloc, ManageCarsState>(
-                              listener: (context, state) {
-                                if (state is UpdateSelectedModelState) {
-                                  _bloc.add(GetSelectedCategories(
-                                      modelId: state.modelId));
-                                }
-                              },
-                              builder: (context, state) {
-                                return SizedBox(
-                                  width: 1.sw,
-                                  height: .045.sh,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 24.w),
-                                    itemCount: _getModelsCount(),
-                                    itemBuilder: (context, index) {
-                                      return SellerCarModelWidget(
-                                        model: _getSelectedBrand()
-                                                ?.sellerCarModels![index] ??
-                                            GetCarsResponseCarModels(),
-                                      );
-                                    },
+                          if (state is GetCategoriesSuccessState) {
+                            LoadingView.shared.stopLoading();
+                            if (_bloc.cars.isNotEmpty) {
+                              _bloc.add(SelectBrand(
+                                  brandId: _bloc.cars.first.brandId ?? 0));
+                            }
+                          }
+
+                          if (state is GetCategoriesErrorState) {
+                            LoadingView.shared.stopLoading();
+                            showErrorToast(
+                                context: context, msg: state.error);
+                          }
+
+                          if (state is GetCategoriesFailureState) {
+                            LoadingView.shared.stopLoading();
+                            showErrorToast(context: context);
+                          }
+
+                          if (state is GetSelectedCategoriesLoadingState) {
+                            LoadingView.shared.startLoading(context);
+                          }
+
+                          if (state is GetSelectedCategoriesSuccessState) {
+                            LoadingView.shared.stopLoading();
+                            //
+                          }
+
+                          if (state is GetSelectedCategoriesErrorState) {
+                            LoadingView.shared.stopLoading();
+                            showErrorToast(
+                                context: context, msg: state.error);
+                          }
+
+                          if (state is GetSelectedCategoriesFailureState) {
+                            LoadingView.shared.stopLoading();
+                            showErrorToast(context: context);
+                          }
+                        },
+                        builder: (context, state) {
+                          return Column(
+                            children: [
+                              /// Fields
+                              /// TODO: add years fields
+                              const SizedBox.shrink(),
+
+                              /// Categories
+                              Expanded(
+                                child: GridView.builder(
+                                  // shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 24.w,
+                                    vertical: 6.h,
                                   ),
+                                  itemCount: _bloc.categories.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1.0,
+                                    mainAxisSpacing: 16.h,
+                                    crossAxisSpacing: 16.w,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return CategoryWidget(
+                                      category: _bloc.categories[index],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+                16.verticalSpace,
+
+                /// Brands and models
+                Positioned(
+                  top: 144.h,
+                  child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
+                    listener: (context, state) {
+                      if (state is UpdateSelectedBrandState) {
+                        _bloc.add(SelectModel(
+                            modelId: _getSelectedBrand()
+                                    ?.sellerCarModels
+                                    ?.first
+                                    ?.carModelId ??
+                                0));
+                      }
+                    },
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          /// Brands
+                          SizedBox(
+                            width: 1.sw,
+                            height: .12.sh,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _bloc.cars.length,
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
+                              itemBuilder: (context, index) {
+                                return SellerBrandWidget(
+                                  brand: _bloc.cars[index],
                                 );
                               },
                             ),
-                          ],
-                        );
-                      },
-                    ),
+                          ),
+
+                          16.verticalSpace,
+
+                          /// Models
+                          BlocConsumer<ManageCarsBloc, ManageCarsState>(
+                            listener: (context, state) {
+                              if (state is UpdateSelectedModelState) {
+                                _bloc.add(GetSelectedCategories(
+                                    modelId: state.modelId));
+                              }
+                            },
+                            builder: (context, state) {
+                              return SizedBox(
+                                width: 1.sw,
+                                height: .045.sh,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 24.w),
+                                  itemCount: _getModelsCount(),
+                                  itemBuilder: (context, index) {
+                                    return SellerCarModelWidget(
+                                      model: _getSelectedBrand()
+                                              ?.sellerCarModels![index] ??
+                                          GetCarsResponseCarModels(),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

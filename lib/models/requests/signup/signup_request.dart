@@ -18,6 +18,7 @@ class SignupRequest {
   String? street;
   double? longitude;
   double? latitude;
+  String? siteUrl;
   String? otpCode;
   String? profilePictureFileName;
   String? profilePictureFileBase64;
@@ -36,6 +37,7 @@ class SignupRequest {
     this.street,
     this.longitude,
     this.latitude,
+    this.siteUrl,
     this.otpCode,
     this.profilePictureFileName,
     this.profilePictureFileBase64,

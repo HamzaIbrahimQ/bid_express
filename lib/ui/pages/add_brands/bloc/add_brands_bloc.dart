@@ -1,10 +1,7 @@
-import 'package:bid_express/models/data_models/cars/brand/brand_model.dart';
-import 'package:bid_express/models/data_models/cars/model/car_model_model.dart';
 import 'package:bid_express/models/requests/add_brands/add_brands_request.dart';
 import 'package:bid_express/models/responses/car_brand/car_brand_response.dart';
 import 'package:bid_express/models/responses/car_model/car_model_response.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_repo.dart';
-import 'package:bid_express/ui/pages/add_brands/test_data.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -15,7 +12,7 @@ part 'add_brands_state.dart';
 
 class AddBrandsBloc extends Bloc<AddBrandsEvent, AddBrandsState> with Utility {
   final GetBrandsRepository _getBrandsRepository = GetBrandsRepository();
-  final AddBrandsRequest addBrandsRequest = AddBrandsRequest();
+  final AddBrandsRequest addBrandsRequest = AddBrandsRequest(langCode: 'en');
   List<CarBrandResponse>? brands;
   List<CarBrandResponse>? searchList;
 

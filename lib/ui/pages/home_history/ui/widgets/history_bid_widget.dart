@@ -3,8 +3,10 @@ import 'package:bid_express/models/data_models/bids_models/history_bid_model.dar
 import 'package:bid_express/ui/pages/home_history/ui/hisstory_bids_details_page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BidHistoryWidget extends StatefulWidget {
   final BidHistoryModel historyOrderModel;
@@ -24,13 +26,12 @@ class _BidHistoryWidgetState extends State<BidHistoryWidget> with UiUtility {
       borderRadius: BorderRadius.circular(6.r),
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
       child: Container(
-        width: 325.w,
         margin: EdgeInsets.only(bottom: 16.h),
         padding: EdgeInsetsDirectional.only(
-          start: 16.w,
-          end: 14.w,
+          start: 8.w,
+          end: 6.w,
           top: 6.h,
-          bottom: 13.h,
+          bottom: 8.h,
         ),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -62,48 +63,83 @@ class _BidHistoryWidgetState extends State<BidHistoryWidget> with UiUtility {
             ),
           ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                    12.verticalSpace,
-                    RichText(
-                      text: TextSpan(
-                          text: 'order'.tr() + ' #',
-                          style: TextStyle(
-                            color: fadeTextColor,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Montserrat',
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: '${widget.historyOrderModel.orderID}',
-                              style: TextStyle(
-                                  color: blackColor,
-                                  fontSize: 10.sp,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
-                              // recognizer: TapGestureRecognizer()
-                              //   ..onTap = () {
-                              //     // navigate to desired screen
-                              //   }
-                            )
-                          ]),
+            /// Order id and date
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// Order id
+                RichText(
+                  text: TextSpan(
+                    text: 'order'.tr() + ' #',
+                    style: TextStyle(
+                      color: fadeTextColor,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Montserrat',
                     ),
-                    6.verticalSpace,
-                  ] +
-                  (widget.historyOrderModel.carParts
-                      .map(
-                        (e) => Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '${widget.historyOrderModel.orderID}',
+                        style: TextStyle(
+                            color: blackColor,
+                            fontSize: 10.sp,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+
+                /// date
+                Text(
+                  '${DateFormat('MMM d,yyyy').format(widget.historyOrderModel.timeDate)}' +
+                      '  ' +
+                      '${DateFormat.jm().format(widget.historyOrderModel.timeDate)}',
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 10.sp,
+                      color: greyColor,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+
+            6.verticalSpace,
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+
+                /// Brand image
+                SvgPicture.asset(
+                  'assets/icons/toyota.svg',
+                  fit: BoxFit.cover,
+                  colorFilter: const ColorFilter.mode(
+                    secondaryColor,
+                    BlendMode.srcIn,
+                  ),
+                ),
+
+                12.horizontalSpace,
+
+                /// Parts and price
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// Parts
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: widget.historyOrderModel.carParts
+                            .map(
+                              (e) => Padding(
+                            padding: EdgeInsetsDirectional.only(bottom: 2.h),
+                            child: Text(
                               e,
                               maxLines: 2,
                               style: TextStyle(
@@ -112,59 +148,44 @@ class _BidHistoryWidgetState extends State<BidHistoryWidget> with UiUtility {
                                   fontWeight: FontWeight.bold,
                                   color: blackColor),
                             ),
-                            2.verticalSpace
-                          ],
-                        ),
-                      )
-                      .toList()) +
-                  <Widget>[
-                    Text(
-                      '${widget.historyOrderModel.carName} ${widget.historyOrderModel.carYear}',
-                      maxLines: 2,
-                      style: TextStyle(
-                          fontSize: 10.sp,
+                          ),
+                        )
+                            .toList(),
+                      ),
+
+                      /// Price
+                      Text(
+                        ' \$ ${widget.historyOrderModel.price.toStringAsFixed(0)}',
+                        style: TextStyle(
+                          color: const Color(0xFF2D3D5E),
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.bold,
-                          color: blackColor),
-                    ),
-                  ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                12.verticalSpace,
-                Container(
-                  width: .4.sw,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${DateFormat('MMM d,yyyy').format(widget.historyOrderModel.timeDate)}' +
-                            '  ' +
-                            '${DateFormat.jm().format(widget.historyOrderModel.timeDate)}',
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 10.sp,
-                            color: greyColor,
-                            fontWeight: FontWeight.w500),
+                          fontSize: 16.sp,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                (8* widget.historyOrderModel.carParts.length).verticalSpace,
+              ],
+            ),
+
+            6.verticalSpace,
+
+            /// Car info and rate
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 Text(
-                  ' \$ ${widget.historyOrderModel.price.toStringAsFixed(0)}',
+                  '${widget.historyOrderModel.carName} (${widget.historyOrderModel.carYear})',
+                  maxLines: 2,
                   style: TextStyle(
-                      color: const Color(0xFF2D3D5E),
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp),
+                    color: fadeTextColor,
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Montserrat',
+                  ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children:
                       createStarsRate(widget.historyOrderModel.rateCount) +
                           [
@@ -175,11 +196,11 @@ class _BidHistoryWidgetState extends State<BidHistoryWidget> with UiUtility {
                                   fontWeight: FontWeight.normal,
                                   color: const Color(0xFF2D3D5E),
                                   fontFamily: 'Montserrat'),
-                            )
+                            ),
                           ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

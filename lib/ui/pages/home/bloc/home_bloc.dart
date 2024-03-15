@@ -37,6 +37,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> with Utility {
   }
 
   Future<void> _getUserData() async {
+    if (userData != null) {
+      add(GetUserDataSuccess());
+      return;
+    }
     add(GetUserDataLoading());
     final bool _isConnected = await checkInternetConnection();
     if (_isConnected) {
