@@ -2,7 +2,8 @@ import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/home/ui/widgets/username_widget.dart';
-import 'package:bid_express/ui/pages/home_bids/ui/home_bids_page.dart';
+import 'package:bid_express/ui/pages/orders/bloc/orders_bloc.dart';
+import 'package:bid_express/ui/pages/orders/ui/orders.dart';
 import 'package:bid_express/ui/pages/home_cancelled_bids/ui/home_cancelled_bids_page.dart';
 import 'package:bid_express/ui/pages/home_history/ui/home_history_page.dart';
 import 'package:bid_express/ui/pages/home_won_bids/ui/home_won_bids_page.dart';
@@ -66,9 +67,11 @@ class _HomePageState extends State<HomePage>
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+
                   /// Bg image and username
                   Stack(
                     children: [
+
                       /// Bg
                       Container(
                         width: 1.sw,
@@ -186,8 +189,8 @@ class _HomePageState extends State<HomePage>
                               },
                               child: TabBarView(
                                 controller: _tabController,
-                                children: const [
-                                  HomeBidsPage(),
+                                children:  const [
+                                  OrdersPage(),
                                   SubmittedBidsPage(),
                                   HomeWonBidsPage(),
                                   HomeCancelledBidsPage(),

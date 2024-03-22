@@ -95,6 +95,28 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
     on<GetSelectedCategoriesFailure>((event, emit) {
       emit.call(GetSelectedCategoriesFailureState());
     });
+
+    on<SelectUnSelectCategory>((event, emit) {
+      _selectUnselectCategory(id: event.id);
+    });
+
+    on<SelectUnSelectCategorySuccess>((event, emit) {
+      emit.call(
+          SelectUnSelectCategorySuccessState(clearFields: event.clearFields));
+    });
+
+    on<UpdateModelYear>((event, emit) {
+      try {
+        final item = cars
+            .firstWhere((element) => element.isSelected == true)
+            .sellerCarModels
+            ?.firstWhere((element) => element?.isSelected == true);
+        item?.yearFrom = event.from;
+        item?.yearTo = event.to;
+      } catch (e) {
+        print(e.toString());
+      }
+    });
   }
 
   Future<void> _getCars() async {
@@ -218,5 +240,33 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
       }
     });
     add(UpdateSelectedModel(modelId: modelId));
+  }
+
+  void _selectUnselectCategory({required int id}) {
+    categories.forEach((element) {
+      if (element.id == id) {
+        element.isSelected = !(element.isSelected ?? false);
+      }
+    });
+    _addOrRemoveCategoryIdToModel(id: id);
+    add(SelectUnSelectCategorySuccess());
+  }
+
+  void _addOrRemoveCategoryIdToModel({required int id}) {
+    try {
+      final model = cars
+          .firstWhere((element) => element.isSelected == true)
+          .sellerCarModels
+          ?.firstWhere((model) => model?.isSelected == true);
+      if ((model?.selectedCategoriesIds != null) &&
+          (model?.selectedCategoriesIds?.contains(id) ?? false)) {
+        model?.selectedCategoriesIds?.removeWhere((element) => element == id);
+      } else {
+        model?.selectedCategoriesIds ??= [];
+        model?.selectedCategoriesIds?.add(id);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

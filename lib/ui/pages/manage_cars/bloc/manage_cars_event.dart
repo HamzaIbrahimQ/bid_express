@@ -68,3 +68,23 @@ class GetSelectedCategoriesError extends ManageCarsEvent {
 }
 
 class GetSelectedCategoriesFailure extends ManageCarsEvent {}
+
+
+class SelectUnSelectCategory extends ManageCarsEvent {
+  final int id;
+
+  SelectUnSelectCategory({required this.id});
+}
+
+class SelectUnSelectCategorySuccess extends ManageCarsEvent {
+  final bool? clearFields;
+
+  SelectUnSelectCategorySuccess({this.clearFields});
+}
+
+class UpdateModelYear extends ManageCarsEvent {
+  final String from;
+  final String to;
+
+  UpdateModelYear({required this.from, required this.to});
+}

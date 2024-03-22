@@ -6,6 +6,7 @@ import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
 import 'package:bid_express/models/data_models/picked_image_model.dart';
+import 'package:bid_express/models/responses/orders/get_orders_response.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/widgets/add_image_widget.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/widgets/check_box_with_title.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/widgets/image_widget.dart';
@@ -22,11 +23,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MakeBidPage extends StatefulWidget {
-  final BidModel bidModel;
+  final Order order;
 
   const MakeBidPage({
     super.key,
-    required this.bidModel,
+    required this.order,
   });
 
   @override
@@ -96,7 +97,7 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '${widget.bidModel.orderID}',
+                              text: '${widget.order.id}',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 10.sp,
@@ -112,7 +113,7 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                     4.verticalSpace,
                     Flexible(
                       child: AutoSizeText(
-                        createTitleString(widget.bidModel.carParts),
+                        createTitleString(widget.order.partsNameEn ?? []),
                         maxLines: 2,
                         minFontSize: 8,
                         style: TextStyle(
@@ -124,7 +125,8 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                     ),
                     Flexible(
                       child: AutoSizeText(
-                        '${widget.bidModel.carName} (${widget.bidModel.carYear})',
+                        // '${widget.order.carBrand} (${widget.order.carYear})',
+                        '${widget.order.carBrand} (2005})',
                         maxLines: 1,
                         minFontSize: 8,
                         style: TextStyle(

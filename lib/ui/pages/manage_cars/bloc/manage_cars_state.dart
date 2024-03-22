@@ -48,3 +48,9 @@ class GetSelectedCategoriesErrorState extends ManageCarsState {
 }
 
 class GetSelectedCategoriesFailureState extends ManageCarsState {}
+
+class SelectUnSelectCategorySuccessState extends ManageCarsState {
+  final bool? clearFields;
+
+  SelectUnSelectCategorySuccessState({this.clearFields});
+}

@@ -144,7 +144,7 @@ class _AddBrandsPageState extends State<AddBrandsPage> with UiUtility {
       clearPagesStack: true,
       page: BlocProvider(
         create: (context) => HomeBloc()..add(GetUserData()),
-        child: const NavBar(),
+        child: const NavBar(initialIndex: 1),
       )
     );
   }

@@ -3,6 +3,7 @@ import 'package:bid_express/models/responses/car_model/car_model_response.dart';
 import 'package:bid_express/models/responses/category/category_response.dart';
 import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
 import 'package:bid_express/models/responses/login/login_response.dart';
+import 'package:bid_express/models/responses/orders/get_orders_response.dart';
 import 'package:bid_express/models/responses/part/part_response.dart';
 import 'package:bid_express/models/responses/part_addition/part_addition_response.dart';
 import 'package:bid_express/models/responses/response_errors/response_errors.dart';
@@ -66,13 +67,15 @@ class MainResponse<T> {
       mainResponse.data = LoginResponse.fromJson(json['data']);
     } else if (json.containsKey('data') && T == SignupResponse) {
       mainResponse.data = SignupResponse.fromJson(json['data']);
+    } else if (json.containsKey('data') && T == GetOrdersResponse) {
+      mainResponse.data = GetOrdersResponse.fromJson(json['data']);
     } else if (json.containsKey('data') && T == UserData) {
       mainResponse.data = UserData.fromJson(json['data']);
     } else if (json.containsKey('data') && T == List<CategoryResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CategoryResponse.fromJson(e as Map<String, dynamic>))
           .toList();
-    }else if (json.containsKey('data') && T == List<GetCarsResponse>) {
+    } else if (json.containsKey('data') && T == List<GetCarsResponse>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => GetCarsResponse.fromJson(e as Map<String, dynamic>))
           .toList();
@@ -92,7 +95,7 @@ class MainResponse<T> {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => CarModelResponse.fromJson(e as Map<String, dynamic>))
           .toList();
-    }else if (json.containsKey('data') && T == List<SelectedCategory>) {
+    } else if (json.containsKey('data') && T == List<SelectedCategory>) {
       mainResponse.data = (json['data'] as List<dynamic>)
           .map((e) => SelectedCategory.fromJson(e as Map<String, dynamic>))
           .toList();

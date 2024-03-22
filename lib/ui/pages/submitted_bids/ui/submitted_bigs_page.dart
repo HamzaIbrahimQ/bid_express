@@ -1,10 +1,11 @@
-import 'package:bid_express/ui/pages/home_bids/ui/widgets/bid_widget.dart';
+import 'package:bid_express/ui/pages/orders/bloc/orders_bloc.dart';
 import 'package:bid_express/ui/widgets/drop_down_range_home.dart';
 import 'package:bid_express/utils/temporary_data.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'widgets/submitted_bid_widget.dart';
@@ -19,10 +20,12 @@ class SubmittedBidsPage extends StatefulWidget {
 
 class _SubmittedBidsPageState extends State<SubmittedBidsPage>
     with UiUtility, Utility, TickerProviderStateMixin {
+  late OrdersBloc _bloc;
   String dropDownValue = '';
 
   @override
   Widget build(BuildContext context) {
+    _bloc = context.read<OrdersBloc>();
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -49,9 +52,9 @@ class _SubmittedBidsPageState extends State<SubmittedBidsPage>
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 6.h),
-              itemCount: tData.homeBids.length,
+              itemCount: _bloc.orders.length,
               itemBuilder: (context, index) {
-                return SubmittedBidWidget(bidModel: tData.homeBids[index]);
+                return SubmittedBidWidget(order: _bloc.orders[index]);
               },
             ),
           ),

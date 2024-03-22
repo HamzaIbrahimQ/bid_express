@@ -1,5 +1,6 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
+import 'package:bid_express/models/responses/orders/get_orders_response.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/make_bid-page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,19 +12,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timeago/timeago.dart' as time_ago;
 
 class SubmittedBidWidget extends StatefulWidget {
-  final BidModel bidModel;
+  final Order order;
 
-  const SubmittedBidWidget({super.key, required this.bidModel});
+  const SubmittedBidWidget({super.key, required this.order});
 
   @override
   State<SubmittedBidWidget> createState() => _SubmittedBidWidgetState();
 }
 
-class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility {
+class _SubmittedBidWidgetState extends State<SubmittedBidWidget>
+    with UiUtility {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _navigateToBidPage(context, widget.bidModel),
+      onTap: () => _navigateToBidPage(context, widget.order),
       borderRadius: BorderRadius.circular(6.r),
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
       child: Container(
@@ -68,7 +70,6 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             /// Order id and time ago
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +86,7 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
                       ),
                       children: <TextSpan>[
                         TextSpan(
-                          text: '${widget.bidModel.orderID}',
+                          text: '${widget.order.id}',
                           style: TextStyle(
                               color: blackColor,
                               fontSize: 10.sp,
@@ -101,7 +102,12 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
 
                 /// Time ago
                 Text(
-                  time_ago.format(widget.bidModel.creationDate),
+                  // time_ago.format(widget.order.creationDate),
+                  time_ago.format(
+                    DateTime.now().subtract(
+                      const Duration(minutes: 20),
+                    ),
+                  ),
                   style: TextStyle(
                     color: fadeTextColor,
                     fontSize: 10.sp,
@@ -137,30 +143,31 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
                       /// Parts and car info
                       Expanded(
                         child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children:
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children:
 
-                                /// Parts
-                                widget.bidModel.carParts
-                                    .map(
-                                      (e) => Padding(
-                                        padding: EdgeInsetsDirectional.only(
-                                            bottom: 2.h),
-                                        child: Text(
-                                          e ?? '',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.bold,
-                                              color: blackColor),
+                              /// Parts
+                              widget.order.partsNameEn
+                                      ?.map(
+                                        (e) => Padding(
+                                          padding: EdgeInsetsDirectional.only(
+                                              bottom: 2.h),
+                                          child: Text(
+                                            e ?? '',
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontFamily: 'Montserrat',
+                                                fontWeight: FontWeight.bold,
+                                                color: blackColor),
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                    .toList()),
+                                      )
+                                      .toList() ??
+                                  [],
+                        ),
                       ),
-
                     ],
                   ),
                 ),
@@ -168,9 +175,11 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
             ),
 
             6.verticalSpace,
+
             /// Car info
             Text(
-              '${widget.bidModel.carName} (${widget.bidModel.carYear})',
+              // '${widget.order.carBrand} (${widget.order.carYear})',
+              '${widget.order.carBrand} (2005})',
               maxLines: 2,
               style: TextStyle(
                 color: fadeTextColor,
@@ -179,20 +188,16 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
                 fontFamily: 'Montserrat',
               ),
             ),
-
-
           ],
         ),
       ),
     );
   }
 
-  void _navigateToBidPage(BuildContext context, BidModel bidModel) {
+  void _navigateToBidPage(BuildContext context, Order order) {
     navigate(
         context: context,
-        page: MakeBidPage(
-          bidModel: bidModel,
-        ),
+        page: MakeBidPage(order: order),
         duration: const Duration(milliseconds: 300));
   }
 }
