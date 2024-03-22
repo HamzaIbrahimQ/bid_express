@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/models/data_models/bids_models/cancelled_bid_model.dart';
@@ -81,10 +82,11 @@ class _BidCancelledWidgetState extends State<BidCancelledWidget>
                     TextSpan(
                       text: '${widget.bidCancelledModel.orderID}',
                       style: TextStyle(
-                          color: blackColor,
-                          fontSize: 10.sp,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold),
+                        color: fadeTextColor,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Montserrat',
+                      ),
                     )
                   ],
                 ),
@@ -104,15 +106,18 @@ class _BidCancelledWidgetState extends State<BidCancelledWidget>
           Padding(
             padding: EdgeInsets.symmetric(vertical: 6.h),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: widget.bidCancelledModel.carParts.length > 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
               children: [
                 /// Brand image
-                SvgPicture.asset(
-                  'assets/icons/toyota.svg',
-                  fit: BoxFit.cover,
-                  colorFilter: const ColorFilter.mode(
-                    secondaryColor,
-                    BlendMode.srcIn,
+                Padding(
+                  padding: EdgeInsets.only(top: widget.bidCancelledModel.carParts.length > 1 ?  4.h : 0),
+                  child: SvgPicture.asset(
+                    'assets/icons/toyota.svg',
+                    fit: BoxFit.cover,
+                    colorFilter: const ColorFilter.mode(
+                      secondaryColor,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
 
@@ -202,7 +207,38 @@ class _BidCancelledWidgetState extends State<BidCancelledWidget>
                                                 maxLines: 2,
                                               ),
                                             ),
-                                            20.verticalSpace,
+                                            8.verticalSpace,
+
+                                            Container(
+                                              width: 'Found another offer'.length * 8.w,
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsetsDirectional.only(start: 20.w),
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                  primaryColor
+                                                      ,
+                                                  borderRadius: BorderRadius.all(Radius.circular(6.r))),
+                                              padding: EdgeInsetsDirectional.symmetric(
+                                                horizontal: 4.w,
+                                                vertical: 4.h,
+                                              ),
+                                              child: AutoSizeText(
+                                                'Found another offer',
+                                                textAlign: TextAlign.start,
+                                                softWrap: true,
+                                                maxLines: 1,
+                                                minFontSize: 9,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 12.sp,
+                                                ),
+                                              ),
+                                            ),
+
+                                            16.verticalSpace,
+
                                             Expanded(
                                               child: Container(
                                                 padding: EdgeInsets.symmetric(

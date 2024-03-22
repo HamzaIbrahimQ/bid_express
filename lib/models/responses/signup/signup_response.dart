@@ -11,6 +11,7 @@ class SignupResponse {
   final String? mobileAreaCode;
   final String? accessToken;
   final String? refreshToken;
+  final int? sellerId;
 
   SignupResponse({
     this.userName,
@@ -20,6 +21,7 @@ class SignupResponse {
     this.mobileAreaCode,
     this.accessToken,
     this.refreshToken,
+    this.sellerId,
   });
 
   factory SignupResponse.fromJson(Map<String, dynamic> json) =>

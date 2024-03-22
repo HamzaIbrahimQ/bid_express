@@ -36,6 +36,9 @@ class GetCarsResponseCarModels {
   final String? name;
   final String? imageUrl;
   bool? isSelected;
+  List<int>? selectedCategoriesIds;
+  String? yearFrom;
+  String? yearTo;
 
   GetCarsResponseCarModels({
     this.sellerBrandId,
@@ -44,6 +47,9 @@ class GetCarsResponseCarModels {
     this.name,
     this.imageUrl,
     this.isSelected,
+    this.selectedCategoriesIds,
+    this.yearFrom,
+    this.yearTo,
   });
 
   factory GetCarsResponseCarModels.fromJson(Map<String, dynamic> json) =>

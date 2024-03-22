@@ -93,4 +93,15 @@ class BaseRepository with Utility {
       return _apiResponse;
     }
   }
+
+  Future<int?> getSellerId() async {
+    try {
+      final int? _sellerId =
+      await _sharedPreferenceHelper.getIntValue(key: 'sellerId');
+      print('sellerId : $_sellerId');
+      return _sellerId;
+    } catch (e) {
+      return 0;
+    }
+  }
 }

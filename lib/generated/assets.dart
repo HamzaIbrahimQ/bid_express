@@ -12,10 +12,12 @@ class Assets {
   static const String iconsAdd = 'assets/icons/add.svg';
   static const String iconsAddPlus = 'assets/icons/add_plus.svg';
   static const String iconsBack = 'assets/icons/back.svg';
+  static const String iconsCall = 'assets/icons/call.svg';
   static const String iconsCamera = 'assets/icons/camera.svg';
   static const String iconsCancelImage = 'assets/icons/cancel_image.svg';
   static const String iconsDashboard = 'assets/icons/dashboard.svg';
   static const String iconsDelete = 'assets/icons/delete.svg';
+  static const String iconsEdit = 'assets/icons/edit.svg';
   static const String iconsFilter = 'assets/icons/filter.svg';
   static const String iconsIgnore = 'assets/icons/ignore.svg';
   static const String iconsLocationMarker = 'assets/icons/location_marker.svg';

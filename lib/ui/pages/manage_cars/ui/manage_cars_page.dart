@@ -1,10 +1,17 @@
+import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
+import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
+import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/home/ui/widgets/username_widget.dart';
 import 'package:bid_express/ui/pages/manage_cars/bloc/manage_cars_bloc.dart';
 import 'package:bid_express/ui/pages/manage_cars/ui/widgets/category_widget.dart';
+import 'package:bid_express/ui/pages/manage_cars/ui/widgets/manage_cars_username_widget.dart';
 import 'package:bid_express/ui/pages/manage_cars/ui/widgets/seller_brand_widget.dart';
 import 'package:bid_express/ui/pages/manage_cars/ui/widgets/seller_car_model_widget.dart';
+import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
+import 'package:bid_express/ui/pages/success_page/ui/success_page.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +25,24 @@ class ManageCarsPage extends StatefulWidget {
   State<ManageCarsPage> createState() => _ManageCarsPageState();
 }
 
-class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility {
+class _ManageCarsPageState extends State<ManageCarsPage>
+    with UiUtility, Utility {
   late ManageCarsBloc _bloc;
+  final TextEditingController fromCont = TextEditingController();
+  final TextEditingController toCont = TextEditingController();
   late Future<String> _future;
 
   @override
   void initState() {
     super.initState();
     _future = getUserName();
+  }
+
+  @override
+  void dispose() {
+    fromCont.dispose();
+    toCont.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,7 +84,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
                         /// Bg
                         Container(
                           width: 1.sw,
-                          height: .25.sh,
+                          height: .215.sh,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.cover,
@@ -79,11 +96,11 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
                         ),
 
                         /// Username
-                        UserNameWidget(future: _future),
+                        ManageCarsUserNameWidget(future: _future),
                       ],
                     ),
 
-                    124.verticalSpace,
+                    116.verticalSpace,
 
                     /// Model years and categories
                     Expanded(
@@ -103,8 +120,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
 
                           if (state is GetCategoriesErrorState) {
                             LoadingView.shared.stopLoading();
-                            showErrorToast(
-                                context: context, msg: state.error);
+                            showErrorToast(context: context, msg: state.error);
                           }
 
                           if (state is GetCategoriesFailureState) {
@@ -123,8 +139,7 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
 
                           if (state is GetSelectedCategoriesErrorState) {
                             LoadingView.shared.stopLoading();
-                            showErrorToast(
-                                context: context, msg: state.error);
+                            showErrorToast(context: context, msg: state.error);
                           }
 
                           if (state is GetSelectedCategoriesFailureState) {
@@ -136,16 +151,126 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
                           return Column(
                             children: [
                               /// Fields
-                              /// TODO: add years fields
-                              const SizedBox.shrink(),
+                              Visibility(
+                                visible: _bloc.categories.isNotEmpty,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 24.w),
+                                  child: BlocConsumer<ManageCarsBloc,
+                                      ManageCarsState>(
+                                    listener: (context, state) {
+                                      if (state is UpdateSelectedModelState) {
+                                        fromCont.text = _getSelectedBrand()
+                                                ?.sellerCarModels
+                                                ?.firstWhere((element) =>
+                                                    element?.sellerCarModelId ==
+                                                    _getSelectedModelId())
+                                                ?.yearFrom ??
+                                            '';
+                                        toCont.text = _getSelectedBrand()
+                                                ?.sellerCarModels
+                                                ?.firstWhere((element) =>
+                                                    element?.sellerCarModelId ==
+                                                    _getSelectedModelId())
+                                                ?.yearTo ??
+                                            '';
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      return Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsetsDirectional.only(
+                                                end: 8.w),
+                                            child: Text(
+                                              'Year from',
+                                              style: TextStyle(
+                                                color: const Color(0xFFA2A9B2),
+                                                fontSize: 9.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: InkWell(
+                                              onTap: () => _pickYear(),
+                                              overlayColor:
+                                                  const MaterialStatePropertyAll(
+                                                      Colors.transparent),
+                                              child: AppTextField(
+                                                controller: fromCont,
+                                                hint: '2005',
+                                                enabled: false,
+                                                hintTextColor:
+                                                    const Color(0xFFA2A9B2),
+                                                borderColor:
+                                                    const Color(0xFFC7CBD1),
+                                                suffixWidget: Icon(
+                                                  Icons.arrow_drop_down,
+                                                  size: 18.w,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          /// To date
+                                          Padding(
+                                            padding: EdgeInsetsDirectional.only(
+                                                start: 8.w, end: 8.w),
+                                            child: Text(
+                                              'To',
+                                              style: TextStyle(
+                                                color: const Color(0xFFA2A9B2),
+                                                fontSize: 9.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+
+                                          Flexible(
+                                            child: InkWell(
+                                              onTap: () =>
+                                                  _pickYear(isTo: true),
+                                              overlayColor:
+                                                  const MaterialStatePropertyAll(
+                                                      Colors.transparent),
+                                              child: AppTextField(
+                                                controller: toCont,
+                                                hint: DateTime.now()
+                                                    .year
+                                                    .toString(),
+                                                enabled: false,
+                                                hintTextColor:
+                                                    const Color(0xFFA2A9B2),
+                                                borderColor:
+                                                    const Color(0xFFC7CBD1),
+                                                suffixWidget: Icon(
+                                                  Icons.arrow_drop_down,
+                                                  size: 18.w,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+
+                              12.verticalSpace,
 
                               /// Categories
                               Expanded(
                                 child: GridView.builder(
                                   // shrinkWrap: true,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 24.w,
-                                    vertical: 6.h,
+                                  padding: EdgeInsetsDirectional.only(
+                                    start: 24.w,
+                                    end: 24.w,
+                                    top: 6.h,
+                                    bottom: 82.h,
                                   ),
                                   itemCount: _bloc.categories.length,
                                   gridDelegate:
@@ -156,8 +281,21 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
                                     crossAxisSpacing: 16.w,
                                   ),
                                   itemBuilder: (context, index) {
-                                    return CategoryWidget(
-                                      category: _bloc.categories[index],
+                                    return BlocConsumer<ManageCarsBloc,
+                                        ManageCarsState>(
+                                      listener: (context, state) {
+                                        if (state
+                                                is SelectUnSelectCategorySuccessState &&
+                                            (state.clearFields ?? false)) {
+                                          fromCont.clear();
+                                          toCont.clear();
+                                        }
+                                      },
+                                      builder: (context, state) {
+                                        return CategoryWidget(
+                                          category: _bloc.categories[index],
+                                        );
+                                      },
                                     );
                                   },
                                 ),
@@ -174,16 +312,17 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
 
                 /// Brands and models
                 Positioned(
-                  top: 144.h,
+                  top: 124.h,
                   child: BlocConsumer<ManageCarsBloc, ManageCarsState>(
                     listener: (context, state) {
                       if (state is UpdateSelectedBrandState) {
-                        _bloc.add(SelectModel(
-                            modelId: _getSelectedBrand()
-                                    ?.sellerCarModels
-                                    ?.first
-                                    ?.carModelId ??
-                                0));
+                        // _bloc.add(SelectModel(
+                        //     modelId: _getSelectedBrand()
+                        //             ?.sellerCarModels
+                        //             ?.first
+                        //             ?.carModelId ??
+                        //         0));
+                        _bloc.add(SelectModel(modelId: _getSelectedModelId()));
                       }
                     },
                     builder: (context, state) {
@@ -211,6 +350,20 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
                           BlocConsumer<ManageCarsBloc, ManageCarsState>(
                             listener: (context, state) {
                               if (state is UpdateSelectedModelState) {
+                                fromCont.text = _getSelectedBrand()
+                                        ?.sellerCarModels
+                                        ?.firstWhere((element) =>
+                                            element?.sellerCarModelId ==
+                                            _getSelectedModelId())
+                                        ?.yearFrom ??
+                                    '';
+                                toCont.text = _getSelectedBrand()
+                                        ?.sellerCarModels
+                                        ?.firstWhere((element) =>
+                                            element?.sellerCarModelId ==
+                                            _getSelectedModelId())
+                                        ?.yearTo ??
+                                    '';
                                 _bloc.add(GetSelectedCategories(
                                     modelId: state.modelId));
                               }
@@ -246,13 +399,47 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
         },
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: Padding(
-      //   padding: EdgeInsets.symmetric(horizontal: 24.w),
-      //   child: MainButton(
-      //     onTap: () {},
-      //     title: 'save',
-      //   ),
-      // ),
+      floatingActionButton: ElevatedButton.icon(
+
+        style: ButtonStyle(
+          backgroundColor: const MaterialStatePropertyAll(primaryColor),
+          foregroundColor: const MaterialStatePropertyAll(Colors.white),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100.r),
+            ),
+          ),
+        ),
+        icon: const Icon(Icons.check, size: 22),
+        label: Text(
+          'Save',
+          style: TextStyle(
+            fontSize: 13.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        onPressed: () {
+          navigate(
+            context: context,
+            page: SuccessPage(
+              title: 'Success',
+              message: 'Your configuration has been saved Successfully!',
+              onContinue: () {
+                Navigator.of(context).pop();
+                navigate(
+                    context: context,
+                    isFade: true,
+                    clearPagesStack: true,
+                    page: BlocProvider(
+                      create: (context) => HomeBloc()..add(GetUserData()),
+                      child: const NavBar(),
+                    )
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -274,5 +461,95 @@ class _ManageCarsPageState extends State<ManageCarsPage> with UiUtility, Utility
     } catch (e) {
       return 0;
     }
+  }
+
+  int _getSelectedModelId() {
+    try {
+      return _getSelectedBrand()
+              ?.sellerCarModels
+              ?.firstWhere((element) => element?.isSelected ?? false)
+              ?.sellerCarModelId ??
+          0;
+    } catch (e) {
+      return _getSelectedBrand()?.sellerCarModels?.first?.carModelId ?? 0;
+    }
+  }
+
+  void _pickYear({bool? isTo}) {
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: false,
+      backgroundColor: Colors.white,
+      builder: (context) {
+        final Size size = MediaQuery.of(context).size;
+        return Container(
+          height: size.height * .7,
+          width: size.width,
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: GridView.count(
+            crossAxisCount: 4,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 4.w,
+            children: [
+              ...List.generate(
+                50,
+                (index) => InkWell(
+                  onTap: () {
+                    if (isTo ?? false) {
+                      if (fromCont.text.isNotEmpty) {
+                        final int val = int.tryParse(fromCont.text) ?? 0;
+                        if (val > (DateTime.now().year - index)) {
+                          showErrorToast(
+                              context: context, msg: 'Select valid value');
+                          return;
+                        }
+                      }
+                      toCont.text = (DateTime.now().year - index).toString();
+                      _bloc.add(UpdateModelYear(
+                          from: fromCont.text, to: toCont.text));
+                    } else {
+                      if (toCont.text.isNotEmpty) {
+                        final int val = int.tryParse(toCont.text) ?? 0;
+                        if (val < (DateTime.now().year - index)) {
+                          showErrorToast(
+                              context: context, msg: 'Select valid value');
+                          return;
+                        }
+                      }
+                      fromCont.text = (DateTime.now().year - index).toString();
+                      _bloc.add(UpdateModelYear(
+                          from: fromCont.text, to: toCont.text));
+                    }
+                    Navigator.pop(context);
+                  },
+                  child: Chip(
+                    surfaceTintColor: Colors.white,
+                    shadowColor: Colors.white,
+                    label: Container(
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        (DateTime.now().year - index).toString(),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

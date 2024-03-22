@@ -493,6 +493,16 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
   }
 
   void _navigateToSuccessPage() {
-    navigate(context: context, page: SuccessPage());
+    navigate(
+      context: context,
+      page: SuccessPage(
+        title: 'Success',
+        message: 'Your Bid Has been Submitted Successfully!',
+        onContinue: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        },
+      ),
+    );
   }
 }

@@ -221,7 +221,7 @@ mixin UiUtility {
 
   List<Widget> createStarsRate(double startRate) {
     final int startInt = startRate.ceil();
-    List<Widget> starsWidgets = [];
+    final List<Widget> starsWidgets = [];
     for (int x = 0; x < startInt; x++) {
       if (starsWidgets.length < 5) {
         starsWidgets.add(Padding(
@@ -303,5 +303,16 @@ mixin UiUtility {
         ),
       ),
     );
+  }
+
+  int differenceInDays(DateTime date) {
+    final DateTime now = DateTime.now();
+    // Calculate the difference in milliseconds
+    final int differenceInMilliseconds =
+        date.millisecondsSinceEpoch - now.millisecondsSinceEpoch;
+    // Convert milliseconds to days
+    final int differenceInDays =
+        (differenceInMilliseconds / (1000 * 60 * 60 * 24)).round().abs();
+    return differenceInDays;
   }
 }

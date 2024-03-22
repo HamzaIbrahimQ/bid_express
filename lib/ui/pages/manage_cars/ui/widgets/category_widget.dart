@@ -19,7 +19,10 @@ class CategoryWidget extends StatelessWidget with UiUtility {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _goToPartsPage(context),
+      // onTap: () => _goToPartsPage(context),
+      onTap: () => context
+          .read<ManageCarsBloc>()
+          .add(SelectUnSelectCategory(id: category.id ?? 0)),
       borderRadius: BorderRadius.circular(6.r),
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
       child: Container(
@@ -32,6 +35,12 @@ class CategoryWidget extends StatelessWidget with UiUtility {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(6.r),
+          border: category.isSelected ?? false
+              ? Border.all(
+            width: 2.w,
+            color: primaryColor,
+          )
+              : Border.all(width: 0, color: Colors.white),
           boxShadow: [
             BoxShadow(
               offset: const Offset(0, 10),

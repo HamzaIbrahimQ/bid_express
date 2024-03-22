@@ -9,13 +9,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  final int? initialIndex;
+
+  const NavBar({super.key, this.initialIndex});
 
   @override
   State<NavBar> createState() => _NavBarState();
 }
 
 class _NavBarState extends State<NavBar> {
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialIndex != null) {
+      _selectedIndex = widget.initialIndex!;
+    }
+  }
+
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
@@ -23,7 +34,9 @@ class _NavBarState extends State<NavBar> {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeBloc()),
-        BlocProvider(create: (context) => ManageCarsBloc()..add(GetCars())),
+        BlocProvider(create: (context) =>
+        ManageCarsBloc()
+          ..add(GetCars())),
       ],
       child: const ManageCarsPage(),
     ),

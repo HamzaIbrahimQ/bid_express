@@ -6,6 +6,7 @@ import 'package:bid_express/utils/ui_utility.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -91,10 +92,11 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                             TextSpan(
                               text: '${widget.wonBidModel.orderID}',
                               style: TextStyle(
-                                  color: blackColor,
-                                  fontSize: 10.sp,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
+                                color: fadeTextColor,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Montserrat',
+                              ),
                             )
                           ],
                         ),
@@ -123,49 +125,51 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
 
                       /// Image and parts
                       Row(
+                        crossAxisAlignment: widget.wonBidModel.carParts.length > 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
                         children: [
                           /// Brand image
-                          SvgPicture.asset(
-                            'assets/icons/toyota.svg',
-                            fit: BoxFit.cover,
-                            colorFilter: const ColorFilter.mode(
-                              secondaryColor,
-                              BlendMode.srcIn,
+                          Padding(
+                            padding: EdgeInsets.only(top: widget.wonBidModel.carParts.length > 1 ?  4.h : 0),
+                            child: SvgPicture.asset(
+                              'assets/icons/toyota.svg',
+                              fit: BoxFit.cover,
+                              colorFilter: const ColorFilter.mode(
+                                secondaryColor,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
 
 
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsetsDirectional.only(start: 12.w),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(6.r),
-                                  topRight: Radius.circular(6.r),
-                                ),
+                          Container(
+                            padding: EdgeInsetsDirectional.only(start: 12.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(6.r),
+                                topRight: Radius.circular(6.r),
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: widget.wonBidModel.carParts
-                                    .map(
-                                      (e) => Padding(
-                                        padding:
-                                            EdgeInsetsDirectional.only(bottom: 2.h),
-                                        child: Text(
-                                          e ?? '',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.bold,
-                                              color: blackColor),
-                                        ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: widget.wonBidModel.carParts
+                                  .map(
+                                    (e) => Padding(
+                                      padding:
+                                          EdgeInsetsDirectional.only(bottom: 2.h),
+                                      child: Text(
+                                        e ?? '',
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.bold,
+                                            color: blackColor),
                                       ),
-                                    )
-                                    .toList(),
-                              ),
+                                    ),
+                                  )
+                                  .toList(),
                             ),
                           ),
                         ],
@@ -209,7 +213,7 @@ class _BidWonWidgetState extends State<BidWonWidget> with UiUtility {
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(6.r),
                     bottomLeft: Radius.circular(6.r)),
-                color: primaryColor),
+                color: secondaryColor),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,

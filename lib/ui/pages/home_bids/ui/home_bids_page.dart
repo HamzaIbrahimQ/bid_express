@@ -8,6 +8,7 @@ import 'package:bid_express/utils/ui_utility.dart';
 import 'package:bid_express/utils/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'widgets/include_ignored_parts.dart';
@@ -32,32 +33,54 @@ class _HomeBidsPageState extends State<HomeBidsPage>
         /// Bg image and username
         24.verticalSpace,
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: DropDownMainWidget(
-            hint: 'Date Range',
-            onTap: (e) {
-              setState(() {
-                dropDownValue = e;
-              });
-            },
-            valueSelected: dropDownValue,
-            options: tData.rangeDataList,
+          padding: EdgeInsetsDirectional.only(start: 24.w, end: 10.w),
+          child: Row(
+            children: [
+              /// Date range
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsetsDirectional.only(end: 6.w),
+                  child: DropDownMainWidget(
+                    hint: 'Date Range',
+                    onTap: (e) {
+                      setState(() {
+                        dropDownValue = e;
+                      });
+                    },
+                    valueSelected: dropDownValue,
+                    options: tData.rangeDataList,
+                  ),
+                ),
+              ),
+
+              /// include ignored switch
+              StatefulBuilder(
+                builder: (context, setState) {
+                  return Switch(
+                    activeColor: primaryColor,
+                    inactiveTrackColor: Colors.grey[200],
+                    value: _includeIgnoredParts,
+                    onChanged: (v) => setState(() => _includeIgnoredParts = v),
+                  );
+                }
+              ),
+            ],
           ),
         ),
 
-        8.verticalSpace,
+        16.verticalSpace,
 
-        StatefulBuilder(
-          builder: (context, setState) {
-            return IncludeIgnoredParts(
-              title: 'Include ignored parts',
-              value: _includeIgnoredParts,
-              onChanged: (v) => setState(() => _includeIgnoredParts = v),
-            );
-          },
-        ),
-
-        4.verticalSpace,
+        // StatefulBuilder(
+        //   builder: (context, setState) {
+        //     return IncludeIgnoredParts(
+        //       title: 'Include ignored parts',
+        //       value: _includeIgnoredParts,
+        //       onChanged: (v) => setState(() => _includeIgnoredParts = v),
+        //     );
+        //   },
+        // ),
+        //
+        // 4.verticalSpace,
 
         /// Bids list
         Expanded(

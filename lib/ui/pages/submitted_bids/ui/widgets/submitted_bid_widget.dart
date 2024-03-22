@@ -19,7 +19,8 @@ class SubmittedBidWidget extends StatefulWidget {
   State<SubmittedBidWidget> createState() => _SubmittedBidWidgetState();
 }
 
-class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility {
+class _SubmittedBidWidgetState extends State<SubmittedBidWidget>
+    with UiUtility {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -68,7 +69,6 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             /// Order id and time ago
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,32 +76,36 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
                 /// Order id
                 RichText(
                   text: TextSpan(
-                      text: 'order'.tr() + ' #',
-                      style: TextStyle(
-                        color: fadeTextColor,
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Montserrat',
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '${widget.bidModel.orderID}',
-                          style: TextStyle(
-                              color: blackColor,
-                              fontSize: 10.sp,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold),
-                          // recognizer: TapGestureRecognizer()
-                          //   ..onTap = () {
-                          //     // navigate to desired screen
-                          //   }
-                        )
-                      ]),
+                    text: 'order'.tr() + ' #',
+                    style: TextStyle(
+                      color: fadeTextColor,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Montserrat',
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '${widget.bidModel.orderID}',
+                        style: TextStyle(
+                          color: fadeTextColor,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Montserrat',
+                        ),
+                      )
+                    ],
+                  ),
                 ),
 
                 /// Time ago
                 Text(
-                  time_ago.format(widget.bidModel.creationDate),
+                  differenceInDays(widget.bidModel.creationDate) == 0
+                      ? time_ago.format(widget.bidModel.creationDate)
+                      : differenceInDays(widget.bidModel.creationDate) == 1
+                          ? 'Yesterday'
+                          : '${DateFormat('MMM d,yyyy').format(widget.bidModel.creationDate)}' +
+                              '  ' +
+                              '${DateFormat.jm().format(widget.bidModel.creationDate)}',
                   style: TextStyle(
                     color: fadeTextColor,
                     fontSize: 10.sp,
@@ -116,15 +120,21 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
 
             /// Bid content
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: widget.bidModel.carParts.length > 1
+                  ? CrossAxisAlignment.start
+                  : CrossAxisAlignment.center,
               children: [
                 /// Brand image
-                SvgPicture.asset(
-                  'assets/icons/toyota.svg',
-                  fit: BoxFit.cover,
-                  colorFilter: const ColorFilter.mode(
-                    secondaryColor,
-                    BlendMode.srcIn,
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: widget.bidModel.carParts.length > 1 ? 4.h : 0),
+                  child: SvgPicture.asset(
+                    'assets/icons/toyota.svg',
+                    fit: BoxFit.cover,
+                    colorFilter: const ColorFilter.mode(
+                      secondaryColor,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
 
@@ -160,7 +170,6 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
                                     )
                                     .toList()),
                       ),
-
                     ],
                   ),
                 ),
@@ -168,6 +177,7 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
             ),
 
             6.verticalSpace,
+
             /// Car info
             Text(
               '${widget.bidModel.carName} (${widget.bidModel.carYear})',
@@ -179,8 +189,6 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget> with UiUtility 
                 fontFamily: 'Montserrat',
               ),
             ),
-
-
           ],
         ),
       ),

@@ -43,6 +43,11 @@ GetCarsResponseCarModels _$GetCarsResponseCarModelsFromJson(
       name: json['name'] as String?,
       imageUrl: json['imageUrl'] as String?,
       isSelected: json['isSelected'] as bool?,
+      selectedCategoriesIds: (json['selectedCategoriesIds'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList(),
+      yearFrom: json['yearFrom'] as String?,
+      yearTo: json['yearTo'] as String?,
     );
 
 Map<String, dynamic> _$GetCarsResponseCarModelsToJson(
@@ -54,4 +59,7 @@ Map<String, dynamic> _$GetCarsResponseCarModelsToJson(
       'name': instance.name,
       'imageUrl': instance.imageUrl,
       'isSelected': instance.isSelected,
+      'selectedCategoriesIds': instance.selectedCategoriesIds,
+      'yearFrom': instance.yearFrom,
+      'yearTo': instance.yearTo,
     };

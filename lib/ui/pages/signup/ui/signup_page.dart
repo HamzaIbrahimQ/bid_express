@@ -65,9 +65,6 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
   final TextEditingController _buildingCont = TextEditingController();
   final FocusNode _buildingFoc = FocusNode();
 
-  final TextEditingController _facebookAccountCont = TextEditingController();
-  final FocusNode _facebookAccountFoc = FocusNode();
-
   late SignupBloc _bloc;
   late SelectLocationCubit _locationCubit;
 
@@ -111,8 +108,6 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
     _streetFoc.dispose();
     _buildingCont.dispose();
     _buildingFoc.dispose();
-    _facebookAccountCont.dispose();
-    _facebookAccountFoc.dispose();
     super.dispose();
   }
 
@@ -228,21 +223,21 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                   BlocListener<SignupBloc, SignupState>(
                     listener: (context, state) {
                       if (state is SendOtpLoadingState) {
-                        LoadingView.shared.startLoading(context);
+                        // LoadingView.shared.startLoading(context);
                       }
 
                       if (state is SendOtpSuccessState) {
-                        LoadingView.shared.stopLoading();
+                        // LoadingView.shared.stopLoading();
                         _goToOtpPage();
                       }
 
                       if (state is SendOtpErrorState) {
-                        LoadingView.shared.stopLoading();
+                        // LoadingView.shared.stopLoading();
                         showErrorToast(context: context, msg: state.error);
                       }
 
                       if (state is SendOtpFailureState) {
-                        LoadingView.shared.stopLoading();
+                        // LoadingView.shared.stopLoading();
                         showErrorToast(context: context);
                       }
                     },
@@ -498,21 +493,6 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                                   focusNode: _buildingFoc,
                                   title: 'building'.tr(),
                                   hint: 'buildingNumber'.tr(),
-                                  isRequired: false,
-                                  inputType: TextInputType.name,
-                                  regex: businessNameRegex,
-                                  textInputAction: TextInputAction.done,
-                                  onSaved: (val) => {},
-                                ),
-
-                                6.verticalSpace,
-
-                                /// Facebook account field
-                                AppTextField(
-                                  controller: _facebookAccountCont,
-                                  focusNode: _facebookAccountFoc,
-                                  title: 'Facebook page link',
-                                  hint: 'Facebook page link',
                                   isRequired: false,
                                   inputType: TextInputType.name,
                                   regex: businessNameRegex,

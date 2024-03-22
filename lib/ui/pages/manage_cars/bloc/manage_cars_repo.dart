@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bid_express/models/requests/add_brands/add_brands_request.dart';
+import 'package:bid_express/models/requests/add_categories/add_categories_request.dart';
 import 'package:bid_express/models/responses/category/category_response.dart';
 import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
 import 'package:bid_express/models/responses/main_response/main_response.dart';
@@ -110,6 +111,44 @@ class ManageCarsRepository extends BaseRepository {
         _apiResponse = MainResponse.fromJson(json.decode(response.body));
         return _apiResponse;
       }
+    } catch (e) {
+      errorLog(e.toString());
+      return null;
+    }
+  }
+
+
+
+  Future<MainResponse?> addCategories(
+      {required AddCategoriesRequest request}) async {
+    MainResponse _apiResponse = MainResponse();
+    final String _token = await getAccessToken();
+    String? _refreshedToken;
+    final _headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${_refreshedToken ?? _token}',
+    };
+
+    try {
+
+        request.sellerId = await getSellerId();
+
+
+      final response = await http.post(
+        Uri.parse('${baseUrl}Seller/AddSellerPartsConfiguration'),
+        headers: _headers,
+        body: json.encode(request.toJson()),
+      );
+      log(response.request.toString() +
+          '\n' +
+          json.encode(request.toJson()) +
+          '\n' +
+          response.statusCode.toString() +
+          '\n' +
+          response.body);
+      _apiResponse = MainResponse.fromJson(json.decode(response.body));
+      return _apiResponse;
     } catch (e) {
       errorLog(e.toString());
       return null;

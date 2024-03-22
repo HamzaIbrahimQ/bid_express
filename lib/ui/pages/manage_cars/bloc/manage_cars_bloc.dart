@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bid_express/models/requests/add_categories/add_categories_request.dart';
 import 'package:bid_express/models/responses/category/category_response.dart';
 import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
 import 'package:bid_express/models/responses/selected_category/selected_category.dart';
@@ -18,6 +19,7 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
   List<GetCarsResponse> cars = [];
   List<CategoryResponse> categories = [];
   List<SelectedCategory> selectedCategories = [];
+  final AddCategoriesRequest _addCategoriesRequest = AddCategoriesRequest();
 
   ManageCarsBloc() : super(ManageCarsInitial()) {
     on<GetCars>((event, emit) {
@@ -95,6 +97,48 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
     on<GetSelectedCategoriesFailure>((event, emit) {
       emit.call(GetSelectedCategoriesFailureState());
     });
+
+    on<SelectUnSelectCategory>((event, emit) {
+      _selectUnselectCategory(id: event.id);
+    });
+
+    on<SelectUnSelectCategorySuccess>((event, emit) {
+      emit.call(
+          SelectUnSelectCategorySuccessState(clearFields: event.clearFields));
+    });
+
+    on<UpdateModelYear>((event, emit) {
+      try {
+        final item = cars
+            .firstWhere((element) => element.isSelected == true)
+            .sellerCarModels
+            ?.firstWhere((element) => element?.isSelected == true);
+        item?.yearFrom = event.from;
+        item?.yearTo = event.to;
+      } catch (e) {
+        print(e.toString());
+      }
+    });
+
+    on<AddCategories>((event, emit) {
+      _addCategories(event);
+    });
+
+    on<AddCategoriesLoading>((event, emit) {
+      emit.call(AddCategoriesLoadingState());
+    });
+
+    on<AddCategoriesSuccess>((event, emit) {
+      emit.call(AddCategoriesSuccessState());
+    });
+
+    on<AddCategoriesError>((event, emit) {
+      emit.call(AddCategoriesErrorState(error: event.error));
+    });
+
+    on<AddCategoriesFailure>((event, emit) {
+      emit.call(AddCategoriesFailureState());
+    });
   }
 
   Future<void> _getCars() async {
@@ -169,6 +213,9 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
           if (value?.isSuccess ?? false) {
             if (value?.data.isNotEmpty ?? false) {
               selectedCategories.clear();
+              categories.forEach((element) {
+                element.isSelected = false;
+              });
               selectedCategories.addAll(value?.data);
               categories.forEach((category) {
                 try {
@@ -218,5 +265,85 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
       }
     });
     add(UpdateSelectedModel(modelId: modelId));
+  }
+
+  void _selectUnselectCategory({required int id}) {
+    categories.forEach((element) {
+      if (element.id == id) {
+        element.isSelected = !(element.isSelected ?? false);
+      }
+    });
+    _addOrRemoveCategoryIdToModel(id: id);
+    add(SelectUnSelectCategorySuccess());
+  }
+
+  void _addOrRemoveCategoryIdToModel({required int id}) {
+    try {
+      final model = cars
+          .firstWhere((element) => element.isSelected == true)
+          .sellerCarModels
+          ?.firstWhere((model) => model?.isSelected == true);
+      if ((model?.selectedCategoriesIds != null) &&
+          (model?.selectedCategoriesIds?.contains(id) ?? false)) {
+        model?.selectedCategoriesIds?.removeWhere((element) => element == id);
+      } else {
+        model?.selectedCategoriesIds ??= [];
+        model?.selectedCategoriesIds?.add(id);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _addCategories(AddCategories event) async {
+    cars.forEach((car) {
+      car.sellerCarModels?.forEach((model) {
+        model?.selectedCategoriesIds?.forEach((categoryId) {
+          _addCategoriesRequest.sellerCategories ??= [];
+          _addCategoriesRequest.sellerCategories
+              ?.add(AddCategoriesRequestSellerCategories(
+            categoryId: categoryId,
+            sellerCarModelId: model.carModelId,
+            fromYear: int.tryParse(model.yearFrom ?? '0'),
+            toYear: int.tryParse(model.yearTo ?? '0'),
+            parts: [],
+          ));
+        });
+      });
+    });
+
+    if (_addCategoriesRequest.sellerCategories == null ||
+        (_addCategoriesRequest.sellerCategories?.isEmpty ?? false)) {
+      return;
+    }
+    add(AddCategoriesLoading());
+    final bool _isConnected = await checkInternetConnection();
+    if (_isConnected) {
+      try {
+        // internet connection available
+        _manageCarsRepository
+            .addCategories(request: _addCategoriesRequest)
+            .then((value) async {
+          if (value?.isSuccess ?? false) {
+            if (value?.data.isNotEmpty ?? false) {
+              categories.clear();
+              categories.addAll(value?.data);
+            }
+            add(AddCategoriesSuccess());
+          } else {
+            add(AddCategoriesError(error: value?.errorMessage));
+          }
+        }).catchError((e) {
+          errorLog(e.toString());
+          add(AddCategoriesError(error: e.toString()));
+        });
+      } catch (error) {
+        errorLog(error.toString());
+        add(AddCategoriesError(error: error.toString()));
+      }
+    } else {
+      // no internet connection
+      add(AddCategoriesFailure());
+    }
   }
 }

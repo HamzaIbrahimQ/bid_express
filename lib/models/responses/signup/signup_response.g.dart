@@ -15,6 +15,7 @@ SignupResponse _$SignupResponseFromJson(Map<String, dynamic> json) =>
       mobileAreaCode: json['mobileAreaCode'] as String?,
       accessToken: json['accessToken'] as String?,
       refreshToken: json['refreshToken'] as String?,
+      sellerId: json['sellerId'] as int?,
     );
 
 Map<String, dynamic> _$SignupResponseToJson(SignupResponse instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$SignupResponseToJson(SignupResponse instance) =>
       'mobileAreaCode': instance.mobileAreaCode,
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,
+      'sellerId': instance.sellerId,
     };

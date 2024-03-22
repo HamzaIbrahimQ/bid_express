@@ -84,10 +84,11 @@ class _BidHistoryWidgetState extends State<BidHistoryWidget> with UiUtility {
                       TextSpan(
                         text: '${widget.historyOrderModel.orderID}',
                         style: TextStyle(
-                            color: blackColor,
-                            fontSize: 10.sp,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold),
+                          color: fadeTextColor,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Montserrat',
+                        ),
                       )
                     ],
                   ),
@@ -111,16 +112,19 @@ class _BidHistoryWidgetState extends State<BidHistoryWidget> with UiUtility {
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: widget.historyOrderModel.carParts.length > 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
               children: [
 
                 /// Brand image
-                SvgPicture.asset(
-                  'assets/icons/toyota.svg',
-                  fit: BoxFit.cover,
-                  colorFilter: const ColorFilter.mode(
-                    secondaryColor,
-                    BlendMode.srcIn,
+                Padding(
+                  padding: EdgeInsets.only(top: widget.historyOrderModel.carParts.length > 1 ?  4.h : 0),
+                  child: SvgPicture.asset(
+                    'assets/icons/toyota.svg',
+                    fit: BoxFit.cover,
+                    colorFilter: const ColorFilter.mode(
+                      secondaryColor,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
 
