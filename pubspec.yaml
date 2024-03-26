@@ -48,6 +48,8 @@ dependencies:
   flutter_animated_dialog:
   url_launcher:
   timeago: ^3.6.1
+  flutter_onboarding_slider: ^1.0.11
+  overlay_tooltip: ^0.2.3
 
 
 dev_dependencies:

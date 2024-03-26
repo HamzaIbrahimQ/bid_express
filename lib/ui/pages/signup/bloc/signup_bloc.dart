@@ -172,10 +172,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> with Utility {
               key: 'userName',
               value: signupRequest.userName,
             );
-            await _sharedPreferenceHelper.saveIntValue(
-              key: 'sellerId',
-              value: value?.data?.sellerId ?? 0,
-            );
+            // await _sharedPreferenceHelper.saveIntValue(
+            //   key: 'sellerId',
+            //   value: value?.data?.sellerId ?? 0,
+            // );
           } else {
             add(SignupErrorEvent(error: value?.errorMessage));
           }

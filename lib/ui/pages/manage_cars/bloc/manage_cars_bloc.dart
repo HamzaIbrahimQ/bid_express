@@ -202,6 +202,12 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
   }
 
   Future<void> _getSelectedCategories({required int modelId}) async {
+    // modelId = cars
+    //         .firstWhere((element) => element.isSelected == true)
+    //         .sellerCarModels
+    //         ?.firstWhere((element) => element?.isSelected == true)
+    //         ?.sellerCarModelId ??
+    //     0;
     add(GetSelectedCategoriesLoading());
     final bool _isConnected = await checkInternetConnection();
     if (_isConnected) {
@@ -264,7 +270,7 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
         element?.isSelected = false;
       }
     });
-    add(UpdateSelectedModel(modelId: modelId));
+    add(UpdateSelectedModel(modelId: item.sellerCarModels?.firstWhere((element) => element?.isSelected == true)?.sellerCarModelId ?? 0));
   }
 
   void _selectUnselectCategory({required int id}) {
@@ -325,10 +331,6 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
             .addCategories(request: _addCategoriesRequest)
             .then((value) async {
           if (value?.isSuccess ?? false) {
-            if (value?.data.isNotEmpty ?? false) {
-              categories.clear();
-              categories.addAll(value?.data);
-            }
             add(AddCategoriesSuccess());
           } else {
             add(AddCategoriesError(error: value?.errorMessage));

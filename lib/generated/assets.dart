@@ -30,13 +30,19 @@ class Assets {
   static const String iconsShowPass = 'assets/icons/show_pass.svg';
   static const String iconsSuccess = 'assets/icons/success.svg';
   static const String iconsToyota = 'assets/icons/toyota.svg';
+  static const String imgsAddCarBg = 'assets/imgs/add_car_bg.png';
   static const String imgsDashboardBg = 'assets/imgs/dashboard_bg.jpg';
   static const String imgsLoginLogo = 'assets/imgs/login_logo.svg';
   static const String imgsLogo = 'assets/imgs/logo.svg';
   static const String imgsOil = 'assets/imgs/oil.png';
   static const String imgsProfileImg = 'assets/imgs/profile_img.png';
   static const String imgsUser = 'assets/imgs/user.png';
+  static const String lottiesGuide = 'assets/lotties/guide.json';
   static const String lottiesLoading = 'assets/lotties/loading.json';
+  static const String lottiesOnboarding1 = 'assets/lotties/onboarding1.json';
+  static const String lottiesOnboarding2 = 'assets/lotties/onboarding2.json';
+  static const String lottiesOnboarding3 = 'assets/lotties/onboarding3.json';
+  static const String lottiesOrderSent = 'assets/lotties/order_sent.json';
   static const String translationsArJO = 'assets/translations/ar-JO.json';
   static const String translationsEnUS = 'assets/translations/en-US.json';
 

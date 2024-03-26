@@ -159,7 +159,7 @@ class _BidHistoryWidgetState extends State<BidHistoryWidget> with UiUtility {
 
                       /// Price
                       Text(
-                        ' \$ ${widget.historyOrderModel.price.toStringAsFixed(0)}',
+                        ' \$${widget.historyOrderModel.price.toStringAsFixed(0)}',
                         style: TextStyle(
                           color: const Color(0xFF2D3D5E),
                           fontFamily: 'Montserrat',

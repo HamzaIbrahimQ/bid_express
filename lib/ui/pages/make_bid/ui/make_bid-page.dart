@@ -6,9 +6,11 @@ import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/text_field.dart';
 import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
 import 'package:bid_express/models/data_models/picked_image_model.dart';
+import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/widgets/add_image_widget.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/widgets/check_box_with_title.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/widgets/image_widget.dart';
+import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
 import 'package:bid_express/ui/pages/success_page/ui/success_page.dart';
 import 'package:bid_express/ui/widgets/drop_down_range_home.dart';
 import 'package:bid_express/utils/temporary_data.dart';
@@ -235,231 +237,244 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
 
           /// Body widget
           Expanded(
-              child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                24.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Text(
-                    'partDescriptions'.tr(),
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: secondaryColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  24.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Text(
+                      'partDescriptions'.tr(),
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: secondaryColor,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
 
-                /// Fields and tags
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      16.verticalSpace,
+                  /// Fields and tags
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        16.verticalSpace,
 
-                      /// Genuine part
-                      StatefulBuilder(builder: (context, setState) {
-                        return CheckboxWithTitle(
-                          title: 'Genuine Part',
-                          value: _isGenuine,
-                          onChanged: (v) {
+                        /// Genuine part
+                        StatefulBuilder(builder: (context, setState) {
+                          return CheckboxWithTitle(
+                            title: 'Genuine Part',
+                            value: _isGenuine,
+                            onChanged: (v) {
+                              setState(() {
+                                _isGenuine = v;
+                              });
+                            },
+                          );
+                        }),
+
+                        4.verticalSpace,
+
+                        /// New/Used part
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                /// New part
+                                CheckboxWithTitle(
+                                  title: 'New Part',
+                                  value: _isNew,
+                                  onChanged: (v) {
+                                    setState(() {
+                                      _isUsed = false;
+                                      _isNew = v;
+                                    });
+                                  },
+                                ),
+
+                                4.verticalSpace,
+
+                                /// Used part
+                                CheckboxWithTitle(
+                                  title: 'Used Part',
+                                  value: _isUsed,
+                                  onChanged: (v) {
+                                    setState(() {
+                                      _isNew = false;
+                                      _isUsed = v;
+                                    });
+                                  },
+                                ),
+
+                                24.verticalSpace,
+
+                                Text(
+                                  'Price include service?',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: secondaryColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                /// Used part
+                                CheckboxWithTitle(
+                                  title: 'Include Service',
+                                  value: _isInclude,
+                                  onChanged: (v) {
+                                    setState(() {
+                                      _isInclude = v;
+                                    });
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+
+                        8.verticalSpace,
+
+                        Text(
+                          'warranty'.tr(),
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            color: greyColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        4.verticalSpace,
+
+                        DropDownMainWidget(
+                          valueSelected: _warrantyValue,
+                          options: tData.warrantyDataList,
+                          height: .32.sh,
+                          onTap: (String e) {
                             setState(() {
-                              _isGenuine = v;
+                              _warrantyValue = e;
                             });
                           },
-                        );
-                      }),
-
-                      4.verticalSpace,
-
-                      /// New/Used part
-                      StatefulBuilder(
-                        builder: (context, setState) {
-                          return Column(
-                            children: [
-                              /// New part
-                              CheckboxWithTitle(
-                                title: 'New Part',
-                                value: _isNew,
-                                onChanged: (v) {
-                                  setState(() {
-                                    _isUsed = false;
-                                    _isNew = v;
-                                  });
-                                },
-                              ),
-
-                              4.verticalSpace,
-
-                              /// Used part
-                              CheckboxWithTitle(
-                                title: 'Used Part',
-                                value: _isUsed,
-                                onChanged: (v) {
-                                  setState(() {
-                                    _isNew = false;
-                                    _isUsed = v;
-                                  });
-                                },
-                              ),
-
-                              4.verticalSpace,
-
-                              /// Used part
-                              CheckboxWithTitle(
-                                title: 'Include Service',
-                                value: _isInclude,
-                                onChanged: (v) {
-                                  setState(() {
-                                    _isInclude = v;
-                                  });
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-
-                      8.verticalSpace,
-                      Text(
-                        'warranty'.tr(),
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          color: greyColor,
-                          fontWeight: FontWeight.w500,
                         ),
-                      ),
-                      4.verticalSpace,
+                        24.verticalSpace,
 
-                      DropDownMainWidget(
-                        valueSelected: _warrantyValue,
-                        options: tData.warrantyDataList,
-                        height: .32.sh,
-                        onTap: (String e) {
-                          setState(() {
-                            _warrantyValue = e;
-                          });
-                        },
-                      ),
-                      24.verticalSpace,
-
-                      /// More details text filed
-                      SizedBox(
-                        child: AppTextField(
-                          controller: _detailsCont,
-                          title: 'partDescription'.tr(),
-                          hint: 'partDescription'.tr(),
-                          hintTextColor: greyColor,
-                          maxLines: 8,
-                          minLines: 3,
-                          maxLength: 700,
-                          textInputAction: TextInputAction.done,
+                        /// More details text filed
+                        SizedBox(
+                          child: AppTextField(
+                            controller: _detailsCont,
+                            title: 'partDescription'.tr(),
+                            hint: 'partDescription'.tr(),
+                            hintTextColor: greyColor,
+                            maxLines: 8,
+                            minLines: 3,
+                            maxLength: 700,
+                            textInputAction: TextInputAction.done,
+                          ),
                         ),
-                      ),
 
-                      24.verticalSpace,
+                        24.verticalSpace,
 
-                      /// Add image
-                      Text(
-                        'Add Images',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: secondaryColor,
-                          fontWeight: FontWeight.bold,
+                        /// Add image
+                        Text(
+                          'Add Images',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: secondaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                16.verticalSpace,
+                  16.verticalSpace,
 
-                /// Images
-                SizedBox(
-                  height: 105.h,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: Row(
-                        children: [
-                          /// Images list
-                          ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _pickedImages.length,
-                            padding: EdgeInsetsDirectional.only(end: 4.w),
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return ImageWidget(
-                                file: _pickedImages[index].file,
-                                onCancel: () {
-                                  _pickedImages.removeAt(index);
-                                  setState(() {});
-                                },
-                              );
-                            },
-                          ),
-
-                          /// Add image
-                          Visibility(
-                            visible: _pickedImages.length <= 4,
-                            child: AddImageWidget(
-                              onTap: () =>
-                                  _showPickImageDialog(context: context),
+                  /// Images
+                  SizedBox(
+                    height: 105.h,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: Row(
+                          children: [
+                            /// Images list
+                            ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _pickedImages.length,
+                              padding: EdgeInsetsDirectional.only(end: 4.w),
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return ImageWidget(
+                                  file: _pickedImages[index].file,
+                                  onCancel: () {
+                                    _pickedImages.removeAt(index);
+                                    setState(() {});
+                                  },
+                                );
+                              },
                             ),
-                          ),
-                        ],
+
+                            /// Add image
+                            Visibility(
+                              visible: _pickedImages.length <= 4,
+                              child: AddImageWidget(
+                                onTap: () =>
+                                    _showPickImageDialog(context: context),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                32.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          width: 0.5.sw,
-                          color: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 8.h),
-                          child: MainButton(
-                            title: 'Cancel',
-                            onTap: () {},
+                  32.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            width: 0.5.sw,
+                            color: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 8.h),
+                            child: MainButton(
+                              title: 'Cancel',
+                              onTap: () {},
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 8.h),
-                          child: MainButton(
-                            title: 'Confirm',
-                            onTap: () {
-                              _navigateToSuccessPage();
-                            },
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            color: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 8.h),
+                            child: MainButton(
+                              title: 'Confirm',
+                              onTap: () {
+                                _navigateToSuccessPage();
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );
@@ -497,10 +512,18 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
       context: context,
       page: SuccessPage(
         title: 'Success',
-        message: 'Your Bid Has been Submitted Successfully!',
+        message:
+            'Your Bid Has been Submitted and sent to the buyer, you will receive '
+                'a notification if your bid has been confirmed!',
         onContinue: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
+          navigate(
+              context: context,
+              isFade: true,
+              clearPagesStack: true,
+              page: BlocProvider(
+                create: (context) => HomeBloc()..add(GetUserData()),
+                child: const NavBar(),
+              ));
         },
       ),
     );

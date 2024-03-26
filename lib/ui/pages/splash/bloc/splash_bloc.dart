@@ -11,6 +11,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<GetInitValues>((event, emit) {
       _getInitValues();
     });
+
     on<GetInitValuesSuccess>((event, emit) {
       emit.call(
         GetInitValuesSuccessState(

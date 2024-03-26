@@ -1,6 +1,9 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
+import 'package:bid_express/ui/pages/guide_page/ui/guide_page.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/make_bid-page.dart';
+import 'package:bid_express/ui/widgets/custom_tooltip.dart';
+import 'package:bid_express/utils/temporary_data.dart';
 import 'package:bid_express/utils/ui_utility.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +11,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:overlay_tooltip/overlay_tooltip.dart';
 import 'package:timeago/timeago.dart' as time_ago;
 
 class BidWidget extends StatefulWidget {
   final BidModel bidModel;
+  final VoidCallback? onIgnored;
+  final int index;
 
-  const BidWidget({super.key, required this.bidModel});
+  const BidWidget({
+    super.key,
+    required this.bidModel,
+    this.onIgnored,
+    required this.index,
+  });
 
   @override
   State<BidWidget> createState() => _BidWidgetState();
@@ -174,6 +185,7 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
                       ),
 
                       /// Ignore
+
                       IconButton(
                         padding: EdgeInsets.zero,
                         tooltip: 'Hide this part from the list',
@@ -184,16 +196,37 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             /// Icon
-                            SvgPicture.asset(
-                              'assets/icons/ignore.svg',
-                              fit: BoxFit.cover,
-                            ),
+                            if (widget.index == 0)
+                              OverlayTooltipItem(
+                                displayIndex: 4,
+                                tooltip: (controller) {
+                                  return Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                      start: 16.w,
+                                    ),
+                                    child: CustomTooltip(
+                                      title:
+                                          'If you are not interested with this order, you can press here to hide it.',
+                                      controller: controller,
+                                    ),
+                                  );
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/icons/ignore.svg',
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            else
+                              SvgPicture.asset(
+                                'assets/icons/ignore.svg',
+                                fit: BoxFit.cover,
+                              ),
 
                             6.verticalSpace,
 
                             /// Label
                             Text(
-                              'Ignore this part',
+                              'Not interested',
                               style: TextStyle(
                                 fontSize: 9.sp,
                                 color: secondaryColor,
@@ -202,8 +235,8 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
                             ),
                           ],
                         ),
-                        onPressed: () {},
-                      ),
+                        onPressed: widget.onIgnored,
+                      )
                     ],
                   ),
                 ),
@@ -232,9 +265,21 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
   void _navigateToBidPage(BuildContext context, BidModel bidModel) {
     navigate(
         context: context,
-        page: MakeBidPage(
-          bidModel: bidModel,
-        ),
-        duration: const Duration(milliseconds: 300));
+        page: GuidePage(
+          appBarTitle: 'Make bid',
+          title: 'Your first bid',
+          msg: 'This message to tell the user more about making his first bid,'
+              'This message to tell the user more about making his first bid.',
+          buttonTitle: 'Let\'s make a bid',
+          onContinue: () {
+            navigate(
+              context: context,
+              isReplacement: true,
+              page: MakeBidPage(
+                bidModel: bidModel,
+              ),
+            );
+          },
+        ));
   }
 }

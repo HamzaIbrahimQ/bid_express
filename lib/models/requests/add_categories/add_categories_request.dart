@@ -6,11 +6,13 @@ part 'add_categories_request.g.dart';
 class AddCategoriesRequest {
   int? sellerId;
   int? tempSellerId;
+  String? langCode;
   List<AddCategoriesRequestSellerCategories?>? sellerCategories;
 
   AddCategoriesRequest({
-    this.sellerId,
-    this.tempSellerId,
+    this.sellerId = 0,
+    this.tempSellerId = 0,
+    this.langCode = 'en',
     this.sellerCategories,
   });
 

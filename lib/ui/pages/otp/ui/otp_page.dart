@@ -4,6 +4,7 @@ import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/models/requests/signup/signup_request.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/ui/add_brands.dart';
+import 'package:bid_express/ui/pages/add_brands/ui/add_brands_guide.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_page_message.dart';
 import 'package:bid_express/ui/pages/otp/ui/widgets/otp_timer.dart';
@@ -301,10 +302,7 @@ class _OtpPageState extends State<OtpPage> with UiUtility {
       context: context,
       isFade: true,
       clearPagesStack: true,
-      page: BlocProvider(
-        create: (context) => AddBrandsBloc()..add(GetBrands()),
-        child: const AddBrandsPage(),
-      ),
+      page: const AddBrandsGuide(),
     );
   }
 

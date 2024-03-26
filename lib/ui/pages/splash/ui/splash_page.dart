@@ -6,6 +6,7 @@ import 'package:bid_express/ui/pages/home/ui/home_page.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/nav_bar/nav_bar.dart';
+import 'package:bid_express/ui/pages/onboarding/ui/onboarding.dart';
 import 'package:bid_express/ui/pages/splash/bloc/splash_bloc.dart';
 import 'package:bid_express/ui/pages/splash/ui/widgets/logo.dart';
 import 'package:bid_express/ui/pages/splash/ui/widgets/splash_progress_indicator.dart';
@@ -59,15 +60,20 @@ class SplashPage extends StatelessWidget with UiUtility {
           //     : accessToken.isNotEmpty
           //     ? const BottomNavBar()
           //     :
-          accessToken.isNotEmpty
-              ? BlocProvider(
-                  create: (context) => HomeBloc()..add(GetUserData()),
-                  child: const NavBar(),
-                )
-              : BlocProvider(
-                  create: (context) => LoginBloc(),
-                  child: const LoginPage(),
-                ),
+
+
+
+          // accessToken.isNotEmpty
+          //     ? BlocProvider(
+          //         create: (context) => HomeBloc()..add(GetUserData()),
+          //         child: const NavBar(),
+          //       )
+          //     : BlocProvider(
+          //         create: (context) => LoginBloc(),
+          //         child: const LoginPage(),
+          //       ),
+
+      const OnBoardingPage()
     );
   }
 }

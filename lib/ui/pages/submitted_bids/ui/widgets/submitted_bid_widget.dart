@@ -170,6 +170,17 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget>
                                     )
                                     .toList()),
                       ),
+
+                      /// Price
+                      Text(
+                        ' \$150',
+                        style: TextStyle(
+                          color: const Color(0xFF2D3D5E),
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.sp,
+                        ),
+                      ),
                     ],
                   ),
                 ),

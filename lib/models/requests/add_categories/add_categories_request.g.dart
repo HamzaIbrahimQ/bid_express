@@ -9,8 +9,9 @@ part of 'add_categories_request.dart';
 AddCategoriesRequest _$AddCategoriesRequestFromJson(
         Map<String, dynamic> json) =>
     AddCategoriesRequest(
-      sellerId: json['sellerId'] as int?,
-      tempSellerId: json['tempSellerId'] as int?,
+      sellerId: json['sellerId'] as int? ?? 0,
+      tempSellerId: json['tempSellerId'] as int? ?? 0,
+      langCode: json['langCode'] as String? ?? 'en',
       sellerCategories: (json['sellerCategories'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
@@ -24,6 +25,7 @@ Map<String, dynamic> _$AddCategoriesRequestToJson(
     <String, dynamic>{
       'sellerId': instance.sellerId,
       'tempSellerId': instance.tempSellerId,
+      'langCode': instance.langCode,
       'sellerCategories': instance.sellerCategories,
     };
 

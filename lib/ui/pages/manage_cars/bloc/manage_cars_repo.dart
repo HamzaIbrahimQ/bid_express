@@ -131,10 +131,7 @@ class ManageCarsRepository extends BaseRepository {
     };
 
     try {
-
-        request.sellerId = await getSellerId();
-
-
+        // request.sellerId = await getSellerId();
       final response = await http.post(
         Uri.parse('${baseUrl}Seller/AddSellerPartsConfiguration'),
         headers: _headers,
