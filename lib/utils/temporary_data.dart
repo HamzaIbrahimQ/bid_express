@@ -20,7 +20,107 @@ class TemporaryData {
     '1 Year',
   ];
 
-  List<BidModel> homeBids = [
+  List<OrderModel> homeBids = [
+    OrderModel(
+      orderID: 163656,
+      subOrders: [
+        SubBidModel(
+          orderID: 163622,
+          part: 'Break Pads',
+          carName: 'Nissan Lief',
+          carYear: '2008',
+          creationDate: DateTime.now().subtract(const Duration(minutes: 5)),
+        ),
+        SubBidModel(
+          orderID: 163623,
+          part: 'Wipers',
+          carName: 'Nissan Lief',
+          carYear: '2008',
+          creationDate: DateTime.now().subtract(const Duration(minutes: 5)),
+        ),
+      ],
+      carName: 'Nissan Lief',
+      carYear: '2008',
+      creationDate: DateTime.now().subtract(const Duration(minutes: 5)),
+    ),
+    OrderModel(
+      orderID: 145632,
+      subOrders: [
+        SubBidModel(
+          orderID: 145632,
+          part: 'Light',
+          carName: 'Mercedes Benz',
+          carYear: '2016',
+          creationDate: DateTime.now().subtract(const Duration(hours: 5)),
+        ),
+      ],
+      carName: 'Mercedes Benz',
+      carYear: '2016',
+      creationDate: DateTime.now().subtract(const Duration(hours: 5)),
+    ),
+    OrderModel(
+      orderID: 145632,
+      subOrders: [
+        SubBidModel(
+          orderID: 145632,
+          part: 'Wipers',
+          carName: 'Mercedes Benz',
+          carYear: '2016',
+          creationDate: DateTime.now().subtract(const Duration(hours: 5)),
+        ),
+      ],
+      carName: 'Mercedes Benz',
+      carYear: '2016',
+      creationDate: DateTime.now().subtract(const Duration(hours: 25)),
+    ),
+    OrderModel(
+      orderID: 18543,
+      subOrders: [
+        SubBidModel(
+          orderID: 18543,
+          part: 'Light',
+          carName: 'Nissan Lief',
+          carYear: '2012',
+          creationDate: DateTime.now().subtract(const Duration(days: 10)),
+        ),
+      ],
+      carName: 'Nissan Lief',
+      carYear: '2012',
+      creationDate: DateTime.now().subtract(const Duration(days: 10)),
+    ),
+    OrderModel(
+      orderID: 53218,
+      subOrders: [
+        SubBidModel(
+          orderID: 53218,
+          part: 'Break pads',
+          carName: 'Mercedes Benz',
+          carYear: '2018',
+          creationDate: DateTime.now().subtract(const Duration(days: 15)),
+        ),
+      ],
+      carName: 'Mercedes Benz',
+      carYear: '2018',
+      creationDate: DateTime.now().subtract(const Duration(days: 15)),
+    ),
+    OrderModel(
+      orderID: 124578,
+      subOrders: [
+        SubBidModel(
+          orderID: 124578,
+          part: 'Wipers',
+          carName: 'Toyota Corolla',
+          carYear: '2010',
+          creationDate: DateTime.now().subtract(const Duration(days: 45)),
+        ),
+      ],
+      carName: 'Toyota Corolla',
+      carYear: '2010',
+      creationDate: DateTime.now().subtract(const Duration(days: 45)),
+    ),
+  ];
+
+  List<BidModel> submittedBids = [
     BidModel(
       orderID: 163656,
       carParts: ['Break Pads', 'Wipers'],

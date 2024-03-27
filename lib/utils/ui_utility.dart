@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -252,6 +253,18 @@ mixin UiUtility {
 
     for (int x = 0; x < carParts.length; x++) {
       carPartsString = carPartsString + (carParts[x] ?? '');
+      if (x != carParts.length - 1) {
+        carPartsString = carPartsString + ' / ';
+      }
+    }
+    return carPartsString;
+  }
+
+  String createTitleStringForSuborders(List<SubBidModel> carParts) {
+    String carPartsString = '';
+
+    for (int x = 0; x < carParts.length; x++) {
+      carPartsString = carPartsString + (carParts[x].part ?? '');
       if (x != carParts.length - 1) {
         carPartsString = carPartsString + ' / ';
       }

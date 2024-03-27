@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage>
           tooltipAnimationDuration: const Duration(milliseconds: 500),
           startWhen: (initializedWidgetLength) async {
             await Future.delayed(const Duration(milliseconds: 250));
-            return initializedWidgetLength == 6 && start && !done;
+            return initializedWidgetLength == 7 && start && !done;
           },
           builder: (context) {
             return Scaffold(

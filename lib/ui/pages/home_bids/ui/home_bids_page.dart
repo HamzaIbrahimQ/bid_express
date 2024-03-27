@@ -28,7 +28,7 @@ class _HomeBidsPageState extends State<HomeBidsPage>
   String dropDownValue = '';
 
   // bool _includeIgnoredParts = false;
-  final List<BidModel> orders = [];
+  final List<OrderModel> orders = [];
 
   @override
   void initState() {
@@ -104,7 +104,7 @@ class _HomeBidsPageState extends State<HomeBidsPage>
               });
             },
             child: OverlayTooltipItem(
-              displayIndex: 5,
+              displayIndex: 6,
               tooltipVerticalPosition: TooltipVerticalPosition.TOP,
               tooltip: (controller) {
                 return Padding(
@@ -113,7 +113,7 @@ class _HomeBidsPageState extends State<HomeBidsPage>
                   ),
                   child: CustomTooltip(
                     title:
-                    'Let\'s discover orders now and press on any order to make your first bid!',
+                        'Let\'s discover orders now and press on any order to make your first bid!',
                     controller: controller,
                   ),
                 );
@@ -123,16 +123,17 @@ class _HomeBidsPageState extends State<HomeBidsPage>
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   return BidWidget(
-                      bidModel: orders[index],
-                      index: index,
-                      onIgnored: () {
-                        setState(
-                          () {
-                            orders.removeWhere((element) =>
-                                element.orderID == orders[index].orderID);
-                          },
-                        );
-                      });
+                    orderModel: orders[index],
+                    index: index,
+                    onIgnored: () {
+                      setState(
+                        () {
+                          orders.removeWhere((element) =>
+                              element.orderID == orders[index].orderID);
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),

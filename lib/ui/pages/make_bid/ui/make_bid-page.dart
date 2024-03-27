@@ -24,11 +24,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MakeBidPage extends StatefulWidget {
-  final BidModel bidModel;
+  final OrderModel orderModel;
 
   const MakeBidPage({
     super.key,
-    required this.bidModel,
+    required this.orderModel,
   });
 
   @override
@@ -98,7 +98,7 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '${widget.bidModel.orderID}',
+                              text: '${widget.orderModel.orderID}',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 10.sp,
@@ -114,7 +114,7 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                     4.verticalSpace,
                     Flexible(
                       child: AutoSizeText(
-                        createTitleString(widget.bidModel.carParts),
+                        createTitleStringForSuborders(widget.orderModel.subOrders ?? []),
                         maxLines: 2,
                         minFontSize: 8,
                         style: TextStyle(
@@ -126,7 +126,7 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                     ),
                     Flexible(
                       child: AutoSizeText(
-                        '${widget.bidModel.carName} (${widget.bidModel.carYear})',
+                        '${widget.orderModel.carName} (${widget.orderModel.carYear})',
                         maxLines: 1,
                         minFontSize: 8,
                         style: TextStyle(

@@ -207,11 +207,11 @@ class _SubmittedBidWidgetState extends State<SubmittedBidWidget>
   }
 
   void _navigateToBidPage(BuildContext context, BidModel bidModel) {
-    navigate(
-        context: context,
-        page: MakeBidPage(
-          bidModel: bidModel,
-        ),
-        duration: const Duration(milliseconds: 300));
+    // navigate(
+    //     context: context,
+    //     page: MakeBidPage(
+    //       bidModel: bidModel,
+    //     ),
+    //     duration: const Duration(milliseconds: 300));
   }
 }

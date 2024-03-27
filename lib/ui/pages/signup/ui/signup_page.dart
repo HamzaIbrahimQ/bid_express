@@ -390,7 +390,7 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                         ),
 
                         /// Site link title
-                        const SectionTitle(title: 'Site link'),
+                        const SectionTitle(title: 'Your website link'),
 
                         12.verticalSpace,
 
@@ -398,8 +398,8 @@ class _SignupPageState extends State<SignupPage> with UiUtility {
                         AppTextField(
                           controller: _siteLinkCont,
                           focusNode: _siteLinkFoc,
-                          title: 'Site link',
-                          hint: 'website/Social media account..',
+                          title: 'Website link',
+                          hint: 'Website/Social media account..',
                           isRequired: false,
                           inputType: TextInputType.url,
                           regex: hyperlinkRegex,

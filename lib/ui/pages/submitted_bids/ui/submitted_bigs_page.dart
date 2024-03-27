@@ -49,9 +49,9 @@ class _SubmittedBidsPageState extends State<SubmittedBidsPage>
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 6.h),
-              itemCount: tData.homeBids.length,
+              itemCount: tData.submittedBids.length,
               itemBuilder: (context, index) {
-                return SubmittedBidWidget(bidModel: tData.homeBids[index]);
+                return SubmittedBidWidget(bidModel: tData.submittedBids[index]);
               },
             ),
           ),

@@ -50,6 +50,7 @@ dependencies:
   timeago: ^3.6.1
   flutter_onboarding_slider: ^1.0.11
   overlay_tooltip: ^0.2.3
+  expandable: ^5.0.1
 
 
 dev_dependencies:

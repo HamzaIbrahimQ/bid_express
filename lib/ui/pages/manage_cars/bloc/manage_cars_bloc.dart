@@ -262,10 +262,18 @@ class ManageCarsBloc extends Bloc<ManageCarsEvent, ManageCarsState>
   }
 
   void _selectModel({required int modelId}) {
+    categories.forEach((element) {
+      element.isSelected = false;
+    });
     final item = cars.firstWhere((element) => element.isSelected ?? false);
     item.sellerCarModels?.forEach((element) {
       if (element?.carModelId == modelId) {
         element?.isSelected = true;
+        categories.forEach((category) {
+          if (element?.selectedCategoriesIds?.contains(category.id) ?? false) {
+            category.isSelected = true;
+          }
+        });
       } else {
         element?.isSelected = false;
       }
