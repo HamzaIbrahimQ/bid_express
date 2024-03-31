@@ -114,14 +114,18 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
                     4.verticalSpace,
                     Flexible(
                       child: AutoSizeText(
-                        createTitleStringForSuborders(widget.orderModel.subOrders ?? []),
+                        ((widget.orderModel.subOrders?.length ?? 0) > 1)
+                            ? createTitleStringForSuborders(
+                                widget.orderModel.subOrders ?? [])
+                            : (widget.orderModel.subOrders?[0].part ?? ''),
                         maxLines: 2,
                         minFontSize: 8,
                         style: TextStyle(
-                            fontSize: 16.sp,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 16.sp,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     Flexible(
@@ -514,7 +518,7 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
         title: 'Success',
         message:
             'Your Bid Has been Submitted and sent to the buyer, you will receive '
-                'a notification if your bid has been confirmed!',
+            'a notification if your bid has been confirmed!',
         onContinue: () {
           navigate(
               context: context,

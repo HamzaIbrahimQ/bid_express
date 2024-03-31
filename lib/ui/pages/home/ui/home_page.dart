@@ -1,5 +1,6 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/progress_hud.dart';
+import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:bid_express/ui/pages/home/bloc/home_bloc.dart';
 import 'package:bid_express/ui/pages/home/ui/widgets/username_widget.dart';
 import 'package:bid_express/ui/pages/home_bids/ui/home_bids_page.dart';
@@ -32,6 +33,8 @@ class _HomePageState extends State<HomePage>
   final TooltipController tooltipController = TooltipController();
   bool start = false;
   bool done = false;
+  final SharedPreferenceHelper _sharedPreferenceHelper =
+      SharedPreferenceHelper();
 
   @override
   void initState() {
@@ -42,6 +45,8 @@ class _HomePageState extends State<HomePage>
       setState(() {
         done = true;
       });
+      _sharedPreferenceHelper.saveBooleanValue(
+          key: 'isFirstOpenDashboard', value: false);
     });
   }
 
@@ -60,8 +65,13 @@ class _HomePageState extends State<HomePage>
           tooltipAnimationCurve: Curves.linear,
           tooltipAnimationDuration: const Duration(milliseconds: 500),
           startWhen: (initializedWidgetLength) async {
+            final bool? _isFirstOpenDashboard = await _sharedPreferenceHelper
+                .getBooleanValue(key: 'isFirstOpenDashboard');
             await Future.delayed(const Duration(milliseconds: 250));
-            return initializedWidgetLength == 7 && start && !done;
+            return initializedWidgetLength == 7 &&
+                start &&
+                !done &&
+                (_isFirstOpenDashboard ?? true);
           },
           builder: (context) {
             return Scaffold(

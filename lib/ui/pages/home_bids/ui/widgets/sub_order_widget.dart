@@ -1,4 +1,5 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
 import 'package:bid_express/ui/pages/guide_page/ui/guide_page.dart';
 import 'package:bid_express/ui/pages/make_bid/ui/make_bid-page.dart';
@@ -247,30 +248,67 @@ class _SuborderWidgetState extends State<SuborderWidget> with UiUtility {
     );
   }
 
-  void _navigateToBidPage(BuildContext context, SubBidModel orderModel) {
-    navigate(
-      context: context,
-      page: GuidePage(
-        appBarTitle: 'Make bid',
-        title: 'Your first bid',
-        msg: 'This message to tell the user more about making his first bid,'
-            'This message to tell the user more about making his first bid.',
-        buttonTitle: 'Let\'s make a bid',
-        onContinue: () {
-          navigate(
-            context: context,
-            isReplacement: true,
-            page: MakeBidPage(
-              orderModel: OrderModel(
-                orderID: widget.subBidModel.orderID,
-                carName: widget.subBidModel.carName,
-                carYear: widget.subBidModel.carYear,
-                creationDate: widget.subBidModel.creationDate,
+  Future<void> _navigateToBidPage(BuildContext context, SubBidModel orderModel) async {
+    final SharedPreferenceHelper _sharedPreferenceHelper =
+    SharedPreferenceHelper();
+    final bool? _isFirstOrder =
+        await _sharedPreferenceHelper.getBooleanValue(key: 'isFirstOrder');
+    if (_isFirstOrder ?? true) {
+      navigate(
+        context: context,
+        page: GuidePage(
+          appBarTitle: 'Make bid',
+          title: 'Your first bid',
+          msg: 'This message to tell the user more about making his first bid,'
+              'This message to tell the user more about making his first bid.',
+          buttonTitle: 'Let\'s make a bid',
+          onContinue: () {
+            navigate(
+              context: context,
+              isReplacement: true,
+              page: MakeBidPage(
+                orderModel: OrderModel(
+                  orderID: widget.subBidModel.orderID,
+                  carName: widget.subBidModel.carName,
+                  carYear: widget.subBidModel.carYear,
+                  creationDate: widget.subBidModel.creationDate,
+                  subOrders: [
+                    SubBidModel(
+                        orderID: widget.subBidModel.orderID,
+                        carName: widget.subBidModel.carName,
+                        carYear: widget.subBidModel.carYear,
+                        creationDate: widget.subBidModel.creationDate,
+                        part: orderModel.part),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ),
+      );
+    } else {
+      await _sharedPreferenceHelper.saveBooleanValue(key: 'isFirstOrder', value: false);
+      navigate(
+        context: context,
+        isReplacement: true,
+        page: MakeBidPage(
+          orderModel: OrderModel(
+            orderID: widget.subBidModel.orderID,
+            carName: widget.subBidModel.carName,
+            carYear: widget.subBidModel.carYear,
+            creationDate: widget.subBidModel.creationDate,
+            subOrders: [
+              SubBidModel(
+                  orderID: widget.subBidModel.orderID,
+                  carName: widget.subBidModel.carName,
+                  carYear: widget.subBidModel.carYear,
+                  creationDate: widget.subBidModel.creationDate,
+                  part: orderModel.part),
+            ],
+          ),
+        ),
+      );
+    }
+
   }
 }

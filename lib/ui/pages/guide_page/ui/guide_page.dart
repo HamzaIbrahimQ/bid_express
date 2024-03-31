@@ -31,62 +31,58 @@ class GuidePage extends StatelessWidget with UiUtility {
       appBar: getAppBar(context: context, title: appBarTitle),
       body: Padding(
         padding: EdgeInsetsDirectional.only(start: 16.w, end: 16.w),
-        child: FadeInRightBig(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              /// Lottie
-              Lottie.asset(
-                Assets.lottiesGuide,
-                height: 300.h,
-                width: 1.sw,
-                fit: BoxFit.contain,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /// Lottie
+            Lottie.asset(
+              Assets.lottiesGuide,
+              height: 300.h,
+              width: 1.sw,
+              fit: BoxFit.contain,
+            ),
+
+            32.verticalSpace,
+
+            /// Add car title
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: secondaryColor,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
               ),
+            ),
 
-              32.verticalSpace,
+            12.verticalSpace,
 
-              /// Add car title
-              Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: secondaryColor,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+            /// Add car description
+            AutoSizeText(
+              msg,
+              maxLines: 8,
+              minFontSize: 9,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: secondaryColor,
+                fontSize: 12.5.sp,
+                fontWeight: FontWeight.w500,
               ),
+            ),
 
-              12.verticalSpace,
-
-              /// Add car description
-              AutoSizeText(
-                msg,
-                maxLines: 8,
-                minFontSize: 9,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: secondaryColor,
-                  fontSize: 12.5.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-
-              12.verticalSpace,
-            ],
-          ),
+            12.verticalSpace,
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: FadeInRightBig(
-          child: MainButton(
-            title: buttonTitle,
-            onTap: () => onContinue(),
-          ),
+        child: MainButton(
+          title: buttonTitle,
+          onTap: () => onContinue(),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:bid_express/components/colors.dart';
+import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:bid_express/models/data_models/bids_models/bid_model.dart';
 import 'package:bid_express/ui/pages/guide_page/ui/guide_page.dart';
 import 'package:bid_express/ui/pages/home_bids/ui/widgets/sub_order_widget.dart';
@@ -11,6 +12,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -267,59 +269,103 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
               ),
 
               if ((widget.orderModel.subOrders?.length ?? 0) > 1)
-              ScrollOnExpand(
-                scrollOnExpand: true,
-                scrollOnCollapse: false,
-                child: OverlayTooltipItem(
-                  displayIndex: 5,
-                  tooltipVerticalPosition: TooltipVerticalPosition.BOTTOM,
-                  tooltip: (controller) {
-                    return Padding(
-                      padding: EdgeInsetsDirectional.only(
-                        start: 16.w,
-                      ),
-                      child: CustomTooltip(
-                        title:
-                        'You can press on view all parts to make a bid on specific part in the order',
-                        controller: controller,
-                      ),
-                    );
-                  },
-                  child: ExpandablePanel(
-                    theme: const ExpandableThemeData(
-                      headerAlignment: ExpandablePanelHeaderAlignment.center,
-                      tapBodyToCollapse: true,
-                      iconColor: secondaryColor,
-                    ),
-                    header: Text(
-                      'Show all parts',
-                      style: TextStyle(
-                        color: secondaryColor,
-                        fontSize: 12.5.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    collapsed: const SizedBox.shrink(),
-                    expanded: ListView.builder(
-                      padding: EdgeInsetsDirectional.only(top: 6.h),
-                      shrinkWrap: true,
-                      itemCount: widget.orderModel.subOrders?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return SuborderWidget(
-                          subBidModel: widget.orderModel.subOrders![index],
-                        );
-                      },
-                    ),
-                    builder: (_, collapsed, expanded) {
-                      return Expandable(
-                        collapsed: collapsed,
-                        expanded: expanded,
-                        theme: const ExpandableThemeData(crossFadePoint: 0),
-                      );
-                    },
-                  ),
+                ScrollOnExpand(
+                  scrollOnExpand: true,
+                  scrollOnCollapse: false,
+                  child: widget.index == 0
+                      ? OverlayTooltipItem(
+                          displayIndex: 5,
+                          tooltipVerticalPosition:
+                              TooltipVerticalPosition.BOTTOM,
+                          tooltip: (controller) {
+                            return Padding(
+                              padding: EdgeInsetsDirectional.only(
+                                start: 16.w,
+                              ),
+                              child: CustomTooltip(
+                                title:
+                                    'You can press on view all parts to make a bid on specific part in the order',
+                                controller: controller,
+                              ),
+                            );
+                          },
+                          child: ExpandablePanel(
+                            theme: ExpandableThemeData(
+                              headerAlignment:
+                                  ExpandablePanelHeaderAlignment.center,
+                              tapBodyToCollapse: true,
+                              iconColor: secondaryColor,
+                              inkWellBorderRadius: BorderRadius.circular(6.r),
+                            ),
+                            header: Text(
+                              'Show all parts',
+                              style: TextStyle(
+                                color: secondaryColor,
+                                fontSize: 12.5.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            collapsed: const SizedBox.shrink(),
+                            expanded: ListView.builder(
+                              padding: EdgeInsetsDirectional.only(top: 6.h),
+                              shrinkWrap: true,
+                              itemCount:
+                                  widget.orderModel.subOrders?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                return SuborderWidget(
+                                  subBidModel:
+                                      widget.orderModel.subOrders![index],
+                                );
+                              },
+                            ),
+                            builder: (_, collapsed, expanded) {
+                              return Expandable(
+                                collapsed: collapsed,
+                                expanded: expanded,
+                                theme: const ExpandableThemeData(
+                                    crossFadePoint: 0),
+                              );
+                            },
+                          ),
+                        )
+                      : ExpandablePanel(
+                          theme: ExpandableThemeData(
+                            headerAlignment:
+                                ExpandablePanelHeaderAlignment.center,
+                            tapBodyToCollapse: true,
+                            iconColor: secondaryColor,
+                            inkWellBorderRadius: BorderRadius.circular(6.r),
+                          ),
+                          header: Text(
+                            'Show all parts',
+                            style: TextStyle(
+                              color: secondaryColor,
+                              fontSize: 12.5.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          collapsed: const SizedBox.shrink(),
+                          expanded: ListView.builder(
+                            padding: EdgeInsetsDirectional.only(top: 6.h),
+                            shrinkWrap: true,
+                            itemCount: widget.orderModel.subOrders?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              return SuborderWidget(
+                                subBidModel:
+                                    widget.orderModel.subOrders![index],
+                              );
+                            },
+                          ),
+                          builder: (_, collapsed, expanded) {
+                            return Expandable(
+                              collapsed: collapsed,
+                              expanded: expanded,
+                              theme:
+                                  const ExpandableThemeData(crossFadePoint: 0),
+                            );
+                          },
+                        ),
                 ),
-              ),
             ],
           ),
         ),
@@ -327,8 +373,14 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
     );
   }
 
-  void _navigateToBidPage(BuildContext context, OrderModel orderModel) {
-    navigate(
+  Future<void> _navigateToBidPage(
+      BuildContext context, OrderModel orderModel) async {
+    final SharedPreferenceHelper _sharedPreferenceHelper =
+        SharedPreferenceHelper();
+    final bool? _isFirstBid =
+        await _sharedPreferenceHelper.getBooleanValue(key: 'isFirstBid');
+    if (_isFirstBid ?? true) {
+      navigate(
         context: context,
         page: GuidePage(
           appBarTitle: 'Make bid',
@@ -345,6 +397,17 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
               ),
             );
           },
-        ));
+        ),
+      );
+    } else {
+      await _sharedPreferenceHelper.saveBooleanValue(key: 'isFirstBid', value: false);
+      navigate(
+        context: context,
+        isReplacement: true,
+        page: MakeBidPage(
+          orderModel: orderModel,
+        ),
+      );
+    }
   }
 }

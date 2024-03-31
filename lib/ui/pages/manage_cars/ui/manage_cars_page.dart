@@ -2,6 +2,7 @@ import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/components/main_button.dart';
 import 'package:bid_express/components/progress_hud.dart';
 import 'package:bid_express/components/text_field.dart';
+import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:bid_express/models/responses/get_cars/get_cars_response.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
 import 'package:bid_express/ui/pages/add_brands/bloc/add_brands_bloc.dart';
@@ -39,6 +40,8 @@ class _ManageCarsPageState extends State<ManageCarsPage>
   final TooltipController tooltipController = TooltipController();
   bool start = false;
   bool done = false;
+  final SharedPreferenceHelper _sharedPreferenceHelper =
+      SharedPreferenceHelper();
 
   @override
   void initState() {
@@ -48,6 +51,8 @@ class _ManageCarsPageState extends State<ManageCarsPage>
       setState(() {
         done = true;
       });
+      _sharedPreferenceHelper.saveBooleanValue(
+          key: 'isFirstConfig', value: false);
     });
   }
 
@@ -72,9 +77,15 @@ class _ManageCarsPageState extends State<ManageCarsPage>
           controller: tooltipController,
           tooltipAnimationCurve: Curves.linear,
           tooltipAnimationDuration: const Duration(milliseconds: 500),
+
           startWhen: (initializedWidgetLength) async {
+            final bool? _isFirstConfig = await _sharedPreferenceHelper
+                .getBooleanValue(key: 'isFirstConfig');
             await Future.delayed(const Duration(milliseconds: 250));
-            return initializedWidgetLength == 4 && start && !done;
+            return initializedWidgetLength == 4 &&
+                start &&
+                !done &&
+                (_isFirstConfig ?? true);
           },
           // preferredOverlay: GestureDetector(
           //   onTap: () {
