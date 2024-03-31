@@ -251,9 +251,9 @@ class _SuborderWidgetState extends State<SuborderWidget> with UiUtility {
   Future<void> _navigateToBidPage(BuildContext context, SubBidModel orderModel) async {
     final SharedPreferenceHelper _sharedPreferenceHelper =
     SharedPreferenceHelper();
-    final bool? _isFirstOrder =
-        await _sharedPreferenceHelper.getBooleanValue(key: 'isFirstOrder');
-    if (_isFirstOrder ?? true) {
+    final bool? _isFirstBid =
+        await _sharedPreferenceHelper.getBooleanValue(key: 'isFirstBid');
+    if (_isFirstBid ?? true) {
       navigate(
         context: context,
         page: GuidePage(
@@ -265,7 +265,6 @@ class _SuborderWidgetState extends State<SuborderWidget> with UiUtility {
           onContinue: () {
             navigate(
               context: context,
-              isReplacement: true,
               page: MakeBidPage(
                 orderModel: OrderModel(
                   orderID: widget.subBidModel.orderID,
@@ -287,7 +286,7 @@ class _SuborderWidgetState extends State<SuborderWidget> with UiUtility {
         ),
       );
     } else {
-      await _sharedPreferenceHelper.saveBooleanValue(key: 'isFirstOrder', value: false);
+      await _sharedPreferenceHelper.saveBooleanValue(key: 'isFirstBid', value: false);
       navigate(
         context: context,
         isReplacement: true,

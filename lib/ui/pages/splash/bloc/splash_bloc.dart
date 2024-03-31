@@ -28,6 +28,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       _getAccessToken(),
       _getFirstRun(),
     ]).then((value) {
+      if (value[2]) {
+        SharedPreferenceHelper().saveStringValue(key: 'accessToken', value: '');
+      }
       add(GetInitValuesSuccess(accessToken: value[1], isFirstRun: value[2]));
     });
   }
@@ -37,6 +40,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   Future<bool> _getFirstRun() async {
-    return await SharedPreferenceHelper().getBooleanValue(key: 'isFirstRun');
+    return await SharedPreferenceHelper().getBooleanValue(key: 'isFirstRun') ??
+        true;
   }
 }

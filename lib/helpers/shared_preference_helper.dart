@@ -17,9 +17,9 @@ class SharedPreferenceHelper {
     prefs.setBool(key ?? '', value ?? false);
   }
 
-  Future<bool> getBooleanValue({required String key}) async {
+  Future<bool?> getBooleanValue({required String key}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool boolValue = prefs.getBool(key) ?? false;
+    final bool? boolValue = prefs.getBool(key);
     return boolValue;
   }
 

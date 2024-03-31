@@ -138,7 +138,7 @@ class _ManageCarsPageState extends State<ManageCarsPage>
                           navigate(
                               context: context,
                               isFade: true,
-                              clearPagesStack: true,
+
                               page: BlocProvider(
                                 create: (context) =>
                                     HomeBloc()..add(GetUserData()),

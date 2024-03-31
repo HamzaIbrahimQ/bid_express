@@ -523,7 +523,6 @@ class _MakeBidPageState extends State<MakeBidPage> with UiUtility {
           navigate(
               context: context,
               isFade: true,
-              clearPagesStack: true,
               page: BlocProvider(
                 create: (context) => HomeBloc()..add(GetUserData()),
                 child: const NavBar(),

@@ -1,5 +1,6 @@
 import 'package:bid_express/components/colors.dart';
 import 'package:bid_express/generated/assets.dart';
+import 'package:bid_express/helpers/shared_preference_helper.dart';
 import 'package:bid_express/ui/pages/login/bloc/login_bloc.dart';
 import 'package:bid_express/ui/pages/login/ui/login_page.dart';
 import 'package:bid_express/ui/pages/onboarding/ui/widgets/onboarding_body_widget.dart';
@@ -11,14 +12,26 @@ import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-class OnBoardingPage extends StatelessWidget with UiUtility {
+class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
+
+  @override
+  State<OnBoardingPage> createState() => _OnBoardingPageState();
+}
+
+class _OnBoardingPageState extends State<OnBoardingPage> with UiUtility {
+  final SharedPreferenceHelper _sharedPreferenceHelper =
+      SharedPreferenceHelper();
 
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
       finishButtonText: 'Let\'s go',
-      onFinish: () => _goToLoginPage(context),
+      onFinish: () {
+        _sharedPreferenceHelper.saveBooleanValue(
+            key: 'isFirstRun', value: false);
+        _goToLoginPage(context);
+      },
       finishButtonStyle:
           const FinishButtonStyle(backgroundColor: secondaryColor),
       skipTextButton: Text(
@@ -29,7 +42,11 @@ class OnBoardingPage extends StatelessWidget with UiUtility {
           fontWeight: FontWeight.w600,
         ),
       ),
-      skipFunctionOverride: () => _goToLoginPage(context),
+      skipFunctionOverride: () {
+        _sharedPreferenceHelper.saveBooleanValue(
+            key: 'isFirstRun', value: false);
+        _goToLoginPage(context);
+      },
       controllerColor: secondaryColor,
       totalPage: 3,
       headerBackgroundColor: Colors.white,

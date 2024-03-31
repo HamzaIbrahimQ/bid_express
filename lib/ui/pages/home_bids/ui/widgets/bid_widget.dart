@@ -391,7 +391,6 @@ class _BidWidgetState extends State<BidWidget> with UiUtility {
           onContinue: () {
             navigate(
               context: context,
-              isReplacement: true,
               page: MakeBidPage(
                 orderModel: orderModel,
               ),
